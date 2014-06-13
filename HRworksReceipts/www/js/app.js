@@ -19,7 +19,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
   });
+  user.init({ appId: '539ae3719e418' });
 })
+
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -79,6 +81,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');
+  
+  var app = angular.module('HRworksReceipts', [..., 'UserApp']);
 
 });
 
