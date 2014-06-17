@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+	<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>HRworks</title>
@@ -24,21 +24,114 @@
     <script src="js/services.js"></script>
   </head>
   <body ng-app="starter" animation="slide-left-right-ios7">
-    <!-- 
-      The nav bar that will be updated as we navigate between views.
-    -->
 	
     <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
-      <ion-nav-back-button class="button-icon ion-arrow-left-c">
+      <ion-nav-back-button class="button-icon ion-chevron-left">
       </ion-nav-back-button>
     </ion-nav-bar>
              
     <ion-nav-view animation="slide-left-right"></ion-nav-view>
-    <!-- 
-      The views will be rendered in the <ion-nav-view> directive below
-      Templates are in the /templates folder (but you could also
-      have templates inline in this html file if you'd like).
-    -->
-    <ion-nav-view></ion-nav-view>
+	
+	<script id="tabs.html" type="text/ng-template">
+		<ion-tabs class="tabs-icon-top tabs-positive">
+			<ion-tab title="Belege" icon="icon ion-clipboard" href="#/tab/receipts">
+				<ion-nav-view name="receipts"></ion-nav-view>
+			</ion-tab>
+
+			<ion-tab title="Feedback" icon="icon ion-paper-airplane" href="#/tab/feedback">
+				<ion-nav-view name="feedback"></ion-nav-view>
+			</ion-tab>
+
+			<ion-tab title="Infos" icon="icon ion-information-circled" href="#/tab/infos">
+				<ion-nav-view name="infos"></ion-nav-view>
+			</ion-tab>
+
+			<ion-tab title="Einstellungen" icon="icon ion-wrench" href="#/tab/settings">
+				<ion-nav-view name="settings"></ion-nav-view>
+			</ion-tab>
+		</ion-tabs>
+	</script>
+
+	<script id="receipts.html" type="text/ng-template">
+		<ion-view title="Belege">
+			<ion-nav-buttons side="left">
+				<button class="button button-icon button-clear ion-loop"></button>
+			</ion-nav-buttons>
+			<ion-nav-buttons side="right">
+				<a class="button button-icon button-clear ion-plus" href="#/tab/addReceipt"></a>
+			</ion-nav-buttons>
+			<ion-content class="has-header">
+				<ion-list show-delete="data.showDelete" option-buttons="itemButtons">
+					<ion-item class="item" ng-repeat="receipt in receipts" type="item-text-wrap" href="#/tab/updateReceipt/{{receipt.guid}}">
+						{{receipt.text}}
+					</ion-item>
+				</ion-list>
+			</ion-content>
+		</ion-view>
+	</script>
+	
+	<script id="settings.html" type="text/ng-template">
+		<ion-view title="Einstellungen">
+			<ion-content class="has-header">
+				<h1> Einstelungen</h1>
+			</ion-content>
+		</ion-view>
+	</script>
+	<script id="feedback.html" type="text/ng-template">
+		<ion-view title="Feedback">
+			<ion-content class="has-header" padding="true">
+				<div class="list">
+					<label class="item item-input">
+						<span class="input-label">To</span>
+						<input type="text">
+					</label>
+					<label class="item item-input">
+						<span class="input-label">Message</span>
+						<textarea rows="4"></textarea>
+					</label>
+				</div>
+				<button class="button icon icon-right ion-arrow-right-c button-balanced button-block">Send</button>
+			</ion-content>
+		</ion-view>
+	</script>
+	<script id="addReceipt.html" type="text/ng-template">
+		<ion-view title="Neuer Beleg">
+			<ion-nav-buttons side="right">
+				<button class="button button-icon button-clear ion-checkmark" ng-click="save()"></button>
+			</ion-nav-buttons>
+			<ion-content has-header="true" padding="true">
+				<div class="list">        
+					<label class="item item-input">
+						<span class="input-label">Bezeichnung</span>
+						<input type="text" ng-model="user.username">
+					</label>
+					<label class="item item-input">
+						<span class="input-label">Betrag</span>
+						<input type="number">
+					</label>
+					<label class="item item-input">
+						<span class="input-label">Datum</span>
+						<input type="date">
+					</label>
+				</div>	
+			</ion-content>
+		</ion-view>
+	</script>
+
+	<script id="updateReceipt.html" type="text/ng-template">
+		<ion-view title="Beleg bearbeiten">
+			<ion-content has-header="true" padding="true">
+				<h1>Account</h1>
+			</ion-content>
+		</ion-view>
+	</script>
+
+	<script id="infos.html" type="text/ng-template">
+		<ion-view title="Infos">
+			<ion-content class="has-header">
+				<h1>Infos</h1>
+			</ion-content>
+		</ion-view>
+	</script>
   </body>
 </html>
