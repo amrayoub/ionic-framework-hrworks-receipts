@@ -14,7 +14,7 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.2.15/angular-locale_de-de.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
@@ -38,11 +38,7 @@
 				<ion-nav-view name="receipts"></ion-nav-view>
 			</ion-tab>
 
-			<ion-tab title="Feedback" icon="icon ion-paper-airplane" href="#/tab/feedback">
-				<ion-nav-view name="feedback"></ion-nav-view>
-			</ion-tab>
-
-			<ion-tab title="Infos" icon="icon ion-information-circled" href="#/tab/infos">
+			<ion-tab title="Feedback / Infos" icon="icon ion-information-circled" href="#/tab/infos">
 				<ion-nav-view name="infos"></ion-nav-view>
 			</ion-tab>
 
@@ -55,17 +51,23 @@
 	<script id="receipts.html" type="text/ng-template">
 		<ion-view title="Belege">
 			<ion-nav-buttons side="left">
-				<button class="button button-icon button-clear ion-loop"></button>
+				<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
 			</ion-nav-buttons>
 			<ion-nav-buttons side="right">
 				<a class="button button-icon button-clear ion-plus" href="#/tab/addReceipt"></a>
 			</ion-nav-buttons>
 			<ion-content class="has-header">
 				<ion-list show-delete="data.showDelete" option-buttons="itemButtons">
-					<ion-item class="item" ng-repeat="receipt in receipts" type="item-text-wrap" href="#/tab/updateReceipt/{{receipt.guid}}">
+					<ion-item class="item"
+						style="width:100%;"
+						collection-repeat="receipt in receipts"
+						collection-item-height="getItemHeight(receipt)"
+						collection-item-width="getItemWidth(receipt)"
+						href="#/tab/updateReceipt/{{receipt.guid}}
+						">
 						{{receipt.text}}
-						<ion-option-button class="button-positive" ng-click="share(item)">Bearbeiten</ion-option-button>
-						<ion-option-button class="button-assertive" ng-click="edit(item)">Löschen</ion-option-button>
+						<ion-option-button class="button-positive" ng-click="share(receipt)">Bearbeiten</ion-option-button>
+						<ion-option-button class="button-assertive" ng-click="edit(receipt)">Löschen</ion-option-button>
 					</ion-item>
 				</ion-list>
 			</ion-content>
@@ -74,8 +76,9 @@
 	
 	<script id="settings.html" type="text/ng-template">
 		<ion-view title="Einstellungen">
-			<ion-content class="has-header">
+			<ion-content class="has-header" padding="true">
 				<h1> Einstelungen</h1>
+				<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen</button>
 			</ion-content>
 		</ion-view>
 	</script>
@@ -103,23 +106,26 @@
 			</ion-nav-buttons>
 			<ion-content has-header="true" padding="true">
 					<div class="list">
-						<label class="item item-input item-stacked-label">
+						<label class="item item-input">
 							<span class="input-label">Bezeichnung</span>
-							<input type="text" ng-model="form.text" />
+							<input style="text-align:right" type="text" placeholder="Bezeichnung" ng-model="form.text" />
 						</label>
 						<label class="item item-input">
 							<span class="input-label">Betrag</span>
-							<input type="number" ng-model="form.amount"  />
+							<div style="">
+							<input style="float:left; position: relative; width:80%; text-align:right; padding-right:5px;" type="number" placeholder="Betrag" ng-model="form.amount" />
+							<span style="float:right; position: relative; width:20%; text-align:left; top:5px">{{ currenciesSelected.symbol }}</span>
+							</div>
 						</label>
 						<label class="item item-input item-select item-stacked-label">
 							<span class="input-label">Währung</span>
 							 <!--<button class="button button-small button-stable">Alle Währungen</button>-->
-							<select ng-model="currenciyelected.symbol" ng-options="currency as currency.description for currency in currencies" >
+							<select style="max-width:90%" ng-model="currenciesSelected" ng-options="currency as currency.description for currency in currencies | filter: { isPreferred: true }" >
 							</select>
 						</label>
 						<label class="item item-input">
 							<span class="input-label">Datum</span>
-							<input type="date" ng-model="form.date" />
+							<input type="date" ng-model="form.date" style="text-align:right;" />
 						</label>
 						<label class="item item-input item-select">
 							<div class="input-label">Belegart</div>
