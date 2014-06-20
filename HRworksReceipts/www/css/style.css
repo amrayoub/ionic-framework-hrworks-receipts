@@ -1,0 +1,25 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	/* display: none; <- Crashes Chrome on hover */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.left {
+
+	width: 50%;
+	position: relative;
+	float: left;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+.right {
+	width: 50%;
+	height:60px;
+	position: relative;
+	float: right;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis; 
+}

@@ -64,6 +64,8 @@
 				<ion-list show-delete="data.showDelete" option-buttons="itemButtons">
 					<ion-item class="item" ng-repeat="receipt in receipts" type="item-text-wrap" href="#/tab/updateReceipt/{{receipt.guid}}">
 						{{receipt.text}}
+						<ion-option-button class="button-positive" ng-click="share(item)">Bearbeiten</ion-option-button>
+						<ion-option-button class="button-assertive" ng-click="edit(item)">Löschen</ion-option-button>
 					</ion-item>
 				</ion-list>
 			</ion-content>
@@ -97,24 +99,38 @@
 	<script id="addReceipt.html" type="text/ng-template">
 		<ion-view title="Neuer Beleg">
 			<ion-nav-buttons side="right">
-				<button class="button button-icon button-clear ion-checkmark" ng-click="save()"></button>
+				<button class="button button-icon button-clear ion-checkmark" ng-click="createReceipt()"></button>
 			</ion-nav-buttons>
+			<form>
 			<ion-content has-header="true" padding="true">
-				<div class="list">        
-					<label class="item item-input">
-						<span class="input-label">Bezeichnung</span>
-						<input type="text" ng-model="user.username">
-					</label>
-					<label class="item item-input">
-						<span class="input-label">Betrag</span>
-						<input type="number">
-					</label>
-					<label class="item item-input">
-						<span class="input-label">Datum</span>
-						<input type="date">
-					</label>
-				</div>	
+					<div class="list">
+						<label class="item item-input">
+							<span class="input-label">Bezeichnung</span>
+							<input type="text" ng-model="form.text" required="required" />
+						</label>
+						<label class="item item-input">
+							<span class="input-label">Betrag</span>
+							<input type="number" ng-model="form.amount" required="required" />
+							<!--<input type="number" ng-model="form.amount">-->
+						</label>
+						<label class="item item-input">
+							<span class="input-label">Datum</span>
+							<input type="date" ng-model="form.date" required="required" />
+						</label>
+						<label class="item item-input item-select">
+    <div class="input-label">
+      Lightsaber
+    </div>
+    <select>
+      <option>Blue</option>
+      <option selected>Green</option>
+      <option>Red</option>
+    </select>
+  </label>
+
+					</div>
 			</ion-content>
+			</form>
 		</ion-view>
 	</script>
 

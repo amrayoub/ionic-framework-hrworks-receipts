@@ -1,4 +1,45 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic'])
+
+.controller('addReceiptCtrl', function($scope, $localstorage, $state) {
+	$scope.form = {};
+	$scope.receiptKinds = $localstorage.getObject('receiptKinds');
+	generateGUID = function(){
+		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+			return v.toString(16);
+		});    
+		return guid;
+	};
+	$scope.createReceipt = function () {
+		var error = 0;
+		if(!$scope.form.text) {
+			error = 1;
+		}
+		if(!$scope.form.amount) {
+			error = 1;
+		}
+		if(!$scope.form.date) {
+			error = 1;
+		}
+		if(error == 1) {
+			console.log("Validierungs Fehler");
+		} else {
+			$localstorage.insertObject('receipts', {
+				text : $scope.form.text,
+				amount : $scope.form.amount,
+				date : $scope.form.date,
+				receiptKind : "1",
+				kindOfPayment : "1",
+				currency : "EUR",
+				rimestamp : new Date(),
+				guid: generateGUID()
+			});
+			if($scope.$viewHistory.backView != null){
+				$scope.$viewHistory.backView.go();
+			}
+		}
+	};
+})
 
 .controller('receiptsCtrl', function($scope, $localstorage) {
 	$scope.receipts = $localstorage.getObject('receipts');
@@ -20,30 +61,7 @@ angular.module('starter.controllers', [])
 .controller('infosCtrl', function($scope) {
 })
 
-.controller('addReceiptCtrl', function($scope, $localstorage, $state) {
-	$scope.receiptKinds = $localstorage.getObject('receiptKinds');
-	generateGUID = function(){
-		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-			return v.toString(16);
-		});    
-		return guid;
-	};
-	$scope.save = function () {
-		$localstorage.insertObject('receipts', {
-			text : 'Beleg',
-			amount : 123,
-			date : new Date(),
-			receiptKind : "1",
-			kindOfPayment : "1",
-			currency : "EUR",
-			rimestamp : new Date(),
-			guid: generateGUID()
-		});
-		$scope.$viewHistory.backView.go();
 
-	}
-})
 
 .controller('updateReceiptCtrl', function($scope, $localstorage, $stateParams, Friends) {
   $scope.friend = $localstorage.get($stateParams.friendId);
