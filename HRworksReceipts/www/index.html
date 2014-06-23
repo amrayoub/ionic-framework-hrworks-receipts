@@ -59,15 +59,22 @@
 			<ion-content class="has-header">
 				<ion-list show-delete="data.showDelete" option-buttons="itemButtons">
 					<ion-item class="item"
-						style="width:100%;"
-						collection-repeat="receipt in receipts"
+						style="width:100%"
+						collection-repeat="receipt in receipts | orderBy:timestamp:false"
 						collection-item-height="getItemHeight(receipt)"
 						collection-item-width="getItemWidth(receipt)"
 						href="#/tab/updateReceipt/{{receipt.guid}}
 						">
-						{{receipt.text}}
+						<div class="left">
+						<p><b>{{receipt.text}}</b></p>
+						<span ng-bind="getReceiptKindDescription(receipt.receiptKind)"></span></p>
+						</div>
+						<div class="right">
+						<p>{{ receipt.date | date : shortDate}}</p>
+						<p>{{receipt.amount}} {{receipt.currency}}</p>
+						</div>
 						<ion-option-button class="button-positive" ng-click="share(receipt)">Bearbeiten</ion-option-button>
-						<ion-option-button class="button-assertive" ng-click="edit(receipt)">LÃ¶schen</ion-option-button>
+						<ion-option-button class="button-assertive" ng-click="edit(receipt)">Löschen</ion-option-button>
 					</ion-item>
 				</ion-list>
 			</ion-content>
@@ -118,8 +125,8 @@
 							</div>
 						</label>
 						<label class="item item-input item-select item-stacked-label">
-							<span class="input-label">WÃ¤hrung</span>
-							 <!--<button class="button button-small button-stable">Alle WÃ¤hrungen</button>-->
+							<span class="input-label">Währung</span>
+							 <!--<button class="button button-small button-stable">Alle Währungen</button>-->
 							<select style="max-width:90%" ng-model="currenciesSelected" ng-options="currency as currency.description for currency in currencies | filter: { isPreferred: true }" >
 							</select>
 						</label>
@@ -130,13 +137,13 @@
 						<label class="item item-input item-select">
 							<div class="input-label">Belegart</div>
 							<select ng-model="receiptKindSelected" ng-options="receiptKind as receiptKind.description for receiptKind in receiptKinds">
-								<option value="" disabled>AuswÃ¤hlen...</option>
+								<option value="" disabled>Auswählen...</option>
 							</select>
 						</label>
 						<label class="item item-input item-select">
 							<div class="input-label">Zahlungart</div>
 							<select ng-model="kindsOfPaymentSelected" ng-options="kindOfPayment as kindOfPayment.description for kindOfPayment in kindsOfPayment">
-								<option value="" disabled>AuswÃ¤hlen...</option>
+								<option value="" disabled>Auswählen...</option>
 							</select>
 						</label>
 					</div>

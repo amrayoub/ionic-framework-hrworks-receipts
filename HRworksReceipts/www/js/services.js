@@ -16,40 +16,39 @@ angular.module('ionic.utils', [])
 			objects.push(value);
 			$window.localStorage[key] = JSON.stringify(objects);
 		},
-		getObject: function(key) {
+		getObjects: function(key) {
 			return JSON.parse($window.localStorage[key] || '{}');
+		},
+		getIndex: function(key, guid) {
+			var objects = JSON.parse($window.localStorage[key] || '{}');
+			for(var i = 0; i < objects.length; i++) {
+				if(objects[i].guid == guid) {
+					return i;
+				}
+			}
+		},
+		getObject: function(key, guid) {
+			console.log(key);
+			console.log(guid);
+			var objects = JSON.parse($window.localStorage[key] || '{}');
+			for(var i = 0; i < objects.length; i++) {
+				if(objects[i].guid == guid) {
+					return objects[i];
+				}
+			}
+		},
+		removeObject: function(key, guid) {
+			var objects = JSON.parse($window.localStorage[key] || '{}');
+			for(var i = 0; i < objects.length; i++) {
+				if(objects[i].guid == guid) {
+					objects.splice(i,1);
+					$window.localStorage[key] = JSON.stringify(objects);
+				}
+			}
 		}
 	}
 }]);
 angular.module('starter.services', [])
-/**
- * A simple example service that returns some data.
- */
-.factory('Friends', function () {
-
-	var friends = [{
-			id : 0,
-			name : 'Scruff McGruff'
-		}, {
-			id : 1,
-			name : 'G.I. Joe'
-		}, {
-			id : 2,
-			name : 'Miss Frizzle'
-		}, {
-			id : 3,
-			name : 'Ash Ketchum'
-		}
-	];
-	return {
-		all : function () {
-			return friends;
-		},
-		get : function (friendId) {
-			return friends[friendId];
-		}
-	}
-})
 
 .factory('KindsOfPayment', function () {
 	var kindsOfPayment = [{

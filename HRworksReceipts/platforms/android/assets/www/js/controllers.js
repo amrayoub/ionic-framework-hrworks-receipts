@@ -2,7 +2,7 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('addReceiptCtrl', function($scope, $localstorage, $filter, $state) {
 	$scope.form = {};
-	$scope.form.date = $filter('date')(new Date(),'shortDate');
+	$scope.form.date = new Date(2013,4,12);
 	console.log($scope.form);
 	$scope.receiptKinds = $localstorage.getObject('receiptKinds');
 	$scope.receiptKindsSelected = $scope.receiptKinds[0];
@@ -10,7 +10,6 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.kindsOfPaymentSelected = $scope.kindsOfPayment[1];
 	$scope.currencies = $localstorage.getObject('currencies');
 	$scope.currenciesSelected = $scope.currencies[33];
-	console.log($scope.currenciesSelected.symbol);
 	generateGUID = function(){
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
 			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -47,13 +46,24 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		}
 	};
+	console.log($scope);
 })
 
-.controller('receiptsCtrl', function($scope, $localstorage,$ionicLoading) {
+.controller('receiptsCtrl', function($scope, $localstorage, $ionicLoading) {
 
 	$scope.receipts = $localstorage.getObject('receipts');
+	
+
+	$scope.getReceiptKindDescription = function(receiptKindId) {
+		for (var i = 0; i < $localstorage.getObject('receiptKinds').length; i++) {
+			if ($localstorage.getObject('receiptKinds')[i].id == receiptKindId) {
+				return $localstorage.getObject('receiptKinds')[i].description;
+			}
+		}
+		return false;
+	};
 	$scope.getItemHeight = function(item, index) {
-		return (index % 1) === 0 ? 50 : 50;
+		return (index % 1) === 0 ? 80 : 80;
 	};
 	$scope.getItemWidth = function(item) {
 		return '100%';

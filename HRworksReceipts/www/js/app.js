@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils'])
 
-.run(function ($localstorage, Friends, KindsOfPayment, Currencies, ReceiptKinds) {
+.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds) {
 	$localstorage.setObject('receipts', new Array());
 	$localstorage.setObject('kindsOfPayment', KindsOfPayment.all());
 	$localstorage.setObject('currencies', Currencies.all());
@@ -58,7 +58,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	})
 
 	.state('tab.updateReceipt', {
-		url : '/updateReceipt/:friendId',
+		url : '/updateReceipt/:guid',
 		views : {
 			'receipts' : {
 				templateUrl : 'updateReceipt.html',

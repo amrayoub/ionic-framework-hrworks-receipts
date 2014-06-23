@@ -6,8 +6,8 @@ input::-webkit-inner-spin-button {
 	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 .left {
-
-	width: 50%;
+	font-size:14px;
+	width: 70%;
 	position: relative;
 	float: left;
 	white-space:nowrap;
@@ -15,11 +15,15 @@ input::-webkit-inner-spin-button {
 	text-overflow:ellipsis;
 }
 .right {
-	width: 50%;
-	height:60px;
+	font-size:14px;
+	text-align:right;
+	width: 30%;
 	position: relative;
 	float: right;
 	white-space:nowrap;
 	overflow:hidden;
 	text-overflow:ellipsis; 
+}
+.item-complex .item-content {
+	padding: 15px 15px 15px 15px;
 }
