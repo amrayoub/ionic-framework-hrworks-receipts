@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('addReceiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicModal) {
+.controller('addReceiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicModal, $timeout) {
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.receiptKindsSelected = $scope.receiptKinds[0];
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
@@ -9,7 +9,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form = {};
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 	//$scope.currenciesSelected = $scope.currencies[33];
-	//$scope.form.currency = $scope.currenciesSelected.symbol;
+	$scope.form.currency = $scope.currencies[33].symbol;
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,
@@ -53,8 +53,14 @@ angular.module('starter.controllers', ['ionic'])
 	}).then(function (modal) {
 		$scope.modal = modal;
 	});
+	$scope.data = {
+		showList : false
+	};
 	$scope.openModal = function () {
 		$scope.modal.show();
+		$timeout(function () {
+			$scope.showList = true;
+		}, 300)
 	};
 	$scope.closeModal = function () {
 		$scope.modal.hide();
@@ -72,14 +78,23 @@ angular.module('starter.controllers', ['ionic'])
 		// Execute action
 	});
 	$scope.type = true;
-	$scope.setType = function(event){
-		if(angular.element(event.target).text() == "Favoriten") {
+	$scope.setType = function (event) {
+		if (angular.element(event.target).text() == "Favoriten") {
 			$scope.type = true;
 		} else {
 			$scope.type = '';
 		}
 	};
-	console.log($scope.form);
+	$scope.clearSearch = function() {
+		$scope.data.searchQuery = '';
+	};
+	$scope.selectCurrency = function(currency) {
+		$scope.form.currency = currency.symbol;
+		$timeout(function () {
+			$scope.closeModal();
+		}, 500)
+	}
+	console.log($scope);
 })
 
 .controller('receiptsCtrl', function ($scope, $localstorage, $ionicLoading, $location) {
@@ -98,7 +113,6 @@ angular.module('starter.controllers', ['ionic'])
 		return false;
 	};
 	$scope.getItemHeight = function (item, index) {
-		console.log((index % 1) === 0 ? 80 : 80);
 		return (index % 1) === 0 ? 80 : 80;
 	};
 	$scope.getItemWidth = function (item) {

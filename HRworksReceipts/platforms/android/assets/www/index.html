@@ -124,7 +124,7 @@
 						<label class="item item-input item-stacked-label item-button-right">
 							<span class="input-label">Währung</span>
 							{{ form.currency }}
-							<button style="font-size: 13px; top:1px;" class="button button-small button-stable" ng-click="modal.show()">Währung ändern</button>
+							<button style="font-size: 13px; top:1px;" class="button button-small button-stable" ng-click="openModal()">Währung ändern</button>
 							</select>
 						</label>
 						<label class="item item-input">
@@ -168,6 +168,7 @@
              has-tabs="true"
              has-header="true"
              >
+			
 			 <div class="bar  bar-header">
 			 <div class="button-bar">
           <a class="button {{(type == true) &&  'active' || ''}}" ng-click="setType($event)">Favoriten</a>
@@ -178,19 +179,19 @@
         <div class="item-input-wrapper">
           <i class="icon ion-ios7-search placeholder-icon"></i>
           <input type="search" placeholder="Suche" ng-model="data.searchQuery">
-          <i class="clear-search icon ion-ios7-close-empty" ng-click="clearSearch()"></i>
         </div>
-        <button class="button button-clear">
+        <button class="button button-clear" ng-click="clearSearch()">
           Abbrechen
         </button>
       </div>
-	  <div class="list" style="top:43px">
-	  <ion-radio collection-repeat="currency in currencies | filter: data.searchQuery | filter:{isPreferred:type}"
-				style="width:100%"
-				collection-item-width="'100%'"
+	  <div class="list" ng-if="showList" style="top:43px">
+	  <ion-radio class="item" ng-repeat="currency in currencies | filter: data.searchQuery | filter:{isPreferred:type}"
 				collection-item-height="50"
-                   ng-value="currency.description"
-                   ng-model="currenciesSelected.description">
+				style="width:100%; position:relative; !important"
+				collection-item-width="'100%'"
+				ng-value="currency.description"
+				ng-model="currenciesSelected.description"
+				ng-click="selectCurrency(currency)">
            {{currency.description}}
         </ion-radio>
 	</div>
