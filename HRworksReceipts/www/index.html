@@ -119,14 +119,12 @@
 						</label>
 						<label class="item item-input">
 							<span class="input-label">Betrag</span>
-							<div style="">
-							<input style="float:left; position: relative; width:80%; text-align:right; padding-right:5px;" type="number" placeholder="Betrag" ng-model="form.amount" />
-							<span style="float:right; position: relative; width:20%; text-align:left; top:5px">{{ currenciesSelected.symbol }}</span>
-							</div>
+									<input style="text-align:right" type="number" placeholder="Betrag" ng-model="form.amount" />
 						</label>
-						<label class="item item-input item-stacked-label">
+						<label class="item item-input item-stacked-label item-button-right">
 							<span class="input-label">Währung</span>
-							<button style="text-align:right" class="button button-small button-stable" ng-click="modal.show()">Währung ändern</button>
+							{{ form.currency }}
+							<button style="font-size: 13px; top:1px;" class="button button-small button-stable" ng-click="modal.show()">Währung ändern</button>
 							</select>
 						</label>
 						<label class="item item-input">
@@ -170,11 +168,13 @@
              has-tabs="true"
              has-header="true"
              >
-	<div class="button-bar">
-          <a class="button">Favoriten</a>
-          <a class="button">Alle Währungen</a>
+			 <div class="bar  bar-header">
+			 <div class="button-bar">
+          <a class="button {{(type == true) &&  'active' || ''}}" ng-click="setType($event)">Favoriten</a>
+          <a class="button {{(type == '') &&  'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
         </div>
-      <div id="search-box" class="bar bar-header item-input-inset">
+	</div>
+      <div id="search-box" class="bar bar-subheader item-input-inset">
         <div class="item-input-wrapper">
           <i class="icon ion-ios7-search placeholder-icon"></i>
           <input type="search" placeholder="Suche" ng-model="data.searchQuery">
@@ -184,21 +184,17 @@
           Abbrechen
         </button>
       </div>
-
-      <ul class="list">
-	   <label class="item item-radio" ng-repeat="currency in currencies | filter: data.searchQuery">
-            <input type="radio" name="group">
-            <div class="item-content">
-              {{currency.description}}
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-          </label>
-       <!-- <li class="item" ng-repeat="currency in currencies | filter: data.searchQuery">
-		
-		{{currency.description}}
-		</li> -->
-      </ul>
-
+	  <div class="list" style="top:43px">
+	  <ion-radio collection-repeat="currency in currencies | filter: data.searchQuery | filter:{isPreferred:type}"
+				style="width:100%"
+				collection-item-width="'100%'"
+				collection-item-height="50"
+                   ng-value="currency.description"
+                   ng-model="currenciesSelected.description"
+				   ng-click="selectCurrency(currency)">
+           {{currency.description}}
+        </ion-radio>
+	</div>
     </ion-content>
 	</div>
 

@@ -73,8 +73,8 @@
 						<p>{{ receipt.date | date : shortDate}}</p>
 						<p>{{receipt.amount}} {{receipt.currency}}</p>
 						</div>
-						<ion-option-button class="button-positive" ng-click="share(receipt)">Bearbeiten</ion-option-button>
-						<ion-option-button class="button-assertive" ng-click="edit(receipt)">Löschen</ion-option-button>
+						<ion-option-button style="padding-top: 20px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
+						<ion-option-button style="padding-top: 20px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
 					</ion-item>
 				</ion-list>
 			</ion-content>
@@ -119,15 +119,12 @@
 						</label>
 						<label class="item item-input">
 							<span class="input-label">Betrag</span>
-							<div style="">
-							<input style="float:left; position: relative; width:80%; text-align:right; padding-right:5px;" type="number" placeholder="Betrag" ng-model="form.amount" />
-							<span style="float:right; position: relative; width:20%; text-align:left; top:5px">{{ currenciesSelected.symbol }}</span>
-							</div>
+									<input style="text-align:right" type="number" placeholder="Betrag" ng-model="form.amount" />
 						</label>
-						<label class="item item-input item-select item-stacked-label">
+						<label class="item item-input item-stacked-label item-button-right">
 							<span class="input-label">Währung</span>
-							 <!--<button class="button button-small button-stable">Alle Währungen</button>-->
-							<select style="max-width:90%" ng-model="currenciesSelected" ng-options="currency as currency.description for currency in currencies | filter: { isPreferred: true }" >
+							{{ form.currency }}
+							<button style="font-size: 13px; top:1px;" class="button button-small button-stable" ng-click="modal.show()">Währung ändern</button>
 							</select>
 						</label>
 						<label class="item item-input">
@@ -158,6 +155,47 @@
 			</ion-content>
 		</ion-view>
 	</script>
+	
+	<script id="currencies-modal.html" type="text/ng-template">
+	<div class="modal">
+		<ion-header-bar class="bar bar-header bar-positive">
+			<h1 class="title">Währung wählen</h1>
+			<button class="button button-clear button-primary ion-chevron-down" ng-click="modal.hide()"></button>
+		</ion-header-bar>
+		<ion-content
+             start-y="55"
+             padding="false"
+             has-tabs="true"
+             has-header="true"
+             >
+			 <div class="bar  bar-header">
+			 <div class="button-bar">
+          <a class="button {{(type == true) &&  'active' || ''}}" ng-click="setType($event)">Favoriten</a>
+          <a class="button {{(type == '') &&  'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
+        </div>
+	</div>
+      <div id="search-box" class="bar bar-subheader item-input-inset">
+        <div class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" placeholder="Suche" ng-model="data.searchQuery">
+          <i class="clear-search icon ion-ios7-close-empty" ng-click="clearSearch()"></i>
+        </div>
+        <button class="button button-clear">
+          Abbrechen
+        </button>
+      </div>
+	  <div class="list" style="top:43px">
+	  <ion-radio collection-repeat="currency in currencies | filter: data.searchQuery | filter:{isPreferred:type}"
+				style="width:100%"
+				collection-item-width="'100%'"
+				collection-item-height="50"
+                   ng-value="currency.description"
+                   ng-model="currenciesSelected.description">
+           {{currency.description}}
+        </ion-radio>
+	</div>
+    </ion-content>
+	</div>
 
 	<script id="infos.html" type="text/ng-template">
 		<ion-view title="Infos">

@@ -1,15 +1,15 @@
 angular.module('starter.controllers', ['ionic'])
 
 .controller('addReceiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicModal) {
-	$scope.form = {};
-	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-	console.log($scope.form);
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.receiptKindsSelected = $scope.receiptKinds[0];
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 	$scope.kindsOfPaymentSelected = $scope.kindsOfPayment[1];
 	$scope.currencies = $localstorage.getObjects('currencies');
-	$scope.currenciesSelected = $scope.currencies[33];
+	$scope.form = {};
+	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+	//$scope.currenciesSelected = $scope.currencies[33];
+	//$scope.form.currency = $scope.currenciesSelected.symbol;
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,
@@ -71,6 +71,15 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.$on('modal.removed', function () {
 		// Execute action
 	});
+	$scope.type = true;
+	$scope.setType = function(event){
+		if(angular.element(event.target).text() == "Favoriten") {
+			$scope.type = true;
+		} else {
+			$scope.type = '';
+		}
+	};
+	console.log($scope.form);
 })
 
 .controller('receiptsCtrl', function ($scope, $localstorage, $ionicLoading, $location) {

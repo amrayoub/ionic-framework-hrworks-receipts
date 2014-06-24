@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>HRworks</title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.2.15/angular-locale_de-de.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+  </head>
+  <body ng-app="starter" animation="slide-left-right-ios7">
+	
+    <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
+      <ion-nav-back-button class="button-icon ion-chevron-left">
+      </ion-nav-back-button>
+    </ion-nav-bar>
+             
+    <ion-nav-view animation="slide-left-right"></ion-nav-view>
+	
+	<script id="tabs.html" type="text/ng-template">
+		<ion-tabs class="tabs-icon-top tabs-positive">
+			<ion-tab title="Belege" icon="icon ion-clipboard" href="#/tab/receipts">
+				<ion-nav-view name="receipts"></ion-nav-view>
+			</ion-tab>
+
+			<ion-tab title="Feedback / Infos" icon="icon ion-information-circled" href="#/tab/infos">
+				<ion-nav-view name="infos"></ion-nav-view>
+			</ion-tab>
+
+			<ion-tab title="Einstellungen" icon="icon ion-wrench" href="#/tab/settings">
+				<ion-nav-view name="settings"></ion-nav-view>
+			</ion-tab>
+		</ion-tabs>
+	</script>
+
+	<script id="receipts.html" type="text/ng-template">
+		<ion-view title="Belege">
+			<ion-nav-buttons side="left">
+				<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
+			</ion-nav-buttons>
+			<ion-nav-buttons side="right">
+				<a class="button button-icon button-clear ion-plus" href="#/tab/addReceipt"></a>
+			</ion-nav-buttons>
+			<ion-content class="has-header">
+				<ion-list show-delete="data.showDelete" option-buttons="itemButtons">
+					<ion-item class="item"
+						style="width:100%"
+						collection-repeat="receipt in receipts | orderBy:timestamp:false"
+						collection-item-height="getItemHeight(receipt)"
+						collection-item-width="getItemWidth(receipt)"
+						href="#/tab/updateReceipt/{{receipt.guid}}
+						">
+						<div class="left">
+						<p><b>{{receipt.text}}</b></p>
+						<span ng-bind="getReceiptKindDescription(receipt.receiptKind)"></span></p>
+						</div>
+						<div class="right">
+						<p>{{ receipt.date | date : shortDate}}</p>
+						<p>{{receipt.amount}} {{receipt.currency}}</p>
+						</div>
+						<ion-option-button style="padding-top: 20px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
+						<ion-option-button style="padding-top: 20px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
+					</ion-item>
+				</ion-list>
+			</ion-content>
+		</ion-view>
+	</script>
+	
+	<script id="settings.html" type="text/ng-template">
+		<ion-view title="Einstellungen">
+			<ion-content class="has-header" padding="true">
+				<h1> Einstelungen</h1>
+				<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen</button>
+			</ion-content>
+		</ion-view>
+	</script>
+	<script id="feedback.html" type="text/ng-template">
+		<ion-view title="Feedback">
+			<ion-content class="has-header" padding="true">
+				<div class="list">
+					<label class="item item-input">
+						<span class="input-label">To</span>
+						<input type="text">
+					</label>
+					<label class="item item-input">
+						<span class="input-label">Message</span>
+						<textarea rows="4"></textarea>
+					</label>
+				</div>
+				<button class="button icon icon-right ion-arrow-right-c button-balanced button-block">Send</button>
+			</ion-content>
+		</ion-view>
+	</script>
+	<script id="addReceipt.html" type="text/ng-template">
+		<ion-view title="Neuer Beleg">
+			<ion-nav-buttons side="right">
+				<button class="button button-icon button-clear ion-checkmark" ng-click="createReceipt()"></button>
+			</ion-nav-buttons>
+			<ion-content has-header="true" padding="true">
+					<div class="list">
+						<label class="item item-input">
+							<span class="input-label">Bezeichnung</span>
+							<input style="text-align:right" type="text" placeholder="Bezeichnung" ng-model="form.text" />
+						</label>
+						<label class="item item-input">
+							<span class="input-label">Betrag</span>
+									<input style="text-align:right" type="number" placeholder="Betrag" ng-model="form.amount" />
+						</label>
+						<label class="item item-input item-stacked-label item-button-right">
+							<span class="input-label">Währung</span>
+							{{ form.currency }}
+							<button style="font-size: 13px; top:1px;" class="button button-small button-stable" ng-click="modal.show()">Währung ändern</button>
+							</select>
+						</label>
+						<label class="item item-input">
+							<span class="input-label">Datum</span>
+							<input type="date" ng-model="form.date" style="text-align:right;" />
+						</label>
+						<label class="item item-input item-select">
+							<div class="input-label">Belegart</div>
+							<select ng-model="receiptKindSelected" ng-options="receiptKind as receiptKind.description for receiptKind in receiptKinds">
+								<option value="" disabled>Auswählen...</option>
+							</select>
+						</label>
+						<label class="item item-input item-select">
+							<div class="input-label">Zahlungart</div>
+							<select ng-model="kindsOfPaymentSelected" ng-options="kindOfPayment as kindOfPayment.description for kindOfPayment in kindsOfPayment">
+								<option value="" disabled>Auswählen...</option>
+							</select>
+						</label>
+					</div>
+				</ion-content>
+		</ion-view>
+	</script>
+
+	<script id="updateReceipt.html" type="text/ng-template">
+		<ion-view title="Beleg bearbeiten">
+			<ion-content has-header="true" padding="true">
+				<h1>Account</h1>
+			</ion-content>
+		</ion-view>
+	</script>
+	
+	<script id="currencies-modal.html" type="text/ng-template">
+	<div class="modal">
+		<ion-header-bar class="bar bar-header bar-positive">
+			<h1 class="title">Währung wählen</h1>
+			<button class="button button-clear button-primary ion-chevron-down" ng-click="modal.hide()"></button>
+		</ion-header-bar>
+		<ion-content
+             start-y="55"
+             padding="false"
+             has-tabs="true"
+             has-header="true"
+             >
+			 <div class="bar  bar-header">
+			 <div class="button-bar">
+          <a class="button {{(type == true) &&  'active' || ''}}" ng-click="setType($event)">Favoriten</a>
+          <a class="button {{(type == '') &&  'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
+        </div>
+	</div>
+      <div id="search-box" class="bar bar-subheader item-input-inset">
+        <div class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" placeholder="Suche" ng-model="data.searchQuery">
+          <i class="clear-search icon ion-ios7-close-empty" ng-click="clearSearch()"></i>
+        </div>
+        <button class="button button-clear">
+          Abbrechen
+        </button>
+      </div>
+	  <div class="list" style="top:43px">
+	  <ion-radio collection-repeat="currency in currencies | filter: data.searchQuery | filter:{isPreferred:type}"
+				style="width:100%"
+				collection-item-width="'100%'"
+				collection-item-height="80"
+                   ng-value="currency.description"
+                   ng-model="currenciesSelected.description">
+           {{currency.description}}
+        </ion-radio>
+	</div>
+    </ion-content>
+	</div>
+
+	<script id="infos.html" type="text/ng-template">
+		<ion-view title="Infos">
+			<ion-content class="has-header">
+				<h1>Infos</h1>
+			</ion-content>
+		</ion-view>
+	</script>
+  </body>
+</html>
