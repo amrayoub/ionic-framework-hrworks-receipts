@@ -1,15 +1,14 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('addReceiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicModal, $timeout) {
+.controller('addReceiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicPopup, $ionicModal, $timeout) {
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
-	$scope.receiptKindsSelected = $scope.receiptKinds[0];
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
-	$scope.kindsOfPaymentSelected = $scope.kindsOfPayment[1];
 	$scope.currencies = $localstorage.getObjects('currencies');
 	$scope.form = {};
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-	//$scope.currenciesSelected = $scope.currencies[33];
-	$scope.form.currency = $scope.currencies[33].symbol;
+	$scope.form.currency = $localstorage.getObjects('lastReceipt').currency;
+	$scope.form.kindOfPayment = $scope.kindsOfPayment[1];
+	$scope.form.receiptKind = $scope.receiptKinds[0];
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,
@@ -20,28 +19,48 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.createReceipt = function () {
 		var error = 0;
+		var errorMessage = "";
 		if (!$scope.form.text) {
 			error = 1;
+			errorMessage = errorMessage + "" + "Bezeichnung<br>";
 		}
 		if (!$scope.form.amount) {
 			error = 1;
+			errorMessage = errorMessage + "" +"Betrag<br>";
 		}
 		if (!$scope.form.date) {
 			error = 1;
+			errorMessage = errorMessage + "" + "Datum<br>";
+		}
+		if (!$scope.form.receiptKind) {
+			error = 1;
+			errorMessage = errorMessage + "" + "Belegart<br>";
+		}
+		if (!$scope.form.kindOfPayment) {
+			error = 1;
+			errorMessage = errorMessage + "" + "Zahlungsart<br>";
+		}
+		if (!$scope.form.currency) {
+			error = 1;
+			errorMessage = errorMessage + "" + "Währung<br>";
 		}
 		if (error == 1) {
-			console.log("Validierungs Fehler");
+				$ionicPopup.alert({
+					title: '<b>Folgende Eingaben fehlen oder sind fehlerhaft:</b>',
+					content: errorMessage
+				});
 		} else {
 			$localstorage.insertObject('receipts', {
 				text : $scope.form.text,
 				amount : $scope.form.amount,
 				date : $scope.form.date,
-				receiptKind : "1",
-				kindOfPayment : "1",
-				currency : "EUR",
+				receiptKind : $scope.form.receiptKind.id,
+				kindOfPayment : $scope.form.kindOfPayment.id,
+				currency : $scope.form.currency,
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 				guid : generateGUID()
 			});
+			$localstorage.setObject('lastReceipt', { "currency" : "EUR"});
 			if ($scope.$viewHistory.backView != null) {
 				$scope.$viewHistory.backView.go();
 			}
@@ -60,7 +79,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.modal.show();
 		$timeout(function () {
 			$scope.showList = true;
-		}, 500)
+		}, 300)
 	};
 	$scope.closeModal = function () {
 		$scope.modal.hide();

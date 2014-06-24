@@ -123,8 +123,8 @@
 						</label>
 						<label class="item item-input item-stacked-label item-button-right">
 							<span class="input-label">Währung</span>
-							{{ form.currency }}
-							<button style="font-size: 13px; top:1px;" class="button button-small button-stable" ng-click="openModal()">Währung ändern</button>
+							<button style="font-size: 16px; top:1px; right:150px" class="button button-clear button-dark">{{ form.currency }}</button>
+							<button style="font-size: 14px; top:1px" class="button button-clear button-positive" ng-click="openModal()">Währung ändern</button>
 							</select>
 						</label>
 						<label class="item item-input">
@@ -133,13 +133,13 @@
 						</label>
 						<label class="item item-input item-select">
 							<div class="input-label">Belegart</div>
-							<select ng-model="receiptKindSelected" ng-options="receiptKind as receiptKind.description for receiptKind in receiptKinds">
+							<select ng-model="form.receiptKind" ng-options="receiptKind as receiptKind.description for receiptKind in receiptKinds">
 								<option value="" disabled>Auswählen...</option>
 							</select>
 						</label>
 						<label class="item item-input item-select">
 							<div class="input-label">Zahlungart</div>
-							<select ng-model="kindsOfPaymentSelected" ng-options="kindOfPayment as kindOfPayment.description for kindOfPayment in kindsOfPayment">
+							<select ng-model="form.kindOfPayment" ng-options="kindOfPayment as kindOfPayment.description for kindOfPayment in kindsOfPayment">
 								<option value="" disabled>Auswählen...</option>
 							</select>
 						</label>
@@ -180,7 +180,7 @@
           <i class="icon ion-ios7-search placeholder-icon"></i>
           <input type="search" placeholder="Suche" ng-model="data.searchQuery">
         </div>
-        <button class="button button-clear" ng-click="clearSearch()>
+        <button class="button button-clear" ng-click="clearSearch()">
           Abbrechen
         </button>
       </div>

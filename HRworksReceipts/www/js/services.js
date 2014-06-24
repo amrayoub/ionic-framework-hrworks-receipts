@@ -888,4 +888,16 @@ angular.module('starter.services', [])
 			return currencies[symbol];
 		}
 	}
+})
+.factory('LastReceipt', function () {
+	var lastReceipt = {
+			"currency" : "EUR", 
+			"kindOfPayment" : "0",
+			"receiptKind" : "1"
+		};
+	return {
+		all : function () {
+			return lastReceipt;
+		}
+	}
 });
