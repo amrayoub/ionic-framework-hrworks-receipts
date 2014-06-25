@@ -57,21 +57,22 @@
 				<a class="button button-icon button-clear ion-plus" href="#/tab/addReceipt"></a>
 			</ion-nav-buttons>
 			<ion-content class="has-header">
-				<ion-list show-delete="data.showDelete" option-buttons="itemButtons">
-					<ion-item class="item"
-						style="width:100%"
-						collection-repeat="receipt in receipts | orderBy:timestamp:false"
-						collection-item-height="getItemHeight(receipt)"
-						collection-item-width="getItemWidth(receipt)"
-						href="#/tab/updateReceipt/{{receipt.guid}}
+				<ion-list option-buttons="itemButtons">
+					<ion-item class="item myItem"
+						collection-repeat="receipt in receipts | orderBy:timestamp"
+						collection-item-height="70"
+						collection-item-width="'100%'"
+						href="#/tab/updateReceipt/{{receipt.guid}}"	
 						">
-						<div class="left">
+						<div class="row">
+						<div class="col col-50">
 						<p><b>{{receipt.text}}</b></p>
 						<span ng-bind="getReceiptKindDescription(receipt.receiptKind)"></span></p>
 						</div>
-						<div class="right">
+						<div class="col col-50" style="text-align:right;">
 						<p>{{ receipt.date | date : shortDate}}</p>
 						<p>{{receipt.amount}} {{receipt.currency}}</p>
+						</div>
 						</div>
 						<ion-option-button style="padding-top: 20px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
 						<ion-option-button style="padding-top: 20px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
@@ -123,7 +124,7 @@
 						</label>
 						<label class="item item-input item-stacked-label item-button-right">
 							<span class="input-label">Währung</span>
-							<button style="font-size: 16px; top:1px; right:150px" class="button button-clear button-dark">{{ form.currency }}</button>
+							<button style="font-size: 16px; top:1px; right:150px" class="button button-clear button-dark" ng-click="openModal()">{{ form.currency }}</button>
 							<button style="font-size: 14px; top:1px" class="button button-clear button-positive" ng-click="openModal()">Währung ändern</button>
 							</select>
 						</label>

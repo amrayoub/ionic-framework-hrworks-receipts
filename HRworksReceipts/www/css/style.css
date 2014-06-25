@@ -5,25 +5,12 @@ input::-webkit-inner-spin-button {
 	-moz-appearance: none;
 	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-.left {
-	font-size:14px;
-	width: 70%;
-	position: relative;
-	float: left;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
-}
-.right {
-	font-size:14px;
-	text-align:right;
-	width: 30%;
-	position: relative;
-	float: right;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis; 
-}
+
 .item-complex .item-content {
-	padding: 15px 15px 15px 15px;
+	padding: 0;
+}
+.myItem {
+	right: 0;
+	left: 0;
+
 }

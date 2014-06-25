@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="de.hrworks.mobileReceiptsPhonejs" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidLaunchMode" value="singleTop" />
     <feature name="App">
@@ -12,12 +12,17 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
-    <name>HelloCordova</name>
+    <icon gap:density="hdpi" gap:platform="android" src="res/drawable-hdpi/ic_launcher.png" />
+    <icon gap:density="mdpi" gap:platform="android" src="res/drawable-mdpi/ic_launcher.png" />
+    <icon gap:density="xdpi" gap:platform="android" src="res/drawable-xhdpi/ic_launcher.png" />
+    <icon gap:density="xxhdpi" gap:platform="android" src="res/drawable-xxhdpi/ic_launcher.png" />
+    <icon gap:density="xxxhdpi" gap:platform="android" src="res/drawable-xxxhdpi/ic_launcher.png" />
+    <name>Belegerfassung</name>
     <description>
-        An Ionic Framework and Cordova project.
+		Hrworks Belegerfassung
     </description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+    <author href="http://hrworks.de">
+		HRworks GmbH
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -30,9 +35,4 @@
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-    <icon gap:density="hdpi" gap:platform="android" src="res/drawable-hdpi/ic_launcher.png" />
-    <icon gap:density="mdpi" gap:platform="android" src="res/drawable-mdpi/ic_launcher.png" />
-    <icon gap:density="xdpi" gap:platform="android" src="res/drawable-xhdpi/ic_launcher.png" />
-    <icon gap:density="xxhdpi" gap:platform="android" src="res/drawable-xxhdpi/ic_launcher.png" />
-    <icon gap:density="xxxhdpi" gap:platform="android" src="res/drawable-xxxhdpi/ic_launcher.png" />
 </widget>

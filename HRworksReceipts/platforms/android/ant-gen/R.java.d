@@ -1,4 +1,4 @@
-C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-gen\com\ionicframework\starter\R.java \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-gen\de\hrworks\mobileReceiptsPhonejs\R.java \
  : C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\res\drawable\icon.png \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\res\drawable-hdpi\icon.png \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\res\drawable-land-hdpi\screen.png \

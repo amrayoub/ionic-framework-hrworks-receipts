@@ -1,11 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
+<widget 
+	id="de.hrworks.mobileReceiptsPhonejs" 
+	version="0.0.1" 
+	xmlns="http://www.w3.org/ns/widgets" 
+	xmlns:cdv="http://cordova.apache.org/ns/1.0"
+	xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Belegerfassung</name>
     <description>
-        An Ionic Framework and Cordova project.
+		Hrworks Belegerfassung
     </description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+    <author href="http://hrworks.de">
+      HRworks GmbH
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -19,14 +24,18 @@ to be sent to iCloud. Note: enabling this could result in Apple rejecting your a
 -->
     <preference name="BackupWebStorage" value="none" />
 	<preference name="android-targetSdkVersion" value="14" />
+
     <feature name="StatusBar">
       <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
-	 <!-- Android icons -->
-    <icon src="res/drawable-hdpi/ic_launcher.png"  gap:platform="android" gap:density="hdpi" />
-    <icon src="res/drawable-mdpi/ic_launcher.png"  gap:platform="android" gap:density="mdpi" />
-    <icon src="res/drawable-xhdpi/ic_launcher.png"  gap:platform="android" gap:density="xdpi" />
-    <icon src="res/drawable-xxhdpi/ic_launcher.png"  gap:platform="android" gap:density="xxhdpi" />
-	<icon src="res/drawable-xxxhdpi/ic_launcher.png"  gap:platform="android" gap:density="xxxhdpi" />
+	
+	<platform name="android">
+		<icon src="res/drawable-hdpi/ic_launcher.png"  gap:platform="android" gap:density="hdpi" />
+		<icon src="res/drawable-mdpi/ic_launcher.png"  gap:platform="android" gap:density="mdpi" />
+		<icon src="res/drawable-xhdpi/ic_launcher.png"  gap:platform="android" gap:density="xdpi" />
+		<icon src="res/drawable-xxhdpi/ic_launcher.png"  gap:platform="android" gap:density="xxhdpi" />
+		<icon src="res/drawable-xxxhdpi/ic_launcher.png"  gap:platform="android" gap:density="xxxhdpi" />
+	</platform>
+
 </widget>
 

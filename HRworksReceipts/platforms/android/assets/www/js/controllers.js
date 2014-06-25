@@ -135,7 +135,7 @@ angular.module('starter.controllers', ['ionic'])
 		return (index % 1) === 0 ? 80 : 80;
 	};
 	$scope.getItemWidth = function (item) {
-		return '100%';
+		return 100;
 	};
 	$scope.show = function () {
 		$ionicLoading.show({

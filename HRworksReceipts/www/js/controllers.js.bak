@@ -60,7 +60,7 @@ angular.module('starter.controllers', ['ionic'])
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 				guid : generateGUID()
 			});
-			$localstorage.setObject('lastReceipt', { "currency" : "EUR"});
+			$localstorage.setObject('lastReceipt', { "currency" : $scope.form.currency});
 			if ($scope.$viewHistory.backView != null) {
 				$scope.$viewHistory.backView.go();
 			}
