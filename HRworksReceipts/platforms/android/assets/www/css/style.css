@@ -12,5 +12,8 @@ input::-webkit-inner-spin-button {
 .myItem {
 	right: 0;
 	left: 0;
+}
 
+.icon-gray {
+	color: #959595;
 }

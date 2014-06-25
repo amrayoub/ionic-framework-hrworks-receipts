@@ -889,12 +889,12 @@ angular.module('starter.services', [])
 		}
 	}
 })
-.factory('LastReceipt', function () {
-	var lastReceipt = {
-			"currency" : "EUR", 
-			"kindOfPayment" : "0",
-			"receiptKind" : 1
-		};
+.factory('LastCurrency', function () {
+	var lastReceipt = [{
+		description : "Euro",
+		isPreferred : true,
+		symbol : "EUR"
+		}];
 	return {
 		all : function () {
 			return lastReceipt;

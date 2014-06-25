@@ -5,7 +5,6 @@ input::-webkit-inner-spin-button {
 	-moz-appearance: none;
 	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
-
 .item-complex .item-content {
 	padding: 0;
 }
@@ -13,7 +12,6 @@ input::-webkit-inner-spin-button {
 	right: 0;
 	left: 0;
 }
-
 .icon-gray {
 	color: #959595;
 }

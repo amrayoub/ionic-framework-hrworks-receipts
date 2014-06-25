@@ -890,11 +890,11 @@ angular.module('starter.services', [])
 	}
 })
 .factory('LastCurrency', function () {
-	var lastReceipt = [{
+	var lastReceipt = {
 		description : "Euro",
 		isPreferred : true,
 		symbol : "EUR"
-		}];
+		};
 	return {
 		all : function () {
 			return lastReceipt;

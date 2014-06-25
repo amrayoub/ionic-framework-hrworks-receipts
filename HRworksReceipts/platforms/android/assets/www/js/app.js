@@ -9,12 +9,12 @@
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils'])
 
-.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastReceipt) {
+.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
 	$localstorage.setObject('receipts', new Array());
 	$localstorage.setObject('kindsOfPayment', KindsOfPayment.all());
 	$localstorage.setObject('currencies', Currencies.all());
 	$localstorage.setObject('receiptKinds', ReceiptKinds.all());
-	$localstorage.setObject('lastReceipt', LastReceipt.all());
+	$localstorage.setObject('lastCurrency', LastCurrency.all());
 })
 
 .run(function ($ionicPlatform) {
@@ -109,17 +109,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/receipts');
 	
-})
-.directive("changeButton", function() {
-	return {
-		restrict: 'E',
-		template: '<div><button ng-click="changeButton()">Favoriten</div>',
-		link: function(scope, element, attrs) {
-			scope.changeButton = function() {
-				var btn = element.find('button');
-				btn.css("background-color", "red");
-			}
-		}
-	};
-});	
-
+});
