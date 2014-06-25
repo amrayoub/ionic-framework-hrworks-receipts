@@ -66,36 +66,25 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		}
 	};
+	// Currencie Modal
 	$ionicModal.fromTemplateUrl('currencies-modal.html', {
 		scope : $scope,
 		animation : 'slide-in-up'
 	}).then(function (modal) {
-		$scope.modal = modal;
+		$scope.CurrenciesModal = modal;
 	});
 	$scope.data = {
 		showList : false
 	};
-	$scope.openModal = function () {
-		$scope.modal.show();
+	$scope.openCurrenciesModal = function () {
+		$scope.CurrenciesModal.show();
 		$timeout(function () {
 			$scope.showList = true;
 		}, 300)
 	};
-	$scope.closeModal = function () {
-		$scope.modal.hide();
+	$scope.closeCurrenciesModal = function () {
+		$scope.CurrenciesModal.hide();
 	};
-	//Cleanup the modal when we're done with it!
-	$scope.$on('$destroy', function () {
-		$scope.modal.remove();
-	});
-	// Execute action on hide modal
-	$scope.$on('modal.hidden', function () {
-		// Execute action
-	});
-	// Execute action on remove modal
-	$scope.$on('modal.removed', function () {
-		// Execute action
-	});
 	$scope.type = true;
 	$scope.setType = function (event) {
 		if (angular.element(event.target).text() == "Favoriten") {
@@ -110,10 +99,35 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.selectCurrency = function(currency) {
 		$scope.form.currency = currency.symbol;
 		$timeout(function () {
-			$scope.closeModal();
-		}, 500)
-	}
-	console.log($scope);
+			$scope.closeCurrenciesModal();
+		}, 300)
+	};
+	// receiptKinds Modal
+	$ionicModal.fromTemplateUrl('receiptKinds-modal.html', {
+		scope : $scope,
+		animation : 'slide-in-up'
+	}).then(function (modal) {
+		$scope.receiptKindsModal = modal;
+	});
+	//$scope.data = {
+	//	showList : false
+	//};
+	$scope.openReceiptKindsModal = function () {
+		$scope.receiptKindsModal.show();
+		$timeout(function () {
+			$scope.showList = true;
+		}, 300)
+	};
+	$scope.closeReceiptKindsModal = function () {
+		$scope.ReceiptKindsModal.hide();
+	};
+	
+	$scope.selectReceiptKinds = function(receiptKind) {
+		$scope.form.receiptKind = receiptKinds.id;
+		$timeout(function () {
+			$scope.closeReceiptKindsModal();
+		}, 300)
+	};
 })
 
 .controller('receiptsCtrl', function ($scope, $localstorage, $ionicLoading, $location) {
@@ -135,7 +149,7 @@ angular.module('starter.controllers', ['ionic'])
 		return (index % 1) === 0 ? 80 : 80;
 	};
 	$scope.getItemWidth = function (item) {
-		return '100%';
+		return 100;
 	};
 	$scope.show = function () {
 		$ionicLoading.show({
@@ -153,10 +167,6 @@ angular.module('starter.controllers', ['ionic'])
 		$localstorage.removeObject('receipts', guid);
 	};
 })
-
-.controller('accountCtrl', function ($scope) {})
-
-.controller('feedbackCtrl', function ($scope) {})
 
 .controller('settingsCtrl', function ($scope, $localstorage, $filter) {
 	generateGUID = function () {

@@ -24,7 +24,11 @@ input::-webkit-inner-spin-button {
 	overflow:hidden;
 	text-overflow:ellipsis; 
 }
+.item-complex .item-content {
+	padding: 0;
+}
 .myItem {
 	right: 0;
 	left: 0;
+
 }
