@@ -9,12 +9,12 @@
 
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils'])
 
-.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastReceipt) {
+.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
 	$localstorage.setObject('receipts', new Array());
 	$localstorage.setObject('kindsOfPayment', KindsOfPayment.all());
 	$localstorage.setObject('currencies', Currencies.all());
 	$localstorage.setObject('receiptKinds', ReceiptKinds.all());
-	$localstorage.setObject('lastReceipt', LastReceipt.all());
+	$localstorage.setObject('lastCurrency', LastCurrency.all());
 })
 
 .run(function ($ionicPlatform) {

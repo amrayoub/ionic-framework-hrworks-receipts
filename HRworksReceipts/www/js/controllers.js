@@ -6,7 +6,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.currencies = $localstorage.getObjects('currencies');
 	$scope.form = {};
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-	$scope.form.currency = $localstorage.getObjects('lastReceipt').currency;
+	$scope.form.currency = $localstorage.getObjects('lastCurrency');
 	$scope.form.kindOfPayment = $scope.kindsOfPayment[1];
 	$scope.form.receiptKind = $scope.receiptKinds[0];
 	generateGUID = function () {
@@ -56,11 +56,11 @@ angular.module('starter.controllers', ['ionic'])
 				date : $scope.form.date,
 				receiptKind : $scope.form.receiptKind.id,
 				kindOfPayment : $scope.form.kindOfPayment.id,
-				currency : $scope.form.currency,
+				currency : $scope.form.currency.symbol,
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 				guid : generateGUID()
 			});
-			$localstorage.setObject('lastReceipt', { "currency" : $scope.form.currency});
+			$localstorage.setObject('lastCurrency', $scope.form.currency);
 			if ($scope.$viewHistory.backView != null) {
 				$scope.$viewHistory.backView.go();
 			}
@@ -97,7 +97,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.data.searchQuery = '';
 	};
 	$scope.selectCurrency = function(currency) {
-		$scope.form.currency = currency.symbol;
+		$scope.form.currency = currency;
 		$timeout(function () {
 			$scope.closeCurrenciesModal();
 		}, 300)
@@ -122,10 +122,36 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.receiptKindsModal.hide();
 	};
 	
-	$scope.selectReceiptKinds = function(receiptKind) {
-		$scope.form.receiptKind = receiptKinds.id;
+	$scope.selectReceiptKind = function(receiptKind) {
+		$scope.form.receiptKind = receiptKind;
 		$timeout(function () {
 			$scope.closeReceiptKindsModal();
+		}, 300)
+	};
+	// receiptKinds Modal
+	$ionicModal.fromTemplateUrl('kindsOfPayment-modal.html', {
+		scope : $scope,
+		animation : 'slide-in-up'
+	}).then(function (modal) {
+		$scope.kindsOfPaymentModal = modal;
+	});
+	//$scope.data = {
+	//	showList : false
+	//};
+	$scope.openKindsOfPaymentModal = function () {
+		$scope.kindsOfPaymentModal.show();
+		$timeout(function () {
+			$scope.showList = true;
+		}, 300)
+	};
+	$scope.closeKindsOfPaymentModal = function () {
+		$scope.kindsOfPaymentModal.hide();
+	};
+	
+	$scope.selectKindOfPayment = function(kindOfPayment) {
+		$scope.form.kindOfPayment = kindOfPayment;
+		$timeout(function () {
+			$scope.closeKindsOfPaymentModal();
 		}, 300)
 	};
 })
