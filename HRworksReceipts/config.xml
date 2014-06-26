@@ -25,7 +25,7 @@ to be sent to iCloud. Note: enabling this could result in Apple rejecting your a
     <preference name="BackupWebStorage" value="none" />
 	<preference name="android-targetSdkVersion" value="17" />
 	<preference name="android-minSdkVersion" value="11" />
-
+	
     <feature name="StatusBar">
       <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
@@ -39,4 +39,3 @@ to be sent to iCloud. Note: enabling this could result in Apple rejecting your a
 	</platform>
 
 </widget>
-

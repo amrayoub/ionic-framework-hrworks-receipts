@@ -63,7 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		views : {
 			'receipts' : {
 				templateUrl : 'updateReceipt.html',
-				controller : 'updateReceiptCtrl'
+				controller : 'addReceiptCtrl'
 			}
 		}
 	})

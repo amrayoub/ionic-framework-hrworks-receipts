@@ -137,7 +137,6 @@
 							<span class="input-span">{{ form.receiptKind.description }}</span>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
-						<a class="item item-icon-right" ng-click="openReceiptKindsModal()">
 						<label class="item item-input item-stacked-label item-icon-right" ng-click="openKindsOfPaymentModal()">
 							<span class="input-label">Zahlungsart</span>
 							<span class="input-span">{{ form.kindOfPayment.description }}</span>
