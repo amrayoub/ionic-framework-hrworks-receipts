@@ -9,6 +9,28 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form.currency = $localstorage.getObjects('lastCurrency');
 	$scope.form.kindOfPayment = $scope.kindsOfPayment[1];
 	$scope.form.receiptKind = $scope.receiptKinds[0];
+	$scope.form.amount = "0";
+	$scope.changeit = function(val){
+		val = val.toString();
+		var period = val.indexOf(".")
+		if( period > -1 ){
+			val = val.substring( 0,period) + val.substring( period+1 )
+		}
+		var len = val.length
+		while( len<3) {
+			val = "0"+val
+			len = val.length
+		}
+		val = val.substring( 0,len-2) + "." + val.substring(len-2,len)
+		while( val.length > 4 && (val[0]==0 || isNaN(val[0])) ){
+			val = val.substring(1)
+		}
+		if( val[0] == "." ) {
+			val = "0"+val
+		}
+		$scope.form.amount = parseFloat(val);
+		console.log($scope.form.amount);
+	};
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,

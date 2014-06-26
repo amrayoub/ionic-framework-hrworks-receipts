@@ -117,11 +117,11 @@
 					<div class="list">
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Bezeichnung</span>
-							<input type="text" placeholder="Bezeichnung für den Beleg" ng-model="form.text" />
+							<input type="text" placeholder="z.B. Aral Tankstelle" ng-model="form.text" />
 						</label>
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Betrag</span>
-							<input type="number" placeholder="Betrag" ng-model="form.amount" />
+							<input type="number" placeholder="" ng-model="form.amount" step="any" ng-keyup="changeit(form.amount)" />
 						</label>
 						<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
 							<span class="input-label">Währung</span>
@@ -156,11 +156,11 @@
 					<div class="list">
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Bezeichnung</span>
-							<input type="text" placeholder="Bezeichnung für den Beleg" ng-model="form.text" />
+							<input type="text" placeholder="z.B. Aral Tankstelle" ng-model="form.text" />
 						</label>
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Betrag</span>
-							<input type="number" placeholder="Betrag" ng-model="form.amount" />
+							<input type="number" placeholder="" ng-model="form.amount" />
 						</label>
 						<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
 							<span class="input-label">Währung</span>
