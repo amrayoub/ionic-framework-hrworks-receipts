@@ -25,123 +25,123 @@
 	</head>
 	<body ng-app="starter" animation="slide-left-right-ios7">
 	
-    <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
-      <ion-nav-back-button class="button-icon ion-chevron-left">
-      </ion-nav-back-button>
-    </ion-nav-bar>
+		<ion-nav-bar class="nav-title-slide-ios7 bar-positive">
+			<ion-nav-back-button class="button-icon ion-chevron-left">
+			</ion-nav-back-button>
+		</ion-nav-bar>
              
-    <ion-nav-view animation="slide-left-right"></ion-nav-view>
+		<ion-nav-view animation="slide-left-right"></ion-nav-view>
 	
-	<script id="tabs.html" type="text/ng-template">
-		<ion-tabs class="tabs-icon-top tabs-positive">
-			<ion-tab title="Belege" icon="icon ion-clipboard" href="#/tab/receipts">
-				<ion-nav-view name="receipts"></ion-nav-view>
-			</ion-tab>
+		<script id="tabs.html" type="text/ng-template">
+			<ion-tabs class="tabs-icon-top tabs-positive">
+				<ion-tab title="Belege" icon="icon ion-clipboard" href="#/tab/receipts">
+					<ion-nav-view name="receipts"></ion-nav-view>
+				</ion-tab>
 
-			<ion-tab title="Infos" icon="icon ion-information-circled" href="#/tab/infos">
-				<ion-nav-view name="infos"></ion-nav-view>
-			</ion-tab>
+				<ion-tab title="Infos" icon="icon ion-information-circled" href="#/tab/infos">
+					<ion-nav-view name="infos"></ion-nav-view>
+				</ion-tab>
 
-			<ion-tab title="Einstellungen" icon="icon ion-wrench" href="#/tab/settings">
-				<ion-nav-view name="settings"></ion-nav-view>
-			</ion-tab>
-		</ion-tabs>
-	</script>
+				<ion-tab title="Einstellungen" icon="icon ion-wrench" href="#/tab/settings">
+					<ion-nav-view name="settings"></ion-nav-view>
+				</ion-tab>
+			</ion-tabs>
+		</script>
 
-	<script id="receipts.html" type="text/ng-template">
-		<ion-view title="Belege">
-			<ion-nav-buttons side="left">
-				<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
-			</ion-nav-buttons>
-			<ion-nav-buttons side="right">
-				<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/addReceipt')"></button>
-			</ion-nav-buttons>
-			<ion-content has-header="true">
-				<ion-list option-buttons="itemButtons">
-					<ion-item class="item myItem"
-						collection-repeat="receipt in receipts | orderBy:timestamp"
-						collection-item-height="70"
-						collection-item-width="'100%'"
-						href="#/tab/updateReceipt/{{receipt.guid}}"	
-						">
-						<div class="row">
-						<div class="col col-50">
-						<p><b>{{receipt.text}}</b></p>
-						<span ng-bind="getReceiptKindDescription(receipt.receiptKind)"></span></p>
-						</div>
-						<div class="col col-50" style="text-align:right;">
-						<p>{{ receipt.date | date : shortDate}}</p>
-						<p>{{receipt.amount}} {{receipt.currency}}</p>
-						</div>
-						</div>
-						<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
-						<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
-					</ion-item>
-				</ion-list>
-			</ion-content>
-		</ion-view>
-	</script>
+		<script id="receipts.html" type="text/ng-template">
+			<ion-view title="Belege">
+				<ion-nav-buttons side="left">
+					<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
+				</ion-nav-buttons>
+				<ion-nav-buttons side="right">
+					<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/addReceipt')"></button>
+				</ion-nav-buttons>
+				<ion-content has-header="true">
+					<ion-list option-buttons="itemButtons">
+						<ion-item class="item myItem"
+							collection-repeat="receipt in receipts | orderBy:timestamp"
+							collection-item-height="70"
+							collection-item-width="'100%'"
+							href="#/tab/updateReceipt/{{receipt.guid}}"	
+							">
+							<div class="row">
+								<div class="col col-50">
+									<p><b>{{receipt.text}}</b></p>
+									<span ng-bind="getReceiptKindDescription(receipt.receiptKind)"></span></p>
+								</div>
+								<div class="col col-50" style="text-align:right;">
+									<p>{{ receipt.date | date : shortDate}}</p>
+									<p>{{receipt.amount}} {{receipt.currency}}</p>
+								</div>
+							</div>
+							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
+							<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
+						</ion-item>
+					</ion-list>
+				</ion-content>
+			</ion-view>
+		</script>
 	
-	<script id="settings.html" type="text/ng-template">
-		<ion-view title="Einstellungen">
-			<ion-content class="has-header" padding="true">
-				<h1> Einstelungen</h1>
-				<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen</button>
-			</ion-content>
-		</ion-view>
-	</script>
-	<script id="feedback.html" type="text/ng-template">
-		<ion-view title="Feedback">
-			<ion-content class="has-header" padding="true">
-				<div class="list">
-					<label class="item item-input">
-						<span class="input-label">To</span>
-						<input type="text">
-					</label>
-					<label class="item item-input">
-						<span class="input-label">Message</span>
-						<textarea rows="4"></textarea>
-					</label>
-				</div>
-				<button class="button icon icon-right ion-arrow-right-c button-balanced button-block">Send</button>
-			</ion-content>
-		</ion-view>
-	</script>
-	<script id="addReceipt.html" type="text/ng-template">
-		<ion-view title="Neuer Beleg">
-			<ion-nav-buttons side="right">
-				<button class="button button-icon button-clear ion-checkmark" ng-click="createReceipt()"></button>
-			</ion-nav-buttons>
-			<ion-content has-header="true" padding="true">
+		<script id="settings.html" type="text/ng-template">
+			<ion-view title="Einstellungen">
+				<ion-content class="has-header" padding="true">
+					<h1> Einstelungen</h1>
+					<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen</button>
+				</ion-content>
+			</ion-view>
+		</script>
+
+		<script id="feedback.html" type="text/ng-template">
+			<ion-view title="Feedback">
+				<ion-content class="has-header" padding="true">
 					<div class="list">
 						<label class="item item-input">
-							<input type="text" placeholder="Bezeichnung" ng-model="form.text" />
+							<span class="input-label">To</span>
+							<input type="text">
 						</label>
 						<label class="item item-input">
-						<div class="row">
-						<div class="col col-80">
+							<span class="input-label">Message</span>
+							<textarea rows="4"></textarea>
+						</label>
+					</div>
+					<button class="button icon icon-right ion-arrow-right-c button-balanced button-block">Send</button>
+				</ion-content>
+			</ion-view>
+		</script>
+		<script id="addReceipt.html" type="text/ng-template">
+			<ion-view title="Neuer Beleg">
+				<ion-nav-buttons side="right">
+					<button class="button button-icon button-clear ion-checkmark" ng-click="createReceipt()"></button>
+				</ion-nav-buttons>
+				<ion-content has-header="true">
+					<div class="list">
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Bezeichnung</span>
+							<input type="text" placeholder="Bezeichnung für den Beleg" ng-model="form.text" />
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Betrag</span>
 							<input type="number" placeholder="Betrag" ng-model="form.amount" />
-						</div>
-						<div class="col col-20">
-							{{ form.currency.symbol }}
-						</div>
-						</div>
 						</label>
-						<a class="item item-icon-right" ng-click="openCurrenciesModal()">
-							{{ form.currency.description }}
+						<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
+							<span class="input-label">Währung</span>
+							<span class="input-span">{{ form.currency.description }}</span>
 							<i class="icon ion-chevron-right icon-gray"></i>
-						</a>
-						<label class="item item-input">
-							<input type="date" placeholder="Datum" ng-model="form.date" />
 						</label>
-						<a class="item item-icon-right" ng-click="openReceiptKindsModal()">
-							{{ form.receiptKind.description }}
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Datum</span>
+							<input type="date" placeholder="form.date" ng-model="form.date" />
+						</label>
+						<label class="item item-input item-stacked-label item-icon-right" ng-click="openReceiptKindsModal()">
+							<span class="input-label">Belegart</span>
+							<span class="input-span">{{ form.receiptKind.description }}</span>
 							<i class="icon ion-chevron-right icon-gray"></i>
-						</a>
-						<a class="item item-icon-right" ng-click="openKindsOfPaymentModal()">
-							{{ form.kindOfPayment.description }}
+						</label>
+						<label class="item item-input item-stacked-label item-icon-right" ng-click="openKindsOfPaymentModal()">
+							<span class="input-label">Zahlungsart</span>
+							<span class="input-span">{{ form.kindOfPayment.description }}</span>
 							<i class="icon ion-chevron-right icon-gray"></i>
-						</a>
+						</label>
 					</div>
 				</ion-content>
 		</ion-view>
@@ -181,14 +181,14 @@
 					<div id="search-box" class="bar bar-subheader item-input-inset">
 						<div class="item-input-wrapper">
 							<i class="icon ion-ios7-search placeholder-icon"></i>
-							<input type="search" placeholder="Suche" ng-model="data.searchQuery">
+							<input type="search" placeholder="Suche" ng-model="data.searchQueryCurrencies">
 						</div>
-						<button class="button button-clear" ng-click="clearSearch()">Abbrechen</button>
+						<button class="button button-clear" ng-click="clearSearchCurrencies()">Abbrechen</button>
 					</div>
-					<div class="list" ng-if="showList" style="top:43px">
+					<div class="list" ng-if="showList1" style="top:43px">
 						<ion-radio 
 							class="item" 
-							ng-repeat="currency in currencies | filter: data.searchQuery | filter:{isPreferred:type}"
+							collection-repeat="currency in currencies | filter: data.searchQuery1 | filter:{isPreferred:type}"
 							collection-item-height="50"
 							style="width:100%; position:relative; !important"
 							collection-item-width="'100%'"
@@ -215,14 +215,14 @@
 				<div id="search-box" class="bar bar-header item-input-inset">
 						<div class="item-input-wrapper">
 							<i class="icon ion-ios7-search placeholder-icon"></i>
-							<input type="search" placeholder="Suche" ng-model="data.searchQuery">
+							<input type="search" placeholder="Suche" ng-model="data.searchQueryReceiptKind">
 						</div>
-						<button class="button button-clear" ng-click="clearSearch()">Abbrechen</button>
+						<button class="button button-clear" ng-click="clearSearchReceiptKind()">Abbrechen</button>
 					</div>
-					<div class="list" ng-if="showList">
+					<div class="list" ng-if="showList2">
 						<ion-radio 
 							class="item" 
-							ng-repeat="receiptKind in receiptKinds | filter: data.searchQuery"
+							collection-repeat="receiptKind in receiptKinds | filter: data.searchQuery2"
 							collection-item-height="50"
 							style="width:100%; position:relative; !important"
 							collection-item-width="'100%'"
@@ -249,14 +249,14 @@
 				<div id="search-box" class="bar bar-header item-input-inset">
 						<div class="item-input-wrapper">
 							<i class="icon ion-ios7-search placeholder-icon"></i>
-							<input type="search" placeholder="Suche" ng-model="data.searchQuery">
+							<input type="search" placeholder="Suche" ng-model="data.searchQueryKindsOfPayment">
 						</div>
-						<button class="button button-clear" ng-click="clearSearch()">Abbrechen</button>
+						<button class="button button-clear" ng-click="clearSearchKindsOfPayment()">Abbrechen</button>
 					</div>
-					<div class="list" ng-if="showList">
+					<div class="list" ng-if="showList3">
 						<ion-radio 
 							class="item" 
-							ng-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQuery"
+							collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQuery3"
 							collection-item-height="50"
 							style="width:100%; position:relative; !important"
 							collection-item-width="'100%'"

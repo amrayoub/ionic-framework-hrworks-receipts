@@ -129,7 +129,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.form.receiptKind = receiptKind;
 		$timeout(function () {
 			$scope.closeReceiptKindsModal();
-		}, 500)
+		}, 300)
 	};
 	// receiptKinds Modal
 	$ionicModal.fromTemplateUrl('kindsOfPayment-modal.html', {
@@ -145,7 +145,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.kindsOfPaymentModal.show();
 		$timeout(function () {
 			$scope.showList3 = true;
-		}, 500)
+		}, 300)
 	};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
@@ -157,7 +157,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.form.kindOfPayment = kindOfPayment;
 		$timeout(function () {
 			$scope.closeKindsOfPaymentModal();
-		}, 500)
+		}, 300)
 	};
 })
 

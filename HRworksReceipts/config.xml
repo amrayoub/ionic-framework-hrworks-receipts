@@ -23,7 +23,8 @@
 to be sent to iCloud. Note: enabling this could result in Apple rejecting your app.
 -->
     <preference name="BackupWebStorage" value="none" />
-	<preference name="android-targetSdkVersion" value="14" />
+	<preference name="android-targetSdkVersion" value="17" />
+	<preference name="android-minSdkVersion" value="11" />
 
     <feature name="StatusBar">
       <param name="ios-package" value="CDVStatusBar" onload="true" />

@@ -74,9 +74,9 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.CurrenciesModal = modal;
 	});
 	$scope.data = {
-		showList1 : false;
-		showList2 : false;
-		showList2 : false;
+		showList1 : false,
+		showList2 : false,
+		showList2 : false,
 	};
 	console.log($scope.data);
 	$scope.openCurrenciesModal = function () {

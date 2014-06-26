@@ -113,36 +113,36 @@
 				<ion-nav-buttons side="right">
 					<button class="button button-icon button-clear ion-checkmark" ng-click="createReceipt()"></button>
 				</ion-nav-buttons>
-				<ion-content has-header="true" padding="true">
+				<ion-content has-header="true">
 					<div class="list">
-						<label class="item item-input">
-							<input type="text" placeholder="Bezeichnung" ng-model="form.text" />
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Bezeichnung</span>
+							<input type="text" placeholder="Bezeichnung für den Beleg" ng-model="form.text" />
 						</label>
-						<label class="item item-input">
-							<div class="row">
-								<div class="col col-80">
-									<input type="number" placeholder="Betrag" ng-model="form.amount" />
-								</div>
-								<div class="col col-20">
-									{{ form.currency.symbol }}
-								</div>
-							</div>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Betrag</span>
+							<input type="number" placeholder="Betrag" ng-model="form.amount" />
 						</label>
-						<a class="item item-icon-right" ng-click="openCurrenciesModal()">
-							{{ form.currency.description }}
+						<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
+							<span class="input-label">Währung</span>
+							<span class="input-span">{{ form.currency.description }}</span>
 							<i class="icon ion-chevron-right icon-gray"></i>
-						</a>
-						<label class="item item-input">
-							<input type="date" placeholder="Datum" ng-model="form.date" />
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Datum</span>
+							<input type="date" placeholder="form.date" ng-model="form.date" />
+						</label>
+						<label class="item item-input item-stacked-label item-icon-right" ng-click="openReceiptKindsModal()">
+							<span class="input-label">Belegart</span>
+							<span class="input-span">{{ form.receiptKind.description }}</span>
+							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
 						<a class="item item-icon-right" ng-click="openReceiptKindsModal()">
-							{{ form.receiptKind.description }}
+						<label class="item item-input item-stacked-label item-icon-right" ng-click="openKindsOfPaymentModal()">
+							<span class="input-label">Zahlungsart</span>
+							<span class="input-span">{{ form.kindOfPayment.description }}</span>
 							<i class="icon ion-chevron-right icon-gray"></i>
-						</a>
-						<a class="item item-icon-right" ng-click="openKindsOfPaymentModal()">
-							{{ form.kindOfPayment.description }}
-							<i class="icon ion-chevron-right icon-gray"></i>
-						</a>
+						</label>
 					</div>
 				</ion-content>
 		</ion-view>
@@ -186,7 +186,7 @@
 						</div>
 						<button class="button button-clear" ng-click="clearSearchCurrencies()">Abbrechen</button>
 					</div>
-					<div class="list" ng-if="showList" style="top:43px">
+					<div class="list" ng-if="showList1" style="top:43px">
 						<ion-radio 
 							class="item" 
 							collection-repeat="currency in currencies | filter: data.searchQuery1 | filter:{isPreferred:type}"
@@ -220,7 +220,7 @@
 						</div>
 						<button class="button button-clear" ng-click="clearSearchReceiptKind()">Abbrechen</button>
 					</div>
-					<div class="list" ng-if="showList">
+					<div class="list" ng-if="showList2">
 						<ion-radio 
 							class="item" 
 							collection-repeat="receiptKind in receiptKinds | filter: data.searchQuery2"
@@ -254,7 +254,7 @@
 						</div>
 						<button class="button button-clear" ng-click="clearSearchKindsOfPayment()">Abbrechen</button>
 					</div>
-					<div class="list" ng-if="showList">
+					<div class="list" ng-if="showList3">
 						<ion-radio 
 							class="item" 
 							collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQuery3"

@@ -26,7 +26,7 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		if (!$scope.form.amount) {
 			error = 1;
-			errorMessage = errorMessage + "" +"Betrag<br>";
+			errorMessage = errorMessage + "" + "Betrag<br>";
 		}
 		if (!$scope.form.date) {
 			error = 1;
@@ -45,10 +45,10 @@ angular.module('starter.controllers', ['ionic'])
 			errorMessage = errorMessage + "" + "Währung<br>";
 		}
 		if (error == 1) {
-				$ionicPopup.alert({
-					title: '<b>Folgende Eingaben fehlen oder sind fehlerhaft:</b>',
-					content: errorMessage
-				});
+			$ionicPopup.alert({
+				title : '<b>Folgende Eingaben fehlen oder sind fehlerhaft:</b>',
+				content : errorMessage
+			});
 		} else {
 			$localstorage.insertObject('receipts', {
 				text : $scope.form.text,
@@ -74,12 +74,15 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.CurrenciesModal = modal;
 	});
 	$scope.data = {
-		showList : false
+		showList1 : false,
+		showList2 : false,
+		showList2 : false,
 	};
+	console.log($scope.data);
 	$scope.openCurrenciesModal = function () {
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
-			$scope.showList = true;
+			$scope.showList1  = true;
 		}, 300)
 	};
 	$scope.closeCurrenciesModal = function () {
@@ -93,10 +96,10 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.type = '';
 		}
 	};
-	$scope.clearSearch = function() {
-		$scope.data.searchQuery = '';
+	$scope.clearSearchCurrency = function () {
+		$scope.data.searchQueryCurrencies = '';
 	};
-	$scope.selectCurrency = function(currency) {
+	$scope.selectCurrency = function (currency) {
 		$scope.form.currency = currency;
 		$timeout(function () {
 			$scope.closeCurrenciesModal();
@@ -109,20 +112,20 @@ angular.module('starter.controllers', ['ionic'])
 	}).then(function (modal) {
 		$scope.receiptKindsModal = modal;
 	});
-	//$scope.data = {
-	//	showList : false
-	//};
+
 	$scope.openReceiptKindsModal = function () {
 		$scope.receiptKindsModal.show();
 		$timeout(function () {
-			$scope.showList = true;
+			$scope.showList2 = true;
 		}, 300)
 	};
 	$scope.closeReceiptKindsModal = function () {
 		$scope.receiptKindsModal.hide();
 	};
-	
-	$scope.selectReceiptKind = function(receiptKind) {
+	$scope.clearSearchReceiptKind = function () {
+		$scope.data.searchQueryReceiptsKind = '';
+	};
+	$scope.selectReceiptKind = function (receiptKind) {
 		$scope.form.receiptKind = receiptKind;
 		$timeout(function () {
 			$scope.closeReceiptKindsModal();
@@ -135,20 +138,22 @@ angular.module('starter.controllers', ['ionic'])
 	}).then(function (modal) {
 		$scope.kindsOfPaymentModal = modal;
 	});
-	//$scope.data = {
-	//	showList : false
-	//};
+	$scope.data = {
+		
+	};
 	$scope.openKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.show();
 		$timeout(function () {
-			$scope.showList = true;
+			$scope.showList3 = true;
 		}, 300)
 	};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
 	};
-	
-	$scope.selectKindOfPayment = function(kindOfPayment) {
+	$scope.clearSearchKindOfPayment = function () {
+		$scope.data.searchQueryKindsOfPayment = '';
+	};
+	$scope.selectKindOfPayment = function (kindOfPayment) {
 		$scope.form.kindOfPayment = kindOfPayment;
 		$timeout(function () {
 			$scope.closeKindsOfPaymentModal();
