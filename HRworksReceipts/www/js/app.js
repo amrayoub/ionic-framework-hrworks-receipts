@@ -57,22 +57,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 			}
 		}
 	})
-
-	.state('tab.updateReceipt', {
-		url : '/updateReceipt/:guid',
+	.state('tab.receipt', {
+		url : '/receipt/:guid',
 		views : {
 			'receipts' : {
-				templateUrl : 'updateReceipt.html',
-				controller : 'addReceiptCtrl'
-			}
-		}
-	})
-	.state('tab.addReceipt', {
-		url : '/addReceipt',
-		views : {
-			'receipts' : {
-				templateUrl : 'addReceipt.html',
-				controller : 'addReceiptCtrl'
+				templateUrl : 'receipt.html',
+				controller : 'receiptCtrl'
 			}
 		}
 	})

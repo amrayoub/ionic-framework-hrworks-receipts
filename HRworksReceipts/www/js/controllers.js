@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('addReceiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicPopup, $ionicModal, $timeout) {
+.controller('receiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 	$scope.currencies = $localstorage.getObjects('currencies');
@@ -10,6 +10,9 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form.kindOfPayment = $scope.kindsOfPayment[1];
 	$scope.form.receiptKind = $scope.receiptKinds[0];
 	$scope.form.amount = "0.00";
+	if($stateParams.guid != "new") {
+		$scope.form = $stateParams.guid
+	}
 	$scope.changeit = function (val) {
 		val = val.toString();
 		var period = val.indexOf(".")
@@ -95,15 +98,18 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.CurrenciesModal = modal;
 	});
 	$scope.data = {
-		showList1 : false,
-		showList2 : false,
-		showList2 : false,
+		showListCurrencies : false,
+		showListReceiptKinds : false,
+		showListkindsOfPayment : false,
+		searchQueryCurrencies : "",
+		searchQueryReceiptKinds : "",
+		searchQueryKindsOfPayment : ""
 	};
 	console.log($scope.data);
 	$scope.openCurrenciesModal = function () {
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
-			$scope.showList1 = true;
+			$scope.showListCurrencies = true;
 		}, 300)
 	};
 	$scope.closeCurrenciesModal = function () {
@@ -117,9 +123,10 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.type = '';
 		}
 	};
-	$scope.clearSearchCurrency = function () {
+	$scope.clearSearchCurrencies = function () {
 		$scope.data.searchQueryCurrencies = '';
 	};
+
 	$scope.selectCurrency = function (currency) {
 		$scope.form.currency = currency;
 		$timeout(function () {
@@ -143,8 +150,8 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.closeReceiptKindsModal = function () {
 		$scope.receiptKindsModal.hide();
 	};
-	$scope.clearSearchReceiptKind = function () {
-		$scope.data.searchQueryReceiptsKind = '';
+	$scope.clearSearchReceiptKinds = function () {
+		$scope.data.searchQueryReceiptKinds = '';
 	};
 	$scope.selectReceiptKind = function (receiptKind) {
 		$scope.form.receiptKind = receiptKind;
@@ -152,7 +159,7 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.closeReceiptKindsModal();
 		}, 300)
 	};
-	// receiptKinds Modal
+	// KindsOfPayment Modal
 	$ionicModal.fromTemplateUrl('kindsOfPayment-modal.html', {
 		scope : $scope,
 		animation : 'slide-in-up'
@@ -169,7 +176,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
 	};
-	$scope.clearSearchKindOfPayment = function () {
+	$scope.clearSearchKindsOfPayment = function () {
 		$scope.data.searchQueryKindsOfPayment = '';
 	};
 	$scope.selectKindOfPayment = function (kindOfPayment) {

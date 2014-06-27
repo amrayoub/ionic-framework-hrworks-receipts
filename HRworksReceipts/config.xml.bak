@@ -31,7 +31,6 @@ to be sent to iCloud. Note: enabling this could result in Apple rejecting your a
     </feature>
 	
 	<platform name="android">
-		<application android:theme="@android:style/Theme.NoTitleBar"></application>
 		<icon src="res/drawable-hdpi/ic_launcher.png"  gap:platform="android" gap:density="hdpi" />
 		<icon src="res/drawable-mdpi/ic_launcher.png"  gap:platform="android" gap:density="mdpi" />
 		<icon src="res/drawable-xhdpi/ic_launcher.png"  gap:platform="android" gap:density="xdpi" />
