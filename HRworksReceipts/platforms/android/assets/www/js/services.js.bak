@@ -1,53 +1,52 @@
 angular.module('ionic.utils', [])
 
-.factory('$localstorage', ['$window', function($window) {
-	return {
-		set: function(key, value) {
-			$window.localStorage[key] = value;
-		},
-		get: function(key, defaultValue) {
-			return $window.localStorage[key] || defaultValue;
-		},
-		setObject: function(key, value) {
-			$window.localStorage[key] = JSON.stringify(value);
-		},
-		insertObject: function(key, value) {
-			var objects = JSON.parse($window.localStorage[key] || '{}');
-			objects.push(value);
-			$window.localStorage[key] = JSON.stringify(objects);
-		},
-		getObjects: function(key) {
-			return JSON.parse($window.localStorage[key] || '{}');
-		},
-		getIndex: function(key, guid) {
-			var objects = JSON.parse($window.localStorage[key] || '{}');
-			for(var i = 0; i < objects.length; i++) {
-				if(objects[i].guid == guid) {
-					return i;
-				}
-			}
-		},
-		getObject: function(key, guid) {
-			console.log(key);
-			console.log(guid);
-			var objects = JSON.parse($window.localStorage[key] || '{}');
-			for(var i = 0; i < objects.length; i++) {
-				if(objects[i].guid == guid) {
-					return objects[i];
-				}
-			}
-		},
-		removeObject: function(key, guid) {
-			var objects = JSON.parse($window.localStorage[key] || '{}');
-			for(var i = 0; i < objects.length; i++) {
-				if(objects[i].guid == guid) {
-					objects.splice(i,1);
+.factory('$localstorage', ['$window', function ($window) {
+			return {
+				set : function (key, value) {
+					$window.localStorage[key] = value;
+				},
+				get : function (key, defaultValue) {
+					return $window.localStorage[key] || defaultValue;
+				},
+				setObject : function (key, value) {
+					$window.localStorage[key] = JSON.stringify(value);
+				},
+				insertObject : function (key, value) {
+					var objects = JSON.parse($window.localStorage[key] || '{}');
+					objects.push(value);
 					$window.localStorage[key] = JSON.stringify(objects);
+				},
+				getObjects : function (key) {
+					return JSON.parse($window.localStorage[key] || '{}');
+				},
+				getIndex : function (key, guid) {
+					var objects = JSON.parse($window.localStorage[key] || '{}');
+					for (var i = 0; i < objects.length; i++) {
+						if (objects[i].guid == guid) {
+							return i;
+						}
+					}
+				},
+				getObject : function (key, guid) {
+					var objects = JSON.parse($window.localStorage[key] || '{}');
+					for (var i = 0; i < objects.length; i++) {
+						if (objects[i].guid == guid) {
+							return objects[i];
+						}
+					}
+				},
+				removeObject : function (key, guid) {
+					var objects = JSON.parse($window.localStorage[key] || '{}');
+					for (var i = 0; i < objects.length; i++) {
+						if (objects[i].guid == guid) {
+							objects.splice(i, 1);
+							$window.localStorage[key] = JSON.stringify(objects);
+						}
+					}
 				}
 			}
 		}
-	}
-}]);
+	]);
 angular.module('starter.services', [])
 
 .factory('KindsOfPayment', function () {
@@ -894,7 +893,7 @@ angular.module('starter.services', [])
 		description : "Euro",
 		isPreferred : true,
 		symbol : "EUR"
-		};
+	};
 	return {
 		all : function () {
 			return lastReceipt;

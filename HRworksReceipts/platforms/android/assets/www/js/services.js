@@ -28,8 +28,6 @@ angular.module('ionic.utils', [])
 					}
 				},
 				getObject : function (key, guid) {
-					console.log(key);
-					console.log(guid);
 					var objects = JSON.parse($window.localStorage[key] || '{}');
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].guid == guid) {
@@ -43,6 +41,17 @@ angular.module('ionic.utils', [])
 						if (objects[i].guid == guid) {
 							objects.splice(i, 1);
 							$window.localStorage[key] = JSON.stringify(objects);
+							return;
+						}
+					}
+				},
+				updateObject : function (key, value) {
+					var objects = JSON.parse($window.localStorage[key] || '{}');
+					for (var i = 0; i < objects.length; i++) {
+						if (objects[i].guid == value.guid) {
+							objects[i] = value;
+							$window.localStorage[key] = JSON.stringify(objects);
+							return;
 						}
 					}
 				}

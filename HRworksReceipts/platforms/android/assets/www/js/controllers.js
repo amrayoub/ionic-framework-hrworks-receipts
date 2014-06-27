@@ -1,36 +1,39 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('addReceiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicPopup, $ionicModal, $timeout) {
+.controller('receiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 	$scope.currencies = $localstorage.getObjects('currencies');
 	$scope.form = {};
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 	$scope.form.currency = $localstorage.getObjects('lastCurrency');
-	$scope.form.kindOfPayment = $scope.kindsOfPayment[1];
-	$scope.form.receiptKind = $scope.receiptKinds[0];
+	$scope.form.kindOfPayment = ""
+		$scope.form.receiptKind = "";
 	$scope.form.amount = "0.00";
+	if ($stateParams.guid != "new") {
+		$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
+	}
 	$scope.changeit = function (val) {
 		val = val.toString();
-		var period = val.indexOf(".")
-			if (period > -1) {
-				val = val.substring(0, period) + val.substring(period + 1)
-			}
-			var len = val.length;
-			while (len < 3) {
-				val = "0" + val;
-				len = val.length;
-			}
-			val = val.substring(0, len - 2) + "." + val.substring(len - 2, len);
-			while (val.length > 4 && (val[0] == 0 || isNaN(val[0]))) {
-				val = val.substring(1)
-			}
-			if (val[0] == ".") {
-				val = "0" + val
-			}
-			$scope.form.amount = val;
+		var period = val.indexOf(".");
+		if (period > -1) {
+			val = val.substring(0, period) + val.substring(period + 1)
+		}
+		var len = val.length;
+		while (len < 3) {
+			val = "0" + val;
+			len = val.length;
+		}
+		val = val.substring(0, len - 2) + "." + val.substring(len - 2, len);
+		while (val.length > 4 && (val[0] == 0 || isNaN(val[0]))) {
+			val = val.substring(1)
+		}
+		if (val[0] == ".") {
+			val = "0" + val
+		}
+		$scope.form.amount = val;
 	};
-	generateGUID = function () {
+	$scope.generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,
 				v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -38,49 +41,48 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		return guid;
 	};
-	$scope.createReceipt = function () {
+	$scope.saveReceipt = function () {
 		var error = 0;
 		var errorMessage = "";
 		if (!$scope.form.text) {
-			error = 1;
-			errorMessage = errorMessage + "" + "Bezeichnung<br>";
 		}
 		if (!$scope.form.amount) {
-			error = 1;
 			errorMessage = errorMessage + "" + "Betrag<br>";
 		}
 		if (!$scope.form.date) {
-			error = 1;
 			errorMessage = errorMessage + "" + "Datum<br>";
 		}
 		if (!$scope.form.receiptKind) {
-			error = 1;
 			errorMessage = errorMessage + "" + "Belegart<br>";
 		}
 		if (!$scope.form.kindOfPayment) {
-			error = 1;
 			errorMessage = errorMessage + "" + "Zahlungsart<br>";
 		}
 		if (!$scope.form.currency) {
-			error = 1;
 			errorMessage = errorMessage + "" + "Währung<br>";
 		}
-		if (error == 1) {
+		if (errorMessage.length > 0) {
 			$ionicPopup.alert({
 				title : '<b>Folgende Eingaben fehlen oder sind fehlerhaft:</b>',
 				content : errorMessage
 			});
 		} else {
-			$localstorage.insertObject('receipts', {
+			theReceipt = {
 				text : $scope.form.text,
 				amount : $scope.form.amount,
 				date : $scope.form.date,
-				receiptKind : $scope.form.receiptKind.id,
-				kindOfPayment : $scope.form.kindOfPayment.id,
-				currency : $scope.form.currency.symbol,
+				receiptKind : $scope.form.receiptKind,
+				kindOfPayment : $scope.form.kindOfPayment,
+				currency : $scope.form.currency,
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
-				guid : generateGUID()
-			});
+			};
+			if ($stateParams.guid == "new") {
+				theReceipt.guid = $scope.generateGUID();
+				$localstorage.insertObject('receipts', theReceipt);
+			} else {
+				theReceipt.guid = $stateParams.guid;
+				$localstorage.updateObject('receipts', theReceipt);
+			}
 			$localstorage.setObject('lastCurrency', $scope.form.currency);
 			if ($scope.$viewHistory.backView != null) {
 				$scope.$viewHistory.backView.go();
@@ -95,16 +97,18 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.CurrenciesModal = modal;
 	});
 	$scope.data = {
-		showList1 : false,
-		showList2 : false,
-		showList2 : false,
+		showListCurrencies : false,
+		showListReceiptKinds : false,
+		showListkindsOfPayment : false,
+		searchQueryCurrencies : "",
+		searchQueryReceiptKinds : "",
+		searchQueryKindsOfPayment : ""
 	};
-	console.log($scope.data);
 	$scope.openCurrenciesModal = function () {
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
-			$scope.showList1 = true;
-		}, 300)
+			$scope.showListCurrencies = true;
+		}, 100)
 	};
 	$scope.closeCurrenciesModal = function () {
 		$scope.CurrenciesModal.hide();
@@ -117,14 +121,13 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.type = '';
 		}
 	};
-	$scope.clearSearchCurrency = function () {
+	$scope.clearSearchCurrencies = function () {
 		$scope.data.searchQueryCurrencies = '';
 	};
+
 	$scope.selectCurrency = function (currency) {
 		$scope.form.currency = currency;
-		$timeout(function () {
-			$scope.closeCurrenciesModal();
-		}, 300)
+		$scope.closeCurrenciesModal();
 	};
 	// receiptKinds Modal
 	$ionicModal.fromTemplateUrl('receiptKinds-modal.html', {
@@ -137,22 +140,20 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openReceiptKindsModal = function () {
 		$scope.receiptKindsModal.show();
 		$timeout(function () {
-			$scope.showList2 = true;
-		}, 300)
+			$scope.showListReceiptKinds = true;
+		}, 100)
 	};
 	$scope.closeReceiptKindsModal = function () {
 		$scope.receiptKindsModal.hide();
 	};
-	$scope.clearSearchReceiptKind = function () {
-		$scope.data.searchQueryReceiptsKind = '';
+	$scope.clearSearchReceiptKinds = function () {
+		$scope.data.searchQueryReceiptKinds = '';
 	};
 	$scope.selectReceiptKind = function (receiptKind) {
 		$scope.form.receiptKind = receiptKind;
-		$timeout(function () {
-			$scope.closeReceiptKindsModal();
-		}, 300)
+		$scope.closeReceiptKindsModal();
 	};
-	// receiptKinds Modal
+	// KindsOfPayment Modal
 	$ionicModal.fromTemplateUrl('kindsOfPayment-modal.html', {
 		scope : $scope,
 		animation : 'slide-in-up'
@@ -163,20 +164,18 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.show();
 		$timeout(function () {
-			$scope.showList3 = true;
-		}, 300)
+			$scope.showListKindsOfPayment = true;
+		}, 100)
 	};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
 	};
-	$scope.clearSearchKindOfPayment = function () {
+	$scope.clearSearchKindsOfPayment = function () {
 		$scope.data.searchQueryKindsOfPayment = '';
 	};
 	$scope.selectKindOfPayment = function (kindOfPayment) {
 		$scope.form.kindOfPayment = kindOfPayment;
-		$timeout(function () {
-			$scope.closeKindsOfPaymentModal();
-		}, 300)
+		$scope.closeKindsOfPaymentModal();
 	};
 })
 
@@ -187,20 +186,6 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	$scope.receipts = $localstorage.getObjects('receipts');
 
-	$scope.getReceiptKindDescription = function (receiptKindId) {
-		for (var i = 0; i < $localstorage.getObjects('receiptKinds').length; i++) {
-			if ($localstorage.getObjects('receiptKinds')[i].id == receiptKindId) {
-				return $localstorage.getObjects('receiptKinds')[i].description;
-			}
-		}
-		return false;
-	};
-	$scope.getItemHeight = function (item, index) {
-		return (index % 1) === 0 ? 80 : 80;
-	};
-	$scope.getItemWidth = function (item) {
-		return 100;
-	};
 	$scope.show = function () {
 		$ionicLoading.show({
 			template : 'Synchronisieren...',
@@ -212,7 +197,6 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.removeReceipt = function (guid) {
 		var x = $localstorage.getIndex('receipts', guid);
-		console.log(x);
 		$scope.receipts.splice(x, 1);
 		$localstorage.removeObject('receipts', guid);
 	};
@@ -231,11 +215,23 @@ angular.module('starter.controllers', ['ionic'])
 		for (var i = 0; i < 100; i++) {
 			$localstorage.insertObject('receipts', {
 				text : 'Beleg' + i,
-				amount : 123,
+				amount : "123",
 				date : '2012-03-04',
-				receiptKind : '1',
-				kindOfPayment : '1',
-				currency : "EUR",
+				receiptKind : {
+					description : "Bewirtung 100%",
+					id : "2",
+					isBusinessEntertainment : false,
+					isHotel : false
+				},
+				kindOfPayment : {
+					description : "Amex Privat",
+					id : "1"
+				},
+				currency : {
+					description : "Euro",
+					isPreferred : true,
+					symbol : "EUR"
+				},
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 				guid : generateGUID()
 			});
