@@ -8,30 +8,30 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 	$scope.form.currency = $localstorage.getObjects('lastCurrency');
 	$scope.form.kindOfPayment = ""
-	$scope.form.receiptKind = "";
+		$scope.form.receiptKind = "";
 	$scope.form.amount = "0.00";
-	if($stateParams.guid != "new") {
+	if ($stateParams.guid != "new") {
 		$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
 	}
 	$scope.changeit = function (val) {
 		val = val.toString();
 		var period = val.indexOf(".");
-			if (period > -1) {
-				val = val.substring(0, period) + val.substring(period + 1)
-			}
-			var len = val.length;
-			while (len < 3) {
-				val = "0" + val;
-				len = val.length;
-			}
-			val = val.substring(0, len - 2) + "." + val.substring(len - 2, len);
-			while (val.length > 4 && (val[0] == 0 || isNaN(val[0]))) {
-				val = val.substring(1)
-			}
-			if (val[0] == ".") {
-				val = "0" + val
-			}
-			$scope.form.amount = val;
+		if (period > -1) {
+			val = val.substring(0, period) + val.substring(period + 1)
+		}
+		var len = val.length;
+		while (len < 3) {
+			val = "0" + val;
+			len = val.length;
+		}
+		val = val.substring(0, len - 2) + "." + val.substring(len - 2, len);
+		while (val.length > 4 && (val[0] == 0 || isNaN(val[0]))) {
+			val = val.substring(1)
+		}
+		if (val[0] == ".") {
+			val = "0" + val
+		}
+		$scope.form.amount = val;
 	};
 	$scope.generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -45,11 +45,6 @@ angular.module('starter.controllers', ['ionic'])
 		var error = 0;
 		var errorMessage = "";
 		if (!$scope.form.text) {
-			error = 1;
-			errorMessage = errorMessage + "" + "Bezeichnung<br>";
-			$scope.form.error.date = 
-			$scope.form.text
-			
 		}
 		if (!$scope.form.amount) {
 			errorMessage = errorMessage + "" + "Betrag<br>";
@@ -81,7 +76,7 @@ angular.module('starter.controllers', ['ionic'])
 				currency : $scope.form.currency,
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 			};
-			if($stateParams.guid == "new") {
+			if ($stateParams.guid == "new") {
 				theReceipt.guid = $scope.generateGUID();
 				$localstorage.insertObject('receipts', theReceipt);
 			} else {
@@ -113,7 +108,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
 			$scope.showListCurrencies = true;
-		}, 300)
+		}, 100)
 	};
 	$scope.closeCurrenciesModal = function () {
 		$scope.CurrenciesModal.hide();
@@ -156,7 +151,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.selectReceiptKind = function (receiptKind) {
 		$scope.form.receiptKind = receiptKind;
-			$scope.closeReceiptKindsModal();
+		$scope.closeReceiptKindsModal();
 	};
 	// KindsOfPayment Modal
 	$ionicModal.fromTemplateUrl('kindsOfPayment-modal.html', {
@@ -222,9 +217,21 @@ angular.module('starter.controllers', ['ionic'])
 				text : 'Beleg' + i,
 				amount : "123",
 				date : '2012-03-04',
-				receiptKind : { description : "Bewirtung 100%", id : "2", isBusinessEntertainment : false, isHotel : false},
-				kindOfPayment : { description : "Amex Privat", id : "1" },
-				currency : { description : "Euro", isPreferred: true, symbol: "EUR"},
+				receiptKind : {
+					description : "Bewirtung 100%",
+					id : "2",
+					isBusinessEntertainment : false,
+					isHotel : false
+				},
+				kindOfPayment : {
+					description : "Amex Privat",
+					id : "1"
+				},
+				currency : {
+					description : "Euro",
+					isPreferred : true,
+					symbol : "EUR"
+				},
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 				guid : generateGUID()
 			});

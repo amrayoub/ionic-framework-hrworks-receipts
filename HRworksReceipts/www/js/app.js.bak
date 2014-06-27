@@ -58,7 +58,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		}
 	})
 	.state('tab.receipt', {
-		url : '/receipt/:guid'',
+		url : '/receipt/:guid',
 		views : {
 			'receipts' : {
 				templateUrl : 'receipt.html',
@@ -98,5 +98,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	});
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/receipts');
-	
+
 });

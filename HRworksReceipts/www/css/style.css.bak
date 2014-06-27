@@ -17,7 +17,7 @@ input::-webkit-inner-spin-button {
 	color: #959595;
 }
 .input-span {
-	color: #ffffff;
+	color: #000;
     display: block;
     font-size: 14px;
     height: 25px;
@@ -25,4 +25,28 @@ input::-webkit-inner-spin-button {
     line-height: 16px;
     padding-top: 2px;
     vertical-align: middle;
+}
+form i.icon.error {
+	color: #ef4e3a; 
+}
+
+form input + i.icon.error {
+	display: none;
+	margin-left: 8px;
+}
+
+form.ng-submitted input.ng-invalid + i.icon.error {
+	display: block;
+}
+
+form .has-error {
+	border-left: 5px solid #cc2511;
+}
+
+form .has-success {
+	border-left: 5px solid #3d8b3d;
+}
+
+form.ng-submitted input.ng-valid + i.icon.error {
+	display: none;
 }

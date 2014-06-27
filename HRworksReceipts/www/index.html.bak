@@ -22,6 +22,7 @@
 		<script src="js/app.js"></script>
 		<script src="js/controllers.js"></script>
 		<script src="js/services.js"></script>
+		<script src="js/validation.js"></script>
 	</head>
 	<body ng-app="starter" animation="slide-left-right-ios7">
 	
@@ -111,17 +112,22 @@
 		<script id="receipt.html" type="text/ng-template">
 			<ion-view title="Neuer Beleg">
 				<ion-nav-buttons side="right">
-					<button class="button button-icon button-clear ion-checkmark" ng-click="createReceipt()"></button>
+					<button class="button button-icon button-clear ion-checkmark" on-click="saveReceipt()"></button>
 				</ion-nav-buttons>
 				<ion-content has-header="true">
+					<form novalidate="novalidate" on-valid-submit="saveReceipt()">
 					<div class="list">
-						<label class="item item-input item-stacked-label">
+						<label class="item item-input item-stacked-label validated">
 							<span class="input-label">Bezeichnung</span>
-							<input type="text" placeholder="z.B. Aral Tankstelle" ng-model="form.text" />
+							<div class="row">
+								<input class="col-90"  name="text" type="text" placeholder="z.B. Aral Tankstelle" required="required" ng-model="form.text" />
+								<i class="icon ion-alert-circled error col col-10"></i>
+							</div>
 						</label>
-						<label class="item item-input item-stacked-label">
+						<label class="item item-input item-stacked-label validated">
 							<span class="input-label">Betrag</span>
-							<input type="tel" pattern="[0-9.,]*" id='amount' step="any" placeholder="" ng-model="form.amount" ng-keyup="changeit(form.amount)"  />
+							<input type="tel" name="amount" pattern="[0-9.,]*" id='amount' step="any" required="required" ng-model="form.amount" ng-keyup="changeit(form.amount)"  />
+							<i class="icon ion-alert-circled error"></i>
 						</label>
 						<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
 							<span class="input-label">Währung</span>
@@ -142,7 +148,11 @@
 							<span class="input-span">{{ form.kindOfPayment.description }}</span>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
+						<button type="submit" class="button icon-right ion-chevron-right button-block button-energized">
+        login
+      </button>
 					</div>
+					</form>
 				</ion-content>
 		</ion-view>
 	</script>
