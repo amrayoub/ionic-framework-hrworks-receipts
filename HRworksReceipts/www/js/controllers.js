@@ -7,15 +7,15 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form = {};
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 	$scope.form.currency = $localstorage.getObjects('lastCurrency');
-	$scope.form.kindOfPayment = $scope.kindsOfPayment[1];
-	$scope.form.receiptKind = $scope.receiptKinds[0];
+	$scope.form.kindOfPayment = ""
+	$scope.form.receiptKind = "";
 	$scope.form.amount = "0.00";
 	if($stateParams.guid != "new") {
-		$scope.form = $stateParams.guid
+		$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
 	}
 	$scope.changeit = function (val) {
 		val = val.toString();
-		var period = val.indexOf(".")
+		var period = val.indexOf(".");
 			if (period > -1) {
 				val = val.substring(0, period) + val.substring(period + 1)
 			}
@@ -41,7 +41,7 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		return guid;
 	};
-	$scope.createReceipt = function () {
+	$scope.saveReceipt = function () {
 		var error = 0;
 		var errorMessage = "";
 		if (!$scope.form.text) {
@@ -129,9 +129,7 @@ angular.module('starter.controllers', ['ionic'])
 
 	$scope.selectCurrency = function (currency) {
 		$scope.form.currency = currency;
-		$timeout(function () {
-			$scope.closeCurrenciesModal();
-		}, 300)
+		$scope.closeCurrenciesModal();
 	};
 	// receiptKinds Modal
 	$ionicModal.fromTemplateUrl('receiptKinds-modal.html', {
@@ -144,8 +142,8 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openReceiptKindsModal = function () {
 		$scope.receiptKindsModal.show();
 		$timeout(function () {
-			$scope.showList2 = true;
-		}, 300)
+			$scope.showListReceiptKinds = true;
+		}, 100)
 	};
 	$scope.closeReceiptKindsModal = function () {
 		$scope.receiptKindsModal.hide();
@@ -155,9 +153,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.selectReceiptKind = function (receiptKind) {
 		$scope.form.receiptKind = receiptKind;
-		$timeout(function () {
 			$scope.closeReceiptKindsModal();
-		}, 300)
 	};
 	// KindsOfPayment Modal
 	$ionicModal.fromTemplateUrl('kindsOfPayment-modal.html', {
@@ -170,8 +166,8 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.show();
 		$timeout(function () {
-			$scope.showList3 = true;
-		}, 300)
+			$scope.showListKindsOfPayment = true;
+		}, 100)
 	};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
@@ -181,9 +177,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.selectKindOfPayment = function (kindOfPayment) {
 		$scope.form.kindOfPayment = kindOfPayment;
-		$timeout(function () {
-			$scope.closeKindsOfPaymentModal();
-		}, 300)
+		$scope.closeKindsOfPaymentModal();
 	};
 })
 
@@ -194,20 +188,6 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	$scope.receipts = $localstorage.getObjects('receipts');
 
-	$scope.getReceiptKindDescription = function (receiptKindId) {
-		for (var i = 0; i < $localstorage.getObjects('receiptKinds').length; i++) {
-			if ($localstorage.getObjects('receiptKinds')[i].id == receiptKindId) {
-				return $localstorage.getObjects('receiptKinds')[i].description;
-			}
-		}
-		return false;
-	};
-	$scope.getItemHeight = function (item, index) {
-		return (index % 1) === 0 ? 80 : 80;
-	};
-	$scope.getItemWidth = function (item) {
-		return 100;
-	};
 	$scope.show = function () {
 		$ionicLoading.show({
 			template : 'Synchronisieren...',
@@ -238,11 +218,11 @@ angular.module('starter.controllers', ['ionic'])
 		for (var i = 0; i < 100; i++) {
 			$localstorage.insertObject('receipts', {
 				text : 'Beleg' + i,
-				amount : 123,
+				amount : "123",
 				date : '2012-03-04',
-				receiptKind : '1',
-				kindOfPayment : '1',
-				currency : "EUR",
+				receiptKind : { description : "Bewirtung 100%", id : "2", isBusinessEntertainment : false, isHotel : false},
+				kindOfPayment : { description : "Amex Privat", id : "1" },
+				currency : { description : "Euro", isPreferred: true, symbol: "EUR"},
 				timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 				guid : generateGUID()
 			});

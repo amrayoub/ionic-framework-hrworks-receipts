@@ -62,16 +62,16 @@
 							collection-repeat="receipt in receipts | orderBy:timestamp"
 							collection-item-height="70"
 							collection-item-width="'100%'"
-							href="#/tab/updateReceipt/{{receipt.guid}}"	
+							href="#/tab/receipt/{{receipt.guid}}"	
 							">
 							<div class="row">
 								<div class="col col-50">
 									<p><b>{{receipt.text}}</b></p>
-									<span ng-bind="getReceiptKindDescription(receipt.receiptKind)"></span></p>
+									<span ng-bind="receipt.receiptKind.description"></span></p>
 								</div>
 								<div class="col col-50" style="text-align:right;">
 									<p>{{ receipt.date | date : shortDate}}</p>
-									<p>{{receipt.amount}} {{receipt.currency}}</p>
+									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 								</div>
 							</div>
 							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
@@ -180,10 +180,9 @@
 					</div>
 					<div class="list" ng-if="showListCurrencies" style="top:43px">
 						<ion-radio 
-							class="item" 
+							class="item myItem" 
 							collection-repeat="currency in currencies | filter: data.searchQueryCurrencies | filter:{isPreferred:type}"
 							collection-item-height="50"
-							style="width:100%; position:relative; !important"
 							collection-item-width="'100%'"
 							ng-value="currency.description"
 							ng-model="currenciesSelected.description"
@@ -214,10 +213,9 @@
 					</div>
 					<div class="list" ng-if="showListReceiptKinds">
 						<ion-radio 
-							class="item" 
+							class="item myItem" 
 							collection-repeat="receiptKind in receiptKinds | filter: data.searchQueryReceiptKinds"
 							collection-item-height="50"
-							style="width:100%; position:relative; !important"
 							collection-item-width="'100%'"
 							ng-value="receiptKind.description"
 							ng-model="receiptKindsSelected.description"
@@ -248,10 +246,9 @@
 					</div>
 					<div class="list" ng-if="showListKindsOfPayment">
 						<ion-radio 
-							class="item" 
+							class="item myItem" 
 							collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQueryKindsOfPayment"
 							collection-item-height="50"
-							style="width:100%; position:relative; !important"
 							collection-item-width="'100%'"
 							ng-value="kindOfPayment.description"
 							ng-model="kindOfPaymentSelected.description"
