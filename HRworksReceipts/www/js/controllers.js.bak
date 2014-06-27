@@ -10,27 +10,25 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form.kindOfPayment = $scope.kindsOfPayment[1];
 	$scope.form.receiptKind = $scope.receiptKinds[0];
 	$scope.form.amount = "0";
-	$scope.changeit = function(val){
-		console.log('call');
+	$scope.changeit = function (val) {
 		val = val.toString();
 		var period = val.indexOf(".")
-		if( period > -1 ){
-			val = val.substring( 0,period) + val.substring( period+1 )
-		}
-		var len = val.length
-		while( len<3) {
-			val = "0"+val
-			len = val.length
-		}
-		val = val.substring( 0,len-2) + "." + val.substring(len-2,len)
-		while( val.length > 4 && (val[0]==0 || isNaN(val[0])) ){
-			val = val.substring(1)
-		}
-		if( val[0] == "." ) {
-			val = "0"+val
-		}
-		$scope.form.amount = parseFloat(val);
-		console.log($scope.form.amount);
+			if (period > -1) {
+				val = val.substring(0, period) + val.substring(period + 1)
+			}
+			var len = val.length;
+			while (len < 3) {
+				val = "0" + val;
+				len = val.length;
+			}
+			val = val.substring(0, len - 2) + "." + val.substring(len - 2, len);
+			while (val.length > 4 && (val[0] == 0 || isNaN(val[0]))) {
+				val = val.substring(1)
+			}
+			if (val[0] == ".") {
+				val = "0" + val
+			}
+			$scope.form.amount = val;
 	};
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -65,7 +63,7 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		if (!$scope.form.currency) {
 			error = 1;
-			errorMessage = errorMessage + "" + "WÃ¤hrung<br>";
+			errorMessage = errorMessage + "" + "Währung<br>";
 		}
 		if (error == 1) {
 			$ionicPopup.alert({
@@ -105,7 +103,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openCurrenciesModal = function () {
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
-			$scope.showList1  = true;
+			$scope.showList1 = true;
 		}, 300)
 	};
 	$scope.closeCurrenciesModal = function () {
@@ -161,9 +159,7 @@ angular.module('starter.controllers', ['ionic'])
 	}).then(function (modal) {
 		$scope.kindsOfPaymentModal = modal;
 	});
-	$scope.data = {
-		
-	};
+	$scope.data = {};
 	$scope.openKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.show();
 		$timeout(function () {
