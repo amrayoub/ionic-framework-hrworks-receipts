@@ -30,7 +30,7 @@ angular.module('validation', ['ionic'])
         for(var i = 0; i < inputs.length; i++) {
           (function(input){
             var attributes = input.attributes;
-			console.log(attributes);
+			console.log(attributes.getNamedItem('ng-model'));
             if (attributes.getNamedItem('ng-model') != void 0 && attributes.getNamedItem('name') != void 0) {
 			
               var field = form[attributes.name.value];

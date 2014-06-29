@@ -41,6 +41,12 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		return guid;
 	};
+	$scope.textRequiredError = function() {
+		$ionicPopup.alert({
+			title : '<b>Bezeichnung:</b>',
+			content : "Dieses Feld ist ein Pflichfeld"
+		});
+	};
 	$scope.saveReceipt = function () {
 		var error = 0;
 		var errorMessage = "";
@@ -179,7 +185,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 
-.controller('receiptsCtrl', function ($scope, $localstorage, $ionicLoading, $location) {
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location) {
 
 	$scope.go = function (hash) {
 		$location.path(hash);
@@ -191,6 +197,9 @@ angular.module('starter.controllers', ['ionic'])
 			template : 'Synchronisieren...',
 			duration : '1000'
 		});
+		$timeout( function() {
+			$scope.$broadcast('scroll.refreshComplete');
+		}, 1000);
 	};
 	$scope.hide = function () {
 		$ionicLoading.hide();

@@ -12,6 +12,12 @@ input::-webkit-inner-spin-button {
 	right: 0;
 	left: 0;
 }
+.list .myItem.item {
+  left: 0;
+  right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .icon-gray {
 	margin-top:15px;
 	color: #959595;
@@ -27,26 +33,23 @@ input::-webkit-inner-spin-button {
     vertical-align: middle;
 }
 form i.icon.error {
-	color: #ef4e3a; 
+	color: #ef4e3a;
 }
 
-form input + i.icon.error {
+form i.error {
 	display: none;
 	margin-left: 8px;
 }
 
-form.ng-submitted input.ng-invalid + i.icon.error {
+form.ng-submitted input.ng-invalid + i.error {
 	display: block;
 }
 
-form .has-error {
-	border-left: 5px solid #cc2511;
-}
 
-form .has-success {
-	border-left: 5px solid #3d8b3d;
-}
+form .has-error input, form .has-error {
+	color: #cc2511;
+} 
 
-form.ng-submitted input.ng-valid + i.icon.error {
+form.ng-submitted input.ng-valid + i.error {
 	display: none;
 }
