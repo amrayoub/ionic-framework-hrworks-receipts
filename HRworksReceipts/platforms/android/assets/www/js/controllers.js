@@ -41,12 +41,6 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		return guid;
 	};
-	$scope.textRequiredError = function() {
-		$ionicPopup.alert({
-			title : '<b>Bezeichnung:</b>',
-			content : "Dieses Feld ist ein Pflichfeld"
-		});
-	};
 	$scope.saveReceipt = function () {
 		var error = 0;
 		var errorMessage = "";

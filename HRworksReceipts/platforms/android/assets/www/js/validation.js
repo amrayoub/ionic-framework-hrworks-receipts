@@ -30,6 +30,7 @@ angular.module('validation', ['ionic'])
         for(var i = 0; i < inputs.length; i++) {
           (function(input){
             var attributes = input.attributes;
+			console.log(attributes.getNamedItem('ng-model'));
             if (attributes.getNamedItem('ng-model') != void 0 && attributes.getNamedItem('name') != void 0) {
 			
               var field = form[attributes.name.value];
@@ -39,9 +40,10 @@ angular.module('validation', ['ionic'])
                     field.$blurred = true;
                   })
                 });
+                console.log(scope);
                 scope.$watch(function() {
                   return form.$submitted + "_" + field.$valid + "_" + field.$blurred;
-                }, function() {
+                }, function() {console.log(arguments);
                   if (!field.$blurred && form.$submitted != true) return;
                   var inp = angular.element(input);
                   if (inp.hasClass('ng-invalid')) {
