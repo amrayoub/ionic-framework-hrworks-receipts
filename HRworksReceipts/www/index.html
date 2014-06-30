@@ -64,7 +64,7 @@
 					</ion-refresher>
 					<ion-list option-buttons="itemButtons">
 						<ion-item class="item myItem"
-							collection-repeat="receipt in receipts | orderBy:timestamp"
+							collection-repeat="receipt in receipts | orderBy: 'timestamp':true"
 							collection-item-height="70"
 							collection-item-width="'100%'"
 							href="#/tab/receipt/{{receipt.guid}}"	
@@ -79,7 +79,7 @@
 									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 								</div>
 							</div>
-							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
+							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/receipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
 							<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
 						</ion-item>
 					</ion-list>
@@ -95,28 +95,11 @@
 				</ion-content>
 			</ion-view>
 		</script>
-
-		<script id="feedback.html" type="text/ng-template">
-			<ion-view title="Feedback">
-				<ion-content class="has-header" padding="true">
-					<div class="list">
-						<label class="item item-input">
-							<span class="input-label">To</span>
-							<input type="text">
-						</label>
-						<label class="item item-input">
-							<span class="input-label">Message</span>
-							<textarea rows="4"></textarea>
-						</label>
-					</div>
-					<button class="button icon icon-right ion-arrow-right-c button-balanced button-block">Send</button>
-				</ion-content>
-			</ion-view>
-		</script>
 		<script id="receipt.html" type="text/ng-template">
 			<ion-view title="Neuer Beleg">
 				<ion-nav-buttons side="right">
 					<button class="button button-icon button-clear ion-checkmark" form="myform"></button>
+					<button class="button button-icon button-clear ion-navicon" ng-if="isEdit()" ng-click="showActionsheet()"></button>
 				</ion-nav-buttons>
 				<ion-content has-header="true">
 					<form novalidate="novalidate" on-valid-submit="saveReceipt()" id="myform">
@@ -221,7 +204,7 @@
 				<div id="search-box" class="item-input-inset" style="padding-top: 0px;">
 					<div class="item-input-wrapper">
 						<i class="icon ion-ios7-search placeholder-icon"></i>
-						<input type="search" placeholder="Suche" ng-model="data.searchQueryReceiptKind">
+						<input type="search" placeholder="Suche" ng-model="data.searchQueryReceiptKinds">
 					</div>
 					<button class="button button-clear" ng-click="clearSearchReceiptKinds()">Abbrechen</button>
 				</div>

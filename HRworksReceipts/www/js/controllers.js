@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('receiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
+.controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 	$scope.currencies = $localstorage.getObjects('currencies');
@@ -47,8 +47,53 @@ angular.module('starter.controllers', ['ionic'])
 			content : "Dieses Feld ist ein Pflichfeld"
 		});
 	};
-	$scope.saveReceipt = function () {
-		var error = 0;
+	$scope.isEdit = function() {
+		if($stateParams.guid != "new") {
+			return true;
+		}
+	}
+	$scope.showActionsheet = function() {
+		$ionicActionSheet.show({
+			titleText: 'Belegoptionen:',
+			buttons: [
+				{ text: '<i class="icon ion-ios7-copy-outline"></i> Kopieren' },
+			],
+			destructiveText: 'L&ouml;schen',
+			cancelText: 'Abbrechen',
+			buttonClicked: function(index) {
+				if(index == 0) {
+					if (!$scope.form.text || !$scope.form.amount || !$scope.form.date 
+						|| !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency) {
+						$ionicPopup.alert({
+							title : '<b>Fehler:</b>',
+							content : 'Der Beleg konnte nicht kopiert werden, da nicht alle Felder ausgef&uuml;llt sind.'
+						});
+						return true;
+					} else {
+					var confirmPopup = $ionicPopup.confirm({
+							title : '<b>Beleg kopieren:</b>',
+							template : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchführen?',
+							cancelText: 'Abbrechen'
+						});
+						confirmPopup.then(function(res) {
+     if(res) {
+       console.log('You are sure');
+     } else {
+       console.log('You are not sure');
+     }
+					})
+					return true;
+			}
+			}
+			},
+			destructiveButtonClicked: function() {
+				console.log($scope.form.guid);
+				$localstorage.removeObject('receipts', $scope.form.guid);
+				$scope.$viewHistory.backView.go();
+		  }
+		});
+	};
+	$scope.saveReceipt = function() {
 		var errorMessage = "";
 		if (!$scope.form.text) {
 		}
