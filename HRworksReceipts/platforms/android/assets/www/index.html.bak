@@ -112,45 +112,47 @@
 		<script id="receipt.html" type="text/ng-template">
 			<ion-view title="Neuer Beleg">
 				<ion-nav-buttons side="right">
-					<button class="button button-icon button-clear ion-checkmark" on-click="saveReceipt()"></button>
+					<button class="button button-icon button-clear ion-checkmark" form="myform"></button>
 				</ion-nav-buttons>
 				<ion-content has-header="true">
-					<form novalidate="novalidate" on-valid-submit="saveReceipt()">
+					<form novalidate="novalidate" on-valid-submit="saveReceipt()" id="myform">
 					<div class="list">
 						<label class="item item-input item-stacked-label validated">
 							<span class="input-label">Bezeichnung</span>
-							<div class="row">
-								<input class="col-90"  name="text" type="text" placeholder="z.B. Aral Tankstelle" required="required" ng-model="form.text" />
-								<i class="icon ion-alert-circled error col col-10"></i>
-							</div>
+								<input name="text" type="text" placeholder="z.B. Aral Tankstelle" required="required" ng-model="form.text" />
+								<i class="error">Bitte geben Sie eine Bezeichnung ein.</i>
 						</label>
 						<label class="item item-input item-stacked-label validated">
 							<span class="input-label">Betrag</span>
-							<input type="tel" name="amount" pattern="[0-9.,]*" id='amount' step="any" required="required" ng-model="form.amount" ng-keyup="changeit(form.amount)"  />
-							<i class="icon ion-alert-circled error"></i>
+								<input type="tel" name="amount" pattern="[0-9.,]*" id='amount' step="any" required="required" ng-model="form.amount" ng-keyup="changeit(form.amount)"  />
+								<i class="error">Bitte geben Sie einen Betrag ein.</i>
 						</label>
-						<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
+						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openCurrenciesModal()">
 							<span class="input-label">Währung</span>
+							<input type="hidden" name="currency" ng-model="form.currency.description" required="required">
 							<span class="input-span">{{ form.currency.description }}</span>
+							<i class="error">Bitte wählen Sie eine Währung aus.</i>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
-						<label class="item item-input item-stacked-label">
+						<label class="item item-input item-stacked-label validated">
 							<span class="input-label">Datum</span>
-							<input type="date" placeholder="form.date" ng-model="form.date" />
+							<input required="required" type="date" name="date" ng-model="form.date" />
+							<i class="error">Bitte geben Sie ein Datum ein.</i>
 						</label>
-						<label class="item item-input item-stacked-label item-icon-right" ng-click="openReceiptKindsModal()">
+						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openReceiptKindsModal()">
 							<span class="input-label">Belegart</span>
 							<span class="input-span">{{ form.receiptKind.description }}</span>
+							<input type="hidden" name="receiptKind" ng-model="form.receiptKind.description" required="required">
+							<i class="error">Bitte wählen Sie eine Belegart aus.</i>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
-						<label class="item item-input item-stacked-label item-icon-right" ng-click="openKindsOfPaymentModal()">
+						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openKindsOfPaymentModal()">
 							<span class="input-label">Zahlungsart</span>
 							<span class="input-span">{{ form.kindOfPayment.description }}</span>
+							<input type="hidden" name="kindOfPayment" ng-model="form.kindOfPayment.description" required="required">
+							<i class="error">Bitte wählen Sie eine Zahlungsart aus.</i>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
-						<button type="submit" class="button icon-right ion-chevron-right button-block button-energized">
-        login
-      </button>
 					</div>
 					</form>
 				</ion-content>
