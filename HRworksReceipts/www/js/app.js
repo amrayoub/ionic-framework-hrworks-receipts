@@ -15,6 +15,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	$localstorage.setObject('currencies', Currencies.all());
 	$localstorage.setObject('receiptKinds', ReceiptKinds.all());
 	$localstorage.setObject('lastCurrency', LastCurrency.all());
+	$localstorage.setObject('hideAlert', new Array());
 })
 
 .run(function ($ionicPlatform) {

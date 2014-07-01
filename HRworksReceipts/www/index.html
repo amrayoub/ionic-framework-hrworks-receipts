@@ -67,8 +67,7 @@
 							collection-repeat="receipt in receipts | orderBy: 'timestamp':true"
 							collection-item-height="70"
 							collection-item-width="'100%'"
-							href="#/tab/receipt/{{receipt.guid}}"	
-							">
+							href="#/tab/receipt/{{receipt.guid}}">
 							<div class="row">
 								<div class="col col-50">
 									<p><b>{{receipt.text}}</b></p>
@@ -79,9 +78,10 @@
 									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 								</div>
 							</div>
+							<!--
 							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/receipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
 							<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
-						</ion-item>
+							-->
 					</ion-list>
 				</ion-content>
 			</ion-view>
