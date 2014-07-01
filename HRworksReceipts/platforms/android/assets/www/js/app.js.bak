@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
 
 .run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
 	$localstorage.setObject('receipts', new Array());
@@ -15,6 +15,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	$localstorage.setObject('currencies', Currencies.all());
 	$localstorage.setObject('receiptKinds', ReceiptKinds.all());
 	$localstorage.setObject('lastCurrency', LastCurrency.all());
+	$localstorage.setObject('hideAlert', '');
 })
 
 .run(function ($ionicPlatform) {

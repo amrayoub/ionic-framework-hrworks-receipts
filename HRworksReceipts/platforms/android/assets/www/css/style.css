@@ -8,9 +8,12 @@ input::-webkit-inner-spin-button {
 .item-complex .item-content {
 	padding: 0;
 }
-.myItem {
-	right: 0;
-	left: 0;
+
+.list .myItem.item {
+  left: 0;
+  right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .icon-gray {
 	margin-top:15px;

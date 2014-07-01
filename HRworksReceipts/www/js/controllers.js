@@ -12,6 +12,9 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form.amount = "0.00";
 	if ($stateParams.guid != "new") {
 		$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
+		$scope.receiptTitle = "Beleg Bearbeiten";
+	} else {
+		$scope.receiptTitle = "Neuer Beleg";
 	}
 	$scope.changeit = function (val) {
 		val = val.toString();

@@ -100,7 +100,7 @@ angular.module('starter.controllers', ['ionic'])
 						} else {
 							var confirmPopup = $ionicPopup.show({
 								title : '<b>Beleg kopieren:</b>',
-								template : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchf&uuml;hren?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="11px">Diese Meldung nicht mehr anzeigen.</font>',
+								template : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchf&uuml;hren?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Diese Meldung nicht mehr anzeigen.</font>',
 								scope : $scope,
 								buttons : [{
 										text : 'Abbrechen',

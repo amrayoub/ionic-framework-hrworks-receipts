@@ -3226,55 +3226,56 @@ a.subdued {
   background-image: none;
   border: none; }
 .tabs-striped.tabs-light .tab-item.tab-item-active, .tabs-striped.tabs-light .tab-item.active, .tabs-striped.tabs-light .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #fff;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #fff; }
 .tabs-striped.tabs-stable .tab-item.tab-item-active, .tabs-striped.tabs-stable .tab-item.active, .tabs-striped.tabs-stable .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #f8f8f8;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #f8f8f8; }
 .tabs-striped.tabs-positive .tab-item.tab-item-active, .tabs-striped.tabs-positive .tab-item.active, .tabs-striped.tabs-positive .tab-item.activated {
   margin-top: -4px;
+  height: 50px;
   color: #4a87ee;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #4a87ee; }
 .tabs-striped.tabs-calm .tab-item.tab-item-active, .tabs-striped.tabs-calm .tab-item.active, .tabs-striped.tabs-calm .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #43cee6;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #43cee6; }
 .tabs-striped.tabs-assertive .tab-item.tab-item-active, .tabs-striped.tabs-assertive .tab-item.active, .tabs-striped.tabs-assertive .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #ef4e3a;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #ef4e3a; }
 .tabs-striped.tabs-balanced .tab-item.tab-item-active, .tabs-striped.tabs-balanced .tab-item.active, .tabs-striped.tabs-balanced .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #66cc33;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #66cc33; }
 .tabs-striped.tabs-energized .tab-item.tab-item-active, .tabs-striped.tabs-energized .tab-item.active, .tabs-striped.tabs-energized .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #f0b840;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #f0b840; }
 .tabs-striped.tabs-royal .tab-item.tab-item-active, .tabs-striped.tabs-royal .tab-item.active, .tabs-striped.tabs-royal .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #8a6de9;
   border-style: solid;
   border-width: 4px 0 0 0;
   border-color: #8a6de9; }
 .tabs-striped.tabs-dark .tab-item.tab-item-active, .tabs-striped.tabs-dark .tab-item.active, .tabs-striped.tabs-dark .tab-item.activated {
-  margin-top: -4px;
+  margin-top: -15px;
   color: #444;
   border-style: solid;
   border-width: 4px 0 0 0;

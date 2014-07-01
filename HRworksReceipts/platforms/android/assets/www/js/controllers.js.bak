@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('receiptCtrl', function ($scope, $localstorage, $filter, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
+.controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 	$scope.currencies = $localstorage.getObjects('currencies');
@@ -41,21 +41,109 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		return guid;
 	};
-	$scope.textRequiredError = function() {
+	$scope.textRequiredError = function () {
 		$ionicPopup.alert({
 			title : '<b>Bezeichnung:</b>',
 			content : "Dieses Feld ist ein Pflichfeld"
 		});
 	};
-	$scope.saveReceipt2 = function() {
-		alert("hi");
-		//document.getElementById('submitbutton').submit();
+	$scope.isEdit = function () {
+		if ($stateParams.guid != "new") {
+			return true;
+		}
+	};
+	$scope.saveCopyReceipt = function () {
+		theReceiptCopy = {
+			text : $scope.form.text,
+			amount : $scope.form.amount,
+			date : $scope.form.date,
+			receiptKind : $scope.form.receiptKind,
+			kindOfPayment : $scope.form.kindOfPayment,
+			currency : $scope.form.currency,
+			timestamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
+			guid : $scope.generateGUID()
+		};
+		theReceiptCopy.guid = $stateParams.guid;
+		$localstorage.updateObject('receipts', theReceiptCopy);
+		theReceiptCopy.guid = $scope.generateGUID();
+		$localstorage.insertObject('receipts', theReceiptCopy);
+	};
+	$scope.hideData = {};
+	$scope.setHideAlert = function () {
+		$localstorage.setObject('hideAlert', {
+			hideAlert : true
+		});
+	};
+	$scope.showActionsheet = function () {
+		$ionicActionSheet.show({
+			titleText : 'Belegoptionen:',
+			buttons : [{
+					text : '<i class="icon ion-ios7-copy-outline"></i> Kopieren'
+				},
+			],
+			destructiveText : 'L&ouml;schen',
+			cancelText : 'Abbrechen',
+			scope : $scope,
+			buttonClicked : function (index) {
+				if (index == 0) {
+					if (!$scope.form.text || !$scope.form.amount || !$scope.form.date
+						 || !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency) {
+						$ionicPopup.alert({
+							title : '<b>Fehler:</b>',
+							content : 'Der Beleg konnte nicht kopiert werden, da nicht alle Felder ausgef&uuml;llt sind.'
+						});
+						return true;
+					} else {
+						if($localstorage.getObjects('hideAlert').hideAlert == true) {
+							$scope.saveCopyReceipt();
+							return true;
+						} else {
+							var confirmPopup = $ionicPopup.show({
+								title : '<b>Beleg kopieren:</b>',
+								template : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchf&uuml;hren?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Diese Meldung nicht mehr anzeigen.</font>',
+								scope : $scope,
+								buttons : [{
+										text : 'Abbrechen',
+										onTap : function (e) {
+											return 1;
+										}
+									}, {
+										text : '<b>OK</b>',
+										type : 'button-positive',
+										onTap : function (e) {
+											if (typeof $scope.hideData.hideAlert === "undefined") {
+												return 2;
+											} else {
+												return 3;
+											}
+										}
+									},
+								]
+							});
+						confirmPopup.then(function (res) {
+							if (res == 1) {
+								return true;
+							}
+							if (res == 3) {
+								$scope.setHideAlert();
+							}
+							$scope.saveCopyReceipt();
+						})
+						return true;
+					}
+				}
+				}
+			},
+			destructiveButtonClicked : function () {
+				console.log($scope.form.guid);
+				$localstorage.removeObject('receipts', $scope.form.guid);
+				$scope.$viewHistory.backView.go();
+			}
+		});
 	};
 	$scope.saveReceipt = function () {
-		var error = 0;
 		var errorMessage = "";
-		if (!$scope.form.text) {
-		}
+		if (!$scope.form.text) {}
 		if (!$scope.form.amount) {
 			errorMessage = errorMessage + "" + "Betrag<br>";
 		}
@@ -189,7 +277,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 
-.controller('receiptsCtrl', function ($scope, $localstorage, $ionicLoading, $location) {
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location) {
 
 	$scope.go = function (hash) {
 		$location.path(hash);
@@ -201,6 +289,9 @@ angular.module('starter.controllers', ['ionic'])
 			template : 'Synchronisieren...',
 			duration : '1000'
 		});
+		$timeout(function () {
+			$scope.$broadcast('scroll.refreshComplete');
+		}, 1000);
 	};
 	$scope.hide = function () {
 		$ionicLoading.hide();
