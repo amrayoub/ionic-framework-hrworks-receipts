@@ -336,6 +336,62 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('settingsCtrl', function ($scope, $localstorage, $filter) {
+	$scope.form = {};
+	$scope.sendPostRequest = function() {
+		var expectedSignature = "meuWFCJcq7q1EUjHMKc1df3SEG4="
+		var signature = $scope.generateSignature(
+			"acme",								// companyId
+			"joe",								// personId
+			"HrwGetKindsOfPaymentApi class",	// request
+			"2012-05-10T14:02:39.533+02:00",	// timeStamp string
+			"QUXW72V");							// mobilePassword
+		if (expectedSignature == signature)
+			alert("calculation correct \n"
+				+ signature);
+		else
+			alert("Error: expected: " + expectedSignature + "\n"
+			+ "calculated: " + signature);
+	};
+	$scope.generateSignature = function (companyId, personId, request, timeStamp, password) {
+		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
+		return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
+	};
+	$scope.postRequestSucceed = function (data, textStatus, jqXHR) {
+		alert("" + JSON.stringify(data));
+		console.log(data);
+	};
+	$scope.sendPostRequest = function () {
+		var api = "HrwGetCurrenciesApi";
+		var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + $scope.form.targetServer + "/HrwGetCurrentUrl" + api;
+		console.log(url);
+		var request = api + " class";
+		var password = $scope.form.mobilePassword;
+		var jsonObject = {};
+
+		// Create the json object
+		jsonObject.companyId = $scope.form.companyId;
+		jsonObject.personId = $scope.form.personId;
+		jsonObject.dateAndTime = (new Date()).toISO8601();
+		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
+		jsonObject.deviceId = "1";
+		jsonObject.languageKey = "de";
+		jsonObject.version = "1";
+		jsonObject.signature = $scope.generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, password);
+		console.log("1");
+		// Send the post request
+		jQuery.ajax({
+		  type: "POST",
+		  url: url,
+		  data: JSON.stringify(jsonObject),
+		  success: $scope.postRequestSucceed,
+		  error: function (xhr, textStatus, errorThrown) {
+			console.log(xhr); 
+			console.log(textStatus); 
+			console.log(errorThrown);
+		  },
+		  dataType: "json"
+		});
+	};
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,

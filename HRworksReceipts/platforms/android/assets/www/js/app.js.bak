@@ -10,8 +10,8 @@
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
 
 .run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
-	console.log($localstorage.getObjects('receipts').toSource());
-	if($localstorage.getObjects('receipts').toSource().length > 4) {
+	console.log($localstorage.getObjects('version'));
+	if($localstorage.getObjects('receipts').toSource().length == 4) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', KindsOfPayment.all());
 		$localstorage.setObject('currencies', Currencies.all());
@@ -19,6 +19,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('lastCurrency', LastCurrency.all());
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
+		$localstorage.setObject('version', {
+			version : 1
+		});
 		console.log("Beispiel Daten wurden geladen");
 	}
 })

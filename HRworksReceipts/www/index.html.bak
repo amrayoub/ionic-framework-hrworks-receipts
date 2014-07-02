@@ -18,6 +18,10 @@
 		<script src="lib/ngCordova/dist/ng-cordova.js"></script>
 		<script src="cordova.js"></script>
 		
+		<!-- API JS -->
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="js/hmacsha1.js"></script>
+		<script src="js/awssigner.js"></script>
 
 		<!-- your app's js -->
 		<script src="js/app.js"></script>
@@ -92,29 +96,31 @@
 			<ion-view title="Einstellungen">
 				<ion-content class="has-header" padding="true">
 					<h1>Einstellungen</h1>
+					<form novalidate="novalidate" on-valid-submit="sendPostRequest()">
 					<div class="list">
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Firmenkennung</span>
-							<input type="text" placeholder="z.B.: Beispielfirma">
+							<input type="text" ng-model="form.companyId" placeholder="z.B.: Beispielfirma">
 						</label>
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Benutzerkennung</span>
-							<input type="text" placeholder="">
+							<input type="text" ng-model="form.personId" placeholder="">
 						</label>
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Mobiles Passwort</span>
-							<input type="text" placeholder="*******">
+							<input type="text" ng-model="form.mobilePassword" placeholder="*******">
 						</label>
 						<label class="item item-input item-select">
-							<div class="input-label">Betreff:</div>
-							<select>
-								<option>Produktiver Server</option>
-								<option>Testserver Demo</option>
-								<option>Testserver Area51</option>
+							<div class="input-label">Zielserver:</div>
+							<select ng-model="form.targetServer">
+								<option value="0">Produktiver Server</option>
+								<option value="demo-0">Testserver Demo</option>
+								<option value="area51-0">Testserver Area51</option>
 							</select>
 						</label>
-						<button class="button button-positive button-block" ng-Click="checkUserData()">Speichern</button>
+						<button type="submit" class="button button-positive button-block">Speichern</button>
 					</div>
+					</form>
 					<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen</button>
 				</ion-content>
 			</ion-view>
@@ -209,7 +215,7 @@
 						<a class="button {{(type == '') && 'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
 					</div>
 						<div id="search-box" class="item-input-inset" style="padding:5px 5px 5px 10px;">
-							<input type="search" placeholder="Suche..." ng-model="data.searchQueryCurrencies" autofocus>
+							<input type="search" id="currenciesSearch" placeholder="Suche..." ng-model="data.searchQueryCurrencies" autofocus>
 							<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
 					</div>
 				</ion-header-bar>
