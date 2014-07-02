@@ -225,6 +225,9 @@ angular.module('starter.controllers', ['ionic'])
 		$timeout(function () {
 			$scope.showListCurrencies = true;
 		}, 100)
+		$timeout(function() {
+			document.getElementById('currenciesSearch').focus();
+		}, 0);
 	};
 	$scope.closeCurrenciesModal = function () {
 		$scope.CurrenciesModal.hide();
@@ -258,6 +261,9 @@ angular.module('starter.controllers', ['ionic'])
 		$timeout(function () {
 			$scope.showListReceiptKinds = true;
 		}, 100)
+		$timeout(function() {
+			document.getElementById('receiptKindsSearch').focus();
+		}, 0);
 	};
 	$scope.closeReceiptKindsModal = function () {
 		$scope.receiptKindsModal.hide();
@@ -282,6 +288,9 @@ angular.module('starter.controllers', ['ionic'])
 			$timeout(function () {
 				$scope.showListKindsOfPayment = true;
 			}, 100);
+			$timeout(function() {
+			document.getElementById('kindsOfPaymentSearch').focus();
+			}, 0);
 		};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();

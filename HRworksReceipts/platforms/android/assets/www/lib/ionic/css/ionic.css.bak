@@ -3332,7 +3332,7 @@ a.subdued {
 
 .tabs-icon-top > .tabs .tab-item, .tabs-icon-top.tabs .tab-item, .tabs-icon-bottom > .tabs .tab-item, .tabs-icon-bottom.tabs .tab-item {
   font-size: 12px;
-  line-height: 10px; }
+  line-height: 9px; }
 
 .tab-item .icon {
   display: block;

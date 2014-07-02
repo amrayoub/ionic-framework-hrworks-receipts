@@ -1,18 +1,18 @@
 {
   "cookies": [
     {
-      "str": "csrftoken=5n9DNtuS1JPlExMhKOwtYGGPB6mfX2th; expires=Wed, 17-Jun-2015 07:08:21 GMT; Max-Age=31449600; Path=/",
+      "str": "csrftoken=MM7b5qpIgJDVFtUt6olmWsx6xlRU7AV6; expires=Wed, 01-Jul-2015 11:42:53 GMT; Max-Age=31449600; Path=/",
       "name": "csrftoken",
-      "value": "5n9DNtuS1JPlExMhKOwtYGGPB6mfX2th",
-      "expires": "2015-06-17T07:08:21.000Z",
+      "value": "MM7b5qpIgJDVFtUt6olmWsx6xlRU7AV6",
+      "expires": "2015-07-01T11:42:53.000Z",
       "max-age": "31449600",
       "path": "/"
     },
     {
-      "str": "sessionid=np0l9orap951heme47s9qxnosz3jejla; expires=Wed, 02-Jul-2014 07:08:21 GMT; httponly; Max-Age=1209600; Path=/",
+      "str": "sessionid=osfc4tryrqx1t1h9079fzv5t9dcx8a25; expires=Wed, 16-Jul-2014 11:42:53 GMT; httponly; Max-Age=1209600; Path=/",
       "name": "sessionid",
-      "value": "np0l9orap951heme47s9qxnosz3jejla",
-      "expires": "2014-07-02T07:08:21.000Z",
+      "value": "osfc4tryrqx1t1h9079fzv5t9dcx8a25",
+      "expires": "2014-07-16T11:42:53.000Z",
       "httpOnly": true,
       "max-age": "1209600",
       "path": "/"
