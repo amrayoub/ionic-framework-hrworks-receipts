@@ -15,8 +15,9 @@
 		<script src="lib/ionic/js/ionic.bundle.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.2.15/angular-locale_de-de.js"></script>
 		<!-- cordova script (this will be a 404 during development) -->
-		<!--<script src="lib/ngCordova/dist/ng-cordova.js"></script>-->
-		<!--<script src="cordova.js"></script>-->
+		<script src="lib/ngCordova/dist/ng-cordova.js"></script>
+		<script src="cordova.js"></script>
+		
 
 		<!-- your app's js -->
 		<script src="js/app.js"></script>
@@ -34,8 +35,7 @@
 		<ion-nav-view animation="slide-left-right"></ion-nav-view>
 	
 		<script id="tabs.html" type="text/ng-template">
-		<div class="hide-on-keyboard-open">
-			<ion-tabs class="tabs-icon-top tabs-positive">
+			<ion-tabs class="tabs-icon-top tabs-stable">
 				<ion-tab title="Belege" icon="icon ion-clipboard" href="#/tab/receipts">
 					<ion-nav-view name="receipts"></ion-nav-view>
 				</ion-tab>
@@ -48,7 +48,6 @@
 					<ion-nav-view name="settings"></ion-nav-view>
 				</ion-tab>
 			</ion-tabs>
-		</div>
 		</script>
 
 		<script id="receipts.html" type="text/ng-template">
@@ -146,48 +145,48 @@
 					</form>
 				</ion-content>
 		</ion-view>
-	</script>
+		</script>
 
-	<script id="infos.html" type="text/ng-template">
-		<ion-view title="Infos">
-			<ion-content class="has-header" padding="true">
-				<h1>Infos</h1>
-			</ion-content>
-		</ion-view>
-	</script>
+		<script id="infos.html" type="text/ng-template">
+			<ion-view title="Infos">
+				<ion-content class="has-header" padding="true">
+					<h1>Infos</h1>
+				</ion-content>
+			</ion-view>
+		</script>
 		<script id="currencies-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
 					<h1 class="title">Währung wählen</h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeCurrenciesModal()"></button>
 				</ion-header-bar>
-				
-					<ion-header-bar class="bar-light bar-subheader">
-						<div class="button-bar">
-							<a class="button {{(type == true) &&  'active' || ''}}" ng-click="setType($event)">Favoriten</a>
-							<a class="button {{(type == '') &&  'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
-						</div>
-					<div id="search-box" class="item-input-inset" style="padding:5px 5px 5px 10px;">
-						<input type="search" placeholder="Suche..." ng-model="data.searchQueryCurrencies">
-						<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
+
+				<ion-header-bar class="bar-light bar-subheader">
+					<div class="button-bar">
+						<a class="button {{(type == true) && 'active' || ''}}" ng-click="setType($event)">Favoriten</a>
+						<a class="button {{(type == '') && 'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
 					</div>
-					</ion-header-bar>
-					<ion-content
+						<div id="search-box" class="item-input-inset" style="padding:5px 5px 5px 10px;">
+							<input type="search" placeholder="Suche..." ng-model="data.searchQueryCurrencies" autofocus>
+							<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
+					</div>
+				</ion-header-bar>
+				<ion-content
 					style="top:127px"
 					start-y="55"
 					padding="false"
 					has-tabs="true"
 					has-header="true">
 					<div class="list" ng-if="showListCurrencies">
-						<ion-radio 
-							class="item myItem" 
+						<ion-radio
+							class="item myItem"
 							collection-repeat="currency in currencies | filter: data.searchQueryCurrencies | filter:{isPreferred:type}"
 							collection-item-height="50"
 							collection-item-width="'100%'"
 							ng-value="currency.description"
 							ng-model="currenciesSelected.description"
 							ng-click="selectCurrency(currency)">
-								{{currency.description}}
+							{{ currency.symbol }} - {{currency.description}} 
 						</ion-radio>
 					</div>
 				</ion-content>
@@ -201,7 +200,7 @@
 				</ion-header-bar>
 				<ion-header-bar class="bar-light bar-subheader">
 					<div id="search-box" class="item-input-inset" style="padding:0 0 0 10px;">
-						<input type="search" placeholder="Suche..." ng-model="data.searchQueryReceiptKinds">
+						<input type="search" placeholder="Suche..." ng-model="data.searchQueryReceiptKinds" autofocus>
 						<button ng-if="data.searchQueryReceiptKinds.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchReceiptKinds()"></button>
 					</div>
 				</ion-header-bar>
@@ -211,15 +210,15 @@
 					has-tabs="true"
 					has-header="true">
 					<div class="list" ng-if="showListReceiptKinds">
-						<ion-radio 
-							class="item myItem" 
+						<ion-radio
+							class="item myItem"
 							collection-repeat="receiptKind in receiptKinds | filter: data.searchQueryReceiptKinds"
 							collection-item-height="50"
 							collection-item-width="'100%'"
 							ng-value="receiptKind.description"
 							ng-model="receiptKindsSelected.description"
 							ng-click="selectReceiptKind(receiptKind)">
-								{{receiptKind.description}}
+							{{receiptKind.description}}
 						</ion-radio>
 					</div>
 				</ion-content>
@@ -233,7 +232,7 @@
 				</ion-header-bar>
 				<ion-header-bar class="bar-light bar-subheader">
 					<div id="search-box" class="item-input-inset" style="padding:0 0 0 10px;">
-						<input type="search" placeholder="Suche..." ng-model="data.searchQueryKindsOfPayment">
+						<input type="search" placeholder="Suche..." ng-model="data.searchQueryKindsOfPayment" autofocus>
 						<button ng-if="data.searchQueryKindsOfPayment.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchKindsOfPayment()"></button>
 					</div>
 				</ion-header-bar>
@@ -243,15 +242,15 @@
 					has-tabs="true"
 					has-header="true">
 					<div class="list" ng-if="showListKindsOfPayment">
-						<ion-radio 
-							class="item myItem" 
-							collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQueryKindsOfPayment"
-							collection-item-height="50"
-							collection-item-width="'100%'"
-							ng-value="kindOfPayment.description"
-							ng-model="kindOfPaymentSelected.description"
-							ng-click="selectKindOfPayment(kindOfPayment)">
-								{{kindOfPayment.description}}
+						<ion-radio
+						class="item myItem"
+						collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQueryKindsOfPayment"
+						collection-item-height="50"
+						collection-item-width="'100%'"
+						ng-value="kindOfPayment.description"
+						ng-model="kindOfPaymentSelected.description"
+						ng-click="selectKindOfPayment(kindOfPayment)">
+						{{kindOfPayment.description}}
 						</ion-radio>
 					</div>
 				</ion-content>

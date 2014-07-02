@@ -1,6 +1,14 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
+.controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
+	$localstorage.setObject('copyGUID', new Array());
+	var tabs = document.querySelectorAll('div.tabs')[0];
+	tabs = angular.element(tabs);
+	tabs.css('display', 'none');
+	$scope.$on('$destroy', function() {
+		tabs.css('display', '');
+	});
+	console.log($ionicViewService);
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 	$scope.currencies = $localstorage.getObjects('currencies');
@@ -69,7 +77,12 @@ angular.module('starter.controllers', ['ionic'])
 		theReceiptCopy.guid = $stateParams.guid;
 		$localstorage.updateObject('receipts', theReceiptCopy);
 		theReceiptCopy.guid = $scope.generateGUID();
+		theReceiptCopy.text = 'Kopie von ' + $scope.form.text;
 		$localstorage.insertObject('receipts', theReceiptCopy);
+		$localstorage.setObject('copyGUID', {
+			guid : theReceiptCopy.guid
+		});
+		$scope.$viewHistory.backView.go();
 	};
 	$scope.hideData = {};
 	$scope.setHideAlert = function () {
@@ -130,7 +143,7 @@ angular.module('starter.controllers', ['ionic'])
 							if (res == 3) {
 								$scope.setHideAlert();
 							}
-							$scope.saveCopyReceipt();
+							$scope.saveCopyReceipt();						
 						})
 						return true;
 					}
@@ -264,11 +277,11 @@ angular.module('starter.controllers', ['ionic'])
 	});
 	$scope.data = {};
 	$scope.openKindsOfPaymentModal = function () {
-		$scope.kindsOfPaymentModal.show();
-		$timeout(function () {
-			$scope.showListKindsOfPayment = true;
-		}, 100)
-	};
+			$scope.kindsOfPaymentModal.show();
+			$timeout(function () {
+				$scope.showListKindsOfPayment = true;
+			}, 100);
+		};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
 	};
@@ -279,10 +292,15 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.form.kindOfPayment = kindOfPayment;
 		$scope.closeKindsOfPaymentModal();
 	};
+	$scope.go = function (hash) {
+		$location.path(hash);
+	}
 })
 
 .controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location) {
-
+	if(typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
+		$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
+	}
 	$scope.go = function (hash) {
 		$location.path(hash);
 	}
@@ -344,7 +362,8 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 
-.controller('infosCtrl', function ($scope) {})
+.controller('infosCtrl', function ($scope) {
+})
 
 .controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams) {
 	console.log($localstorage.getObject('receipts', $stateParams.guid));

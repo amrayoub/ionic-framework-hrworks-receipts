@@ -1,6 +1,13 @@
 angular.module('starter.controllers', ['ionic'])
 
 .controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
+	var tabs = document.querySelectorAll('div.tabs')[0];
+	tabs = angular.element(tabs);
+	tabs.css('display', 'none');
+  
+  $scope.$on('$destroy', function() {
+    console.log('HideCtrl destroy');
+    tabs.css('display', '');
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 	$scope.currencies = $localstorage.getObjects('currencies');
@@ -264,12 +271,11 @@ angular.module('starter.controllers', ['ionic'])
 	});
 	$scope.data = {};
 	$scope.openKindsOfPaymentModal = function () {
-
-		$scope.kindsOfPaymentModal.show();
-		$timeout(function () {
-			$scope.showListKindsOfPayment = true;
-		}, 100)
-	};
+			$scope.kindsOfPaymentModal.show();
+			$timeout(function () {
+				$scope.showListKindsOfPayment = true;
+			}, 100);
+		};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
 	};
@@ -283,7 +289,6 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location) {
-
 	$scope.go = function (hash) {
 		$location.path(hash);
 	}
@@ -345,7 +350,8 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 
-.controller('infosCtrl', function ($scope) {})
+.controller('infosCtrl', function ($scope) {
+})
 
 .controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams) {
 	console.log($localstorage.getObject('receipts', $stateParams.guid));

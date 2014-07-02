@@ -64,7 +64,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			}
 		}
 	})
-	.state('tab.receipt', {
+	.state('receipt', {
 		url : '/receipt/:guid',
 		views : {
 			'receipts' : {
