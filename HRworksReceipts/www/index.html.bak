@@ -35,8 +35,12 @@
 	
 		<script id="tabs.html" type="text/ng-template">
 <<<<<<< HEAD
+<<<<<<< HEAD
 		<div class="hide-on-keyboard-open">
 			<ion-tabs class="tabs-icon-top tabs-positive">
+=======
+			<ion-tabs class="tabs-icon-top tabs-balanced">
+>>>>>>> parent of 145cc3d... currency model search update
 =======
 			<ion-tabs class="tabs-icon-top tabs-balanced">
 >>>>>>> parent of 145cc3d... currency model search update
@@ -172,6 +176,7 @@
 							<a class="button {{(type == '') &&  'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
 						</div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 					<div id="search-box" class="item-input-inset" style="padding:5px 5px 5px 10px;">
 						<input type="search" placeholder="Suche..." ng-model="data.searchQueryCurrencies">
 						<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
@@ -179,6 +184,18 @@
 					</ion-header-bar>
 					<ion-content
 					style="top:127px"
+=======
+					<div id="search-box" class="item-input-inset">
+						<div class="item-input-wrapper">
+							<i class="icon ion-ios7-search placeholder-icon"></i>
+							<input type="search" placeholder="Suche" ng-model="data.searchQueryCurrencies">
+						</div>
+						<button class="button button-clear" ng-click="clearSearchCurrencies()">Abbrechen</button>
+					</div>
+					</ion-header-bar>
+					<ion-content
+					style="top:135px"
+>>>>>>> parent of 145cc3d... currency model search update
 =======
 					<div id="search-box" class="item-input-inset">
 						<div class="item-input-wrapper">
