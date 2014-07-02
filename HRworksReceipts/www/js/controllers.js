@@ -78,6 +78,7 @@ angular.module('starter.controllers', ['ionic'])
 		$localstorage.updateObject('receipts', theReceiptCopy);
 		theReceiptCopy.guid = $scope.generateGUID();
 		theReceiptCopy.text = 'Kopie von ' + $scope.form.text;
+		theReceiptCopy.timestamp = $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ');
 		$localstorage.insertObject('receipts', theReceiptCopy);
 		$localstorage.setObject('copyGUID', {
 			guid : theReceiptCopy.guid
