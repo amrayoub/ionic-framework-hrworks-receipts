@@ -206,6 +206,7 @@ angular.module('starter.controllers', ['ionic'])
 		searchQueryKindsOfPayment : ""
 	};
 	$scope.openCurrenciesModal = function () {
+
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
 			$scope.showListCurrencies = true;

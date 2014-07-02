@@ -15,6 +15,10 @@
                         {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -23,13 +27,16 @@
     },
     "installed_plugins": {
         "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
         },
         "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
         },
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
+        },
+        "org.apache.cordova.globalization": {
+            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
         }
     },
     "dependent_plugins": {}

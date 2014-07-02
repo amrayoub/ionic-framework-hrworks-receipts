@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
 
 .run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
 	$localstorage.setObject('receipts', new Array());
@@ -15,17 +15,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	$localstorage.setObject('currencies', Currencies.all());
 	$localstorage.setObject('receiptKinds', ReceiptKinds.all());
 	$localstorage.setObject('lastCurrency', LastCurrency.all());
-	$localstorage.setObject('hideAlert', '');
+	$localstorage.setObject('hideAlert', new Array());
 })
 
 .run(function ($ionicPlatform) {
 	$ionicPlatform.ready(function () {
+		document.addEventListener('focus',function(e){
+			e.preventDefault(); e.stopPropagation();
+			window.scrollTo(0,0);
+		}, true);
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if (window.cordova && window.cordova.plugins.Keyboard) {
-			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
 		}
 		if (window.StatusBar) {
+			alert("hi");
+			console.log(window.StatusBar);
 			// org.apache.cordova.statusbar required
 			StatusBar.styleDefault();
 		}
