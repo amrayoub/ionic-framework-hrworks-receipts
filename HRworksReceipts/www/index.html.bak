@@ -19,7 +19,7 @@
 		<script src="cordova.js"></script>
 		
 		<!-- API JS -->
-		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		
 		<script src="js/hmacsha1.js"></script>
 		<script src="js/awssigner.js"></script>
 

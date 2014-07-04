@@ -335,8 +335,12 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 
-.controller('settingsCtrl', function ($scope, $localstorage, $filter) {
+.controller('settingsCtrl', function ($scope, $http, $localstorage, $filter) {
 	$scope.form = {};
+	$scope.form.companyId = "ClassWare";
+	$scope.form.personId = "hum";
+	$scope.form.mobilePassword = "tevfw5h";
+	$scope.form.targetServer = "area51-0";
 	$scope.sendPostRequest = function() {
 		var expectedSignature = "meuWFCJcq7q1EUjHMKc1df3SEG4="
 		var signature = $scope.generateSignature(
@@ -362,8 +366,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.sendPostRequest = function () {
 		var api = "HrwGetCurrenciesApi";
-		var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + $scope.form.targetServer + "/HrwGetCurrentUrl" + api;
-		console.log(url);
+		var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + $scope.form.targetServer + "/" + api;
 		var request = api + " class";
 		var password = $scope.form.mobilePassword;
 		var jsonObject = {};
@@ -377,21 +380,21 @@ angular.module('starter.controllers', ['ionic'])
 		jsonObject.languageKey = "de";
 		jsonObject.version = "1";
 		jsonObject.signature = $scope.generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, password);
-		console.log("1");
-		// Send the post request
-		jQuery.ajax({
-		  type: "POST",
-		  url: url,
-		  data: JSON.stringify(jsonObject),
-		  success: $scope.postRequestSucceed,
-		  error: function (xhr, textStatus, errorThrown) {
-			console.log(xhr); 
-			console.log(textStatus); 
-			console.log(errorThrown);
-		  },
-		  dataType: "json"
-		});
-	};
+
+		console.log(jsonObject);
+		console.log(JSON.stringify(jsonObject));
+		
+		$http({
+            url: url,
+            method: "POST",
+            data: JSON.stringify(jsonObject),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function (data, status, headers, config) {
+                $scope.persons = data; // assign  $scope.persons here as promise is resolved here 
+            }).error(function (data, status, headers, config) {
+                $scope.status = status;
+			});
+	}; 
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,
