@@ -13,10 +13,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	console.log($localstorage.getObjects('version'));
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
-		$localstorage.setObject('kindsOfPayment', KindsOfPayment.all());
-		$localstorage.setObject('currencies', Currencies.all());
-		$localstorage.setObject('receiptKinds', ReceiptKinds.all());
-		$localstorage.setObject('lastCurrency', LastCurrency.all());
+		$localstorage.setObject('kindsOfPayment', new Array());
+		$localstorage.setObject('currencies', new Array());
+		$localstorage.setObject('receiptKinds', new Array());
+		$localstorage.setObject('lastCurrency', new Array());
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());

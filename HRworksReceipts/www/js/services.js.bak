@@ -103,6 +103,7 @@ angular.module('starter.services', [])
 		var jsonObject = {};
 		if(type == "Receipts") {
 			api = url + "HrwSynchronizeImportReceiptsApi";
+			var request = "HrwSynchronizeImportReceiptsApi class";
 			jsonObject.importReceipts = correctReceipts($localstorage.getObjects('receipts'));
 		}
 		jsonObject.companyId = userData.companyId;
@@ -124,7 +125,9 @@ angular.module('starter.services', [])
 	return {
 		all : function() {
 			url.success(function (data, status, headers, config) {
-				get('KindsOfPayment', data.url);
+				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
+				$localstorage.setObject('kindsOfPayment', data.result);
+				});
 				get('ReceiptKinds', data.url);
 				get('Currencies', data.url);
 				get('Receipts', data.url);
@@ -134,7 +137,7 @@ angular.module('starter.services', [])
 		},
 		get : function(type) {
 			url.success(function (data, status, headers, config) {
-				get(type, data.url);
+				return get(type, data.url);
 			}).error(function(data, status, headers, config) {
 				console.log(status);
 			});

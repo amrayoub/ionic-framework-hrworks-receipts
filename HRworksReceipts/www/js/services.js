@@ -125,17 +125,25 @@ angular.module('starter.services', [])
 	return {
 		all : function() {
 			url.success(function (data, status, headers, config) {
-				get('KindsOfPayment', data.url);
-				get('ReceiptKinds', data.url);
-				get('Currencies', data.url);
-				get('Receipts', data.url);
+				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
+				$localstorage.setObject('kindsOfPayment', data.result);
+				});
+				get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
+				$localstorage.setObject('receiptKinds', data.result);
+				});
+				get('Currencies', data.url).success(function (data, status, headers, config) {
+				$localstorage.setObject('currencies', data.result);
+				});
+				get('Receipts', data.url).success(function (data, status, headers, config) {
+				$localstorage.setObject('receipts', data.result);
+				});
 			}).error(function(data, status, headers, config) {
 				console.log(status);
 			});
 		},
 		get : function(type) {
 			url.success(function (data, status, headers, config) {
-				get(type, data.url);
+				return get(type, data.url);
 			}).error(function(data, status, headers, config) {
 				console.log(status);
 			});

@@ -307,8 +307,8 @@ angular.module('starter.controllers', ['ionic'])
 	}
 })
 
-.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location) {
-	if(typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, getData) {
+	if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
 		$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
 	}
 	$scope.go = function (hash) {
@@ -317,6 +317,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.receipts = $localstorage.getObjects('receipts');
 
 	$scope.show = function () {
+		getData.all();
 		$ionicLoading.show({
 			template : 'Synchronisieren...',
 			duration : '1000'
@@ -335,7 +336,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 
-.controller('settingsCtrl', function ($scope, $http, $localstorage, $filter, getData, KindsOfPayment) {
+.controller('settingsCtrl', function ($scope, $http, $localstorage, $filter, getData) {
 	$scope.form = {};
 	$scope.form.companyId = "ClassWare";
 	$scope.form.personId = "hum";
