@@ -19,6 +19,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('lastCurrency', LastCurrency.all());
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
+		$localstorage.setObject('user', new Array());
 		$localstorage.setObject('version', {
 			version : 1
 		});
@@ -45,10 +46,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		}
 	});
 })
-
-.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.headers.common["X-Requested-With"] = undefined;
-}])
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 

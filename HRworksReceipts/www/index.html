@@ -96,7 +96,7 @@
 			<ion-view title="Einstellungen">
 				<ion-content class="has-header" padding="true">
 					<h1>Einstellungen</h1>
-					<form novalidate="novalidate" on-valid-submit="sendPostRequest()">
+					<form novalidate="novalidate" on-valid-submit="saveSettings()">
 					<div class="list">
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Firmenkennung</span>
@@ -115,7 +115,7 @@
 							<select ng-model="form.targetServer">
 								<option value="0">Produktiver Server</option>
 								<option value="demo-0">Testserver Demo</option>
-								<option value="area51-a1">Testserver Area51</option>
+								<option value="area51-0">Testserver Area51</option>
 							</select>
 						</label>
 						<button type="submit" class="button button-positive button-block">Speichern</button>

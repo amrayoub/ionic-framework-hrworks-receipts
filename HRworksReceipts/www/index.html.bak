@@ -115,7 +115,7 @@
 							<select ng-model="form.targetServer">
 								<option value="0">Produktiver Server</option>
 								<option value="demo-0">Testserver Demo</option>
-								<option value="area51-0">Testserver Area51</option>
+								<option value="area51-a1">Testserver Area51</option>
 							</select>
 						</label>
 						<button type="submit" class="button button-positive button-block">Speichern</button>

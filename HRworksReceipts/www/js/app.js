@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
 
-.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
+.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency, GetCurrentUrl) {
 	console.log($localstorage.getObjects('version'));
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
@@ -19,6 +19,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('lastCurrency', LastCurrency.all());
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
+		$localstorage.setObject('user', new Array());
 		$localstorage.setObject('version', {
 			version : 1
 		});

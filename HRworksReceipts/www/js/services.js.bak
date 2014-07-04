@@ -41,6 +41,17 @@ angular.module('ionic.utils', [])
 						if (objects[i].guid == guid) {
 							objects.splice(i, 1);
 							$window.localStorage[key] = JSON.stringify(objects);
+							return;
+						}
+					}
+				},
+				updateObject : function (key, value) {
+					var objects = JSON.parse($window.localStorage[key] || '{}');
+					for (var i = 0; i < objects.length; i++) {
+						if (objects[i].guid == value.guid) {
+							objects[i] = value;
+							$window.localStorage[key] = JSON.stringify(objects);
+							return;
 						}
 					}
 				}
@@ -49,24 +60,107 @@ angular.module('ionic.utils', [])
 	]);
 angular.module('starter.services', [])
 
-.factory('KindsOfPayment', function () {
-	var kindsOfPayment = [{
-			"description" : "Amex Privat",
-			"id" : "1"
-		}, {
-			"description" : "Privat",
-			"id" : "2"
-		}, {
-			"description" : "Kreditkarte Privat",
-			"id" : "3"
-		}
-	];
+.factory('GetCurrentUrl', function ($localstorage, $http) {
 	return {
-		all : function () {
-			return kindsOfPayment;
+		get : function(targetServer, companyId) {
+			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
+			var jsonObject = {};
+			jsonObject.companyId = companyId;
+			 return $http({
+				url: url,
+				method: "POST",
+				data: JSON.stringify(jsonObject),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded' ,  'Content-Transfer-Encoding': 'utf-8' }
+			})
+		}
+	}
+})
+.factory('getData', function ($localstorage, $http, $timeout, GetCurrentUrl) {
+	var userData = $localstorage.getObjects('user');
+	var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
+	get = function(type, url) {
+		correctReceipts = function(receipts) {
+			console.log(receipts);
+			var newReceipts = [];
+			for(var i = 0; i < receipts.length; i++) {
+				console.log(receipts[i]);
+				var theNewReceipt = receipts[i];
+				theNewReceipt.date = theNewReceipt.date.replace(/-/g, "");
+				theNewReceipt.currency = theNewReceipt.currency.symbol;
+				theNewReceipt.kindOfPayment = theNewReceipt.kindOfPayment.id;
+				theNewReceipt.receiptKind = theNewReceipt.receiptKind.id;
+				newReceipts.push(theNewReceipt);
+			}
+			return newReceipts;
+		}
+		generateSignature = function(companyId, personId, request, timeStamp, password) {
+			var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
+			return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
+		}
+		var apiName = "HrwGet" + type + "Api";
+		var api = url + "HrwGet" + type + "Api";
+		var request = apiName + " class";
+		var jsonObject = {};
+		if(type == "Receipts") {
+			api = url + "HrwSynchronizeImportReceiptsApi";
+			jsonObject.importReceipts = correctReceipts($localstorage.getObjects('receipts'));
+		}
+		jsonObject.companyId = userData.companyId;
+		jsonObject.personId = userData.personId;
+		jsonObject.dateAndTime = (new Date()).toISO8601();
+		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
+		jsonObject.deviceId = "1";
+		jsonObject.languageKey = "de";
+		jsonObject.version = "1";
+		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
+		return $http({
+				url: api,
+				method: "POST",
+				data: JSON.stringify(jsonObject),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded',  'Content-Transfer-Encoding': 'utf-8' }
+			})
+	
+	};
+	return {
+		all : function() {
+			url.success(function (data, status, headers, config) {
+				get('KindsOfPayment', data.url);
+				get('ReceiptKinds', data.url);
+				get('Currencies', data.url);
+				get('Receipts', data.url);
+			}).error(function(data, status, headers, config) {
+				console.log(status);
+			});
 		},
-		get : function (id) {
-			return kindsOfPayment[id];
+		get : function(type) {
+			url.success(function (data, status, headers, config) {
+				get(type, data.url);
+			}).error(function(data, status, headers, config) {
+				console.log(status);
+			});
+		}
+	}
+})
+.factory('KindsOfPayment', function ($localstorage, $http, $timeout, GetCurrentUrl) {
+	return {
+		all : function() {
+			var userData = $localstorage.getObjects('user');
+			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
+				console.log(url);
+			
+			
+			/*var jsonObject = {};
+			jsonObject.companyId = userData.companyId;
+			$http({
+				url: url,
+				method: "POST",
+				data: JSON.stringify(jsonObject),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function (data, status, headers, config) {
+				return data;
+			}).error(function (data, status, headers, config) {
+				console.log("Error: CurrentUrl wasn't load");
+			});	*/
 		}
 	}
 })
