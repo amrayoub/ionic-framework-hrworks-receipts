@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('loginCtrl', function($scope, $state, $localstorage, $timeout, getData) {
+.controller('loginCtrl', function($scope, $state, $localstorage, $timeout, $ionicPopup, getData) {
 	$scope.user = {};
 	$scope.user.companyId = "ClassWare";
 	$scope.user.personId = "hum";
@@ -15,7 +15,10 @@ angular.module('starter.controllers', ['ionic'])
 				$state.go("tab.receipts");
 			} else {
 				if(success.errors[0].errorId == "8") {
-					console.log("Userdaten sind falsch");
+					$ionicPopup.alert({
+						title: 'Fehler bei der Anmeldung:',
+						template: 'Firmenkennung, Benutzerkennung oder mobiles Passwort ist Fehlerhaft!'
+					});
 				} else {
 					console.log(success.errors[0]);
 				}
@@ -336,9 +339,6 @@ angular.module('starter.controllers', ['ionic'])
 	if (typeof $localstorage.getObjects('user').personId === 'undefined') {
 		$state.go('login');
 	}
-	if ($localstorage.getObjects('currencies').length == 0) {
-		$scope.show();
-	}
 	if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
 		$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
 	}
@@ -360,6 +360,9 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.hide = function () {
 		$ionicLoading.hide();
 	};
+	if ($localstorage.getObjects('currencies').length == 0) {
+		$scope.show();
+	}
 	$scope.removeReceipt = function (guid) {
 		var x = $localstorage.getIndex('receipts', guid);
 		$scope.receipts.splice(x, 1);
