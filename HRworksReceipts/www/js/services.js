@@ -75,10 +75,17 @@ angular.module('starter.services', [])
 		}
 	}
 })
-.factory('getData', function ($localstorage, $http, $timeout, GetCurrentUrl) {
-	var userData = $localstorage.getObjects('user');
-	var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
+.factory('getData', function ($localstorage, $http, $timeout, GetCurrentUrl, $q) {
+
+	generateSignature = function(companyId, personId, request, timeStamp, password) {
+		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
+		return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
+	}
+function encode_utf8(s) {
+  return unescape(encodeURIComponent(s));
+}
 	get = function(type, url) {
+		var userData = $localstorage.getObjects('user');
 		correctReceipts = function(receipts) {
 			console.log(receipts);
 			var newReceipts = [];
@@ -93,10 +100,7 @@ angular.module('starter.services', [])
 			}
 			return newReceipts;
 		}
-		generateSignature = function(companyId, personId, request, timeStamp, password) {
-			var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
-			return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
-		}
+		
 		var apiName = "HrwGet" + type + "Api";
 		var api = url + "HrwGet" + type + "Api";
 		var request = apiName + " class";
@@ -115,47 +119,76 @@ angular.module('starter.services', [])
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
 		return $http({
-				url: api,
-				method: "POST",
-				data: JSON.stringify(jsonObject),
-				headers: {'Content-Type': 'application/x-www-form-urlencoded',  'Content-Transfer-Encoding': 'utf-8' }
-			})
-	
+			url: api,
+			method: "POST",
+			data: JSON.stringify(jsonObject),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=iso-8895-1' }
+		});
 	};
 	return {
 		all : function() {
+			var userData = $localstorage.getObjects('user');
+			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
-				$localstorage.setObject('kindsOfPayment', data.result);
+					$localstorage.setObject('kindsOfPayment', data.result);
 				});
 				get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
-				$localstorage.setObject('receiptKinds', data.result);
+					$localstorage.setObject('receiptKinds', data.result);
 				});
 				get('Currencies', data.url).success(function (data, status, headers, config) {
-				$localstorage.setObject('currencies', data.result);
+					$localstorage.setObject('currencies', data.result);
 				});
 				get('Receipts', data.url).success(function (data, status, headers, config) {
-				$localstorage.setObject('receipts', data.result);
+					$localstorage.setObject('receipts', data.result);
 				});
 			}).error(function(data, status, headers, config) {
 				console.log(status);
 			});
 		},
-		get : function(type) {
+		userLogin : function(user) {
+			var deferred = $q.defer();
+			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
+			var request = "HrwGetKindsOfPaymentApi class";
+			jsonObject = {};
+			jsonObject.companyId = user.companyId;
+			jsonObject.personId = user.personId;
+			jsonObject.dateAndTime = (new Date()).toISO8601();
+			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
+			jsonObject.deviceId = "1";
+			jsonObject.languageKey = "de";
+			jsonObject.version = "1";
+			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
 			url.success(function (data, status, headers, config) {
-				return get(type, data.url);
+				console.log(data.url);
+				$http({
+					url: data.url + "HrwGetKindsOfPaymentApi",
+					method: "POST",
+					data: JSON.stringify(jsonObject),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded',  'Content-Transfer-Encoding': 'utf-8' }
+				}).success(function (data, status, headers, config) {
+					deferred.resolve(data);
+					//console.log(data.errors.length);
+					//console.log(data.errors);
+					//if(data.errors.length == 0) {
+				//		$localstorage.setObject('user', user);
+					//	return data;					
+				}).error(function(){
+					deferred.reject('Greeting ' + name + ' is not allowed.');
+				})
 			}).error(function(data, status, headers, config) {
 				console.log(status);
 			});
+			return deferred.promise;
 		}
 	}
 })
-.factory('KindsOfPayment', function ($localstorage, $http, $timeout, GetCurrentUrl) {
+.factory('KindsOfPayment', function ($localstorage, $http, $timeout) {
 	return {
 		all : function() {
-			var userData = $localstorage.getObjects('user');
-			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
-				console.log(url);
+			//var userData = $localstorage.getObjects('user');
+			//var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
+				
 			
 			
 			/*var jsonObject = {};

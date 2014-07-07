@@ -10,15 +10,15 @@
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
 
 .run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
-	console.log($localstorage.getObjects('version'));
-	if($localstorage.getObjects('receipts').toSource().length == 4) {
+	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
-		$localstorage.setObject('kindsOfPayment', KindsOfPayment.all());
-		$localstorage.setObject('currencies', Currencies.all());
-		$localstorage.setObject('receiptKinds', ReceiptKinds.all());
-		$localstorage.setObject('lastCurrency', LastCurrency.all());
+		$localstorage.setObject('kindsOfPayment', new Array());
+		$localstorage.setObject('currencies', new Array());
+		$localstorage.setObject('receiptKinds', new Array());
+		$localstorage.setObject('lastCurrency', new Array());
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
+		$localstorage.setObject('user', new Array());
 		$localstorage.setObject('version', {
 			version : 1
 		});
@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	});
 })
 
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
 	// Ionic uses AngularUI Router which uses the concept of states
 	// Learn more here: https://github.com/angular-ui/ui-router
@@ -110,8 +110,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 				controller : 'infosCtrl'
 			}
 		}
-	});
+	})
+	.state('login', {
+		url : '/login',
+		templateUrl : 'login.html',
+		controller : 'loginCtrl'
+	})
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/receipts');
-
 });

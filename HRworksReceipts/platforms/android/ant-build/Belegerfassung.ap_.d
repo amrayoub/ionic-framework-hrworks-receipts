@@ -54,8 +54,11 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\angular-ui \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\app.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\app.js.bak \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\awssigner.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\controllers.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\controllers.js.bak \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\hmacsha1.js \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\hmacsha1.js.bak \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic-angular.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic-angular.min.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic.bundle.js \

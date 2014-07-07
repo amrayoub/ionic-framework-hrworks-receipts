@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimal-ui"><title>HRworks</title>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimal-ui">
+		<title>HRworks</title>
 
 		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
@@ -52,6 +53,38 @@
 					<ion-nav-view name="settings"></ion-nav-view>
 				</ion-tab>
 			</ion-tabs>
+		</script>
+
+		<script id="login.html" type="text/ng-template">
+			<ion-view title="Anmeldung">login(user)
+				<ion-nav-buttons side="right">
+					<button class="button button-icon button-clear ion-checkmark" form="loginForm"></button>
+				</ion-nav-buttons>
+				<ion-content padding="true">
+					<form novalidate="novalidate" on-valid-submit="login(user)" id="loginForm">
+					<div class="list">
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Firmenkennung</span>
+							<input type="text" ng-model="user.companyId" placeholder="z.B.: Beispielfirma">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Benutzerkennung</span>
+							<input type="text" ng-model="user.personId" placeholder="">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Mobiles Passwort</span>
+							<input type="text" ng-model="user.mobilePassword" placeholder="*******">
+						</label>
+					</div>
+					</form>
+					</div>
+					<div class="card">
+						<div class="item item-text-wrap">
+							Verwenden Sie die Firmen-& Benutzerkennung, mit der Sie sich unter www.hrworks.de anmelden. Das mobile Passwort finden Sie in HRworks im Menü Mitarbeiter/Stammdaten/Mobile.
+						</div>
+					</div>
+				</ion-content>
+			</ion-view>
 		</script>
 
 		<script id="receipts.html" type="text/ng-template">

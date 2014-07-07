@@ -1,5 +1,30 @@
 angular.module('starter.controllers', ['ionic'])
 
+.controller('loginCtrl', function($scope, $state, $localstorage, $timeout, getData) {
+	$scope.user = {};
+	$scope.user.companyId = "ClassWare";
+	$scope.user.personId = "hum";
+	$scope.user.mobilePassword = "tevfw5h";
+	$scope.user.targetServer = "area51-0";
+	$scope.login = function (user) {
+		var promise = getData.userLogin(user);
+		promise.then(function(success) {
+			console.log(success.errors.length);
+			if(success.errors.length == 0) {
+				$localstorage.setObject("user", user);
+				$state.go("tab.receipts");
+			} else {
+				if(success.errors[0].errorId == "8") {
+					console.log("Userdaten sind falsch");
+				} else {
+					console.log(success.errors[0]);
+				}
+			}
+		}, function(failed) {
+			console.log(failed);
+		});		   
+	};
+})
 .controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
 	$localstorage.setObject('copyGUID', new Array());
 	var tabs = document.querySelectorAll('div.tabs')[0];
@@ -307,7 +332,13 @@ angular.module('starter.controllers', ['ionic'])
 	}
 })
 
-.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, getData) {
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, $state, getData) {
+	if (typeof $localstorage.getObjects('user').personId === 'undefined') {
+		$state.go('login');
+	}
+	if ($localstorage.getObjects('currencies').length == 0) {
+		$scope.show();
+	}
 	if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
 		$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
 	}
@@ -317,6 +348,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.receipts = $localstorage.getObjects('receipts');
 
 	$scope.show = function () {
+		getData.all();
 		$ionicLoading.show({
 			template : 'Synchronisieren...',
 			duration : '1000'

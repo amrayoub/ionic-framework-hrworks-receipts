@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimal-ui"><title>HRworks</title>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimal-ui">
+		<title>HRworks</title>
 
 		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
@@ -54,6 +55,38 @@
 			</ion-tabs>
 		</script>
 
+		<script id="login.html" type="text/ng-template">
+			<ion-view title="Anmeldung">login(user)
+				<ion-nav-buttons side="right">
+					<button class="button button-icon button-clear ion-checkmark" form="loginForm"></button>
+				</ion-nav-buttons>
+				<ion-content padding="true">
+					<form novalidate="novalidate" on-valid-submit="saveReceipt()" id="myform">
+					<div class="list">
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Firmenkennung</span>
+							<input type="text" ng-model="user.companyId" placeholder="z.B.: Beispielfirma">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Benutzerkennung</span>
+							<input type="text" ng-model="user.personId" placeholder="">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label">Mobiles Passwort</span>
+							<input type="text" ng-model="user.mobilePassword" placeholder="*******">
+						</label>
+					</div>
+					</form>
+					</div>
+					<div class="card">
+						<div class="item item-text-wrap">
+							Verwenden Sie die Firmen-& Benutzerkennung, mit der Sie sich unter www.hrworks.de anmelden. Das mobile Passwort finden Sie in HRworks im Menü Mitarbeiter/Stammdaten/Mobile.
+						</div>
+					</div>
+				</ion-content>
+			</ion-view>
+		</script>
+
 		<script id="receipts.html" type="text/ng-template">
 			<ion-view title="Belege">
 				<ion-nav-buttons side="left">
@@ -96,7 +129,7 @@
 			<ion-view title="Einstellungen">
 				<ion-content class="has-header" padding="true">
 					<h1>Einstellungen</h1>
-					<form novalidate="novalidate" on-valid-submit="sendPostRequest()">
+					<form novalidate="novalidate" on-valid-submit="saveSettings()">
 					<div class="list">
 						<label class="item item-input item-stacked-label">
 							<span class="input-label">Firmenkennung</span>
@@ -115,7 +148,7 @@
 							<select ng-model="form.targetServer">
 								<option value="0">Produktiver Server</option>
 								<option value="demo-0">Testserver Demo</option>
-								<option value="area51-a1">Testserver Area51</option>
+								<option value="area51-0">Testserver Area51</option>
 							</select>
 						</label>
 						<button type="submit" class="button button-positive button-block">Speichern</button>

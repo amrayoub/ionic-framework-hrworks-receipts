@@ -10,7 +10,6 @@
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
 
 .run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency, GetCurrentUrl) {
-	console.log($localstorage.getObjects('version'));
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -111,7 +110,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 				controller : 'infosCtrl'
 			}
 		}
-	});
+	})
+	.state('login', {
+		url : '/login',
+		templateUrl : 'login.html',
+		controller : 'loginCtrl'
+	})
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/receipts');
 });
