@@ -2,9 +2,9 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('loginCtrl', function($scope, $state, $localstorage, $timeout, $ionicPopup, getData) {
 	$scope.user = {};
-	$scope.user.companyId = "ClassWare";
-	$scope.user.personId = "hum";
-	$scope.user.mobilePassword = "tevfw5h";
+	$scope.user.companyId = "jaco";
+	$scope.user.personId = "jaco";
+	$scope.user.mobilePassword = "hjpjpkf";
 	$scope.user.targetServer = "area51-0";
 	$scope.login = function (user) {
 		var promise = getData.userLogin(user);
