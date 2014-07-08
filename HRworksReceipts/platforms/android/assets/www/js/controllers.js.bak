@@ -335,8 +335,7 @@ angular.module('starter.controllers', ['ionic'])
 	}
 })
 
-.controller('receiptsCtrl', function ($window, $scope, $timeout, $localstorage, $ionicLoading, $location, $state, getData) {
-console.log($window.localStorage['receiptKinds']);
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, $state, getData) {
 	if (typeof $localstorage.getObjects('user').personId === 'undefined') {
 		$state.go('login');
 	}
@@ -371,7 +370,7 @@ console.log($window.localStorage['receiptKinds']);
 	};
 })
 
-.controller('settingsCtrl', function ($scope, $http, $localstorage, $filter, getData) {
+.controller('settingsCtrl', function ($scope, $http, $localstorage, $filter, $translate, getData) {
 	$scope.form = {};
 	$scope.form.companyId = "ClassWare";
 	$scope.form.personId = "hum";
@@ -380,6 +379,20 @@ console.log($window.localStorage['receiptKinds']);
 	$scope.saveSettings = function() {
 		getData.all();
 		$localstorage.setObject('user', $scope.form);
+	};
+	$scope.type = true;
+	$scope.changeLang = function (key, event) {
+		console.log(angular.element(event.target).hasClass('de'));
+		if (angular.element(event.target).hasClass('de')) {
+			$scope.type = true;
+		} else {
+			$scope.type = '';
+		}
+		$translate.use(key).then(function (key) {
+		console.log("Sprache zu " + key + " gewechselt.");
+		}, function (key) {
+		console.log("Irgendwas lief schief.");
+		});
 	};
 	$scope.sendPostRequest = function() {
 		var expectedSignature = "meuWFCJcq7q1EUjHMKc1df3SEG4="

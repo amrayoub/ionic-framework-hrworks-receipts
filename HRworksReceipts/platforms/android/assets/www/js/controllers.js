@@ -370,7 +370,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 
-.controller('settingsCtrl', function ($scope, $http, $localstorage, $filter, getData) {
+.controller('settingsCtrl', function ($scope, $http, $localstorage, $filter, $translate, getData) {
 	$scope.form = {};
 	$scope.form.companyId = "ClassWare";
 	$scope.form.personId = "hum";
@@ -379,6 +379,19 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.saveSettings = function() {
 		getData.all();
 		$localstorage.setObject('user', $scope.form);
+	};
+	$scope.type = true;
+	$scope.changeLang = function (key, event) {
+		if (angular.element(event.target).hasClass('de')) {
+			$scope.type = true;
+		} else {
+			$scope.type = '';
+		}
+		$translate.use(key).then(function (key) {
+		console.log("Sprache zu " + key + " gewechselt.");
+		}, function (key) {
+		console.log("Irgendwas lief schief.");
+		});
 	};
 	$scope.sendPostRequest = function() {
 		var expectedSignature = "meuWFCJcq7q1EUjHMKc1df3SEG4="

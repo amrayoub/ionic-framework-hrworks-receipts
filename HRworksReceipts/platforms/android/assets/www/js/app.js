@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
 .run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency, GetCurrentUrl) {
 	if($localstorage.getObjects('version').version != 1) {
@@ -117,4 +117,63 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	})
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/receipts');
+})
+
+.config(function ($translateProvider) {
+	$translateProvider.translations('en', {
+		SETTINGS : 'Settings',
+		RECEIPTS : 'Receipts',
+		INFOS : 'Infos',
+		GERMAN : 'German',
+		ENGLISH : 'English',
+	});
+	$translateProvider.translations('de', {
+		SETTINGS : 'Einstellungen',
+		COMPANYID : 'Firmenkennung',
+		CURRENCY : 'Währung',
+		CURRENCIES : 'Währungen',
+		ERRORMESSAGE_CURRENCY : 'Bitte wählen Sie eine Währung aus.',
+		PERSONID : 'Benutzerkennung',
+		MOBILEPASSWORD : 'Mobiles Passwort',
+		TARGETSERVER : 'Zielsever',
+		SAVE : 'Speichern',
+		FEEDBACK : 'Feedback',
+		FEEDBACK_QUESTION : 'Was wollen Sie uns mitteilen?',
+		INFOS : 'Infos',
+		RECEIPTS : 'Belege',
+		SUBJECT : 'Betreff',
+		BUG : 'Fehler',
+		ADVANCEMENT : 'Verbesserung',
+		NEW_FUNCTIONALITY : 'neue Funktionalität',
+		RECEIPT : 'Beleg',
+		SYNCHRONIZE : 'Synchronisieren...',
+		DATE : 'Datum',
+		ERRORMESSAGE_DATE : 'Bitte geben Sie ein Datum ein.',
+		RECEIPTNAME : 'Bezeichnung',
+		ERRORMESSAGE_RECEIPTNAME : 'Bitte geben Sie eine Bezeichnung ein.',
+		AMOUNT : 'Betrag',
+		ERRORMESSAGE_AMOUNT : 'Bitte geben Sie einen Betrag ein.',
+		RECEIPTKIND : 'Belegart',
+		ERRORMESSAGE_RECEIPTKIND : 'Bitte wählen Sie eine Belegart aus.',
+		RECEIPTKINDS : 'Belegarten',
+		NEWRECEIPT : 'Neuer Beleg',
+		KINDOFPYMENT : 'Zahlungsart',
+		KINDSOFPYMENT : 'Zahlungsarten',
+		ERRORMESSAGE_KINDOFPYMENT : 'Bitte wählen Sie eine Zahlungsart aus.',
+		LOGIN : 'Anmelung',
+		LOGIN_INFO_TEXT : "Verwenden Sie die Firmen-& Benutzerkennung, mit der Sie sich unter www.hrworks.de anmelden. Das mobile Passwort finden Sie in HRworks im Menü Mitarbeiter/Stammdaten/Mobile.",
+		EDIT : 'Bearbeiten',
+		DELETE : 'Löschen',
+		SEND : 'Senden',
+		GERMAN : 'Deutsch',
+		ENGLISH : 'Englisch',
+		INFOS_INFO_Text : 'Anlegen, Ändern und Löschen von Belegen online oder offline.Synchronisierung mit Sammelbelegen (Menü Mitarbeiter/Reisekosten/Sammelbelege) mit Push & Sync. Anmeldung mit Firmenkennung, Benutzerkennung und Mobiles Passwort (Menü Mitarbeiter/Stammdaten/Mobile). Support/Feedback: per E-Mail an mobile.support@hrworks.de',
+		
+		
+		
+		
+		
+
+	});
+	$translateProvider.preferredLanguage('de');
 });

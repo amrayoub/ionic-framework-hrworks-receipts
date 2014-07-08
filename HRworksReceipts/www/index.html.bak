@@ -130,8 +130,8 @@
 					<h1 translate="SETTINGS"></h1>
 					<div class="list">
 						<div class="button-bar">
-							<a class="de" class="button {{(type == true) && 'active' || ''}}" ng-click="changeLang('de', $event)" translate="GERMAN"></a>
-							<a class="en" class="button {{(type == '') && 'active' || ''}}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
+							<a class="button de {{(type == true) && 'active' || ''}}" ng-click="changeLang('de', $event)" translate="GERMAN"></a>
+							<a class="button en {{(type == '') && 'active' || ''}}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
 						</div>
 					</div>
 					<form novalidate="novalidate" on-valid-submit="saveSettings()">
@@ -241,7 +241,7 @@
 		<script id="currencies-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Währung wählen</h1>
+					<h1 class="title" translate="CHOOSE_CURRENCY">Währung wählen</h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeCurrenciesModal()"></button>
 				</ion-header-bar>
 
@@ -279,7 +279,7 @@
 		<script id="receiptKinds-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Belegart wählen</h1>
+					<h1 class="title" translate="CHOOSE_RECEIPTKIND"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeReceiptKindsModal()"></button>
 				</ion-header-bar>
 				<ion-header-bar class="bar-light bar-subheader">
@@ -311,7 +311,7 @@
 		<script id="kindsOfPayment-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Zahlungsart wählen</h1>
+					<h1 class="title" translate="CHOOSE_KINDOFPAYMENT"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeKindsOfPaymentModal()"></button>
 				</ion-header-bar>
 				<ion-header-bar class="bar-light bar-subheader">

@@ -51,6 +51,8 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\fonts\ionicons.woff \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\img\ionic.png \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\angular \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\angular-translate.js \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\angular-translate.min.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\angular-ui \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\app.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\app.js.bak \
