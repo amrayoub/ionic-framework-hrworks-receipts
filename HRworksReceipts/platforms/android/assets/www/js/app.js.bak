@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
 
-.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
+.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency, GetCurrentUrl) {
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -26,7 +26,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	}
 })
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, $cordovaDevice) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus',function(e){
 			e.preventDefault(); e.stopPropagation();
@@ -37,8 +37,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
 		}
+		alert($cordovaDevice.getUUID());
 		if (window.StatusBar) {
-			alert("hi");
 			console.log(window.StatusBar);
 			// org.apache.cordova.statusbar required
 			StatusBar.styleDefault();

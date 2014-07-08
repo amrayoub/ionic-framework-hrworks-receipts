@@ -26,7 +26,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	}
 })
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, $cordovaDevice) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus',function(e){
 			e.preventDefault(); e.stopPropagation();
@@ -38,7 +38,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
 		}
 		if (window.StatusBar) {
-			alert("hi");
 			console.log(window.StatusBar);
 			// org.apache.cordova.statusbar required
 			StatusBar.styleDefault();

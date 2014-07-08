@@ -35,6 +35,23 @@ angular.module('ionic.utils', [])
 						}
 					}
 				},
+				getCurrencyObject: function (symbol) {
+					var objects = JSON.parse($window.localStorage['currencies'] || '{}');
+					for (var i = 0; i < objects.length; i++) {
+						if (objects[i].symbol == symbol) {
+							return objects[i];
+						}
+					}
+				},
+				getObjectById: function (key, id) {
+					var objects = JSON.parse($window.localStorage[key] || '{}');
+					for (var i = 0; i < objects.length; i++) {
+						if (objects[i].id == id) {
+							
+							return objects[i];
+						}
+					}
+				},
 				removeObject : function (key, guid) {
 					var objects = JSON.parse($window.localStorage[key] || '{}');
 					for (var i = 0; i < objects.length; i++) {
@@ -75,19 +92,15 @@ angular.module('starter.services', [])
 		}
 	}
 })
-.factory('getData', function ($localstorage, $http, $timeout, GetCurrentUrl, $q) {
+.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, GetCurrentUrl) {
 
 	generateSignature = function(companyId, personId, request, timeStamp, password) {
 		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
 		return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
 	}
-function encode_utf8(s) {
-  return unescape(encodeURIComponent(s));
-}
 	get = function(type, url) {
 		var userData = $localstorage.getObjects('user');
 		correctReceipts = function(receipts) {
-			console.log(receipts);
 			var newReceipts = [];
 			for(var i = 0; i < receipts.length; i++) {
 				console.log(receipts[i]);
@@ -114,10 +127,11 @@ function encode_utf8(s) {
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = "1";
+		jsonObject.deviceId = $cordovaDevice.getUUID();
 		jsonObject.languageKey = "de";
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
+		console.log(jsonObject);
 		return $http({
 			url: api,
 			method: "POST",
@@ -125,6 +139,21 @@ function encode_utf8(s) {
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=iso-8895-1' }
 		});
 	};
+	changeReceiptObject= function(receipts) {
+		updatedReceiptsCollection = new Array();
+		for(var i = 0; i < receipts.length; i++) {
+			receipt = receipts[i];
+			receipt.receiptKind = $localstorage.getObjectById('receiptKinds', receipt.receiptKind);
+			receipt.currency = $localstorage.getCurrencyObject(receipt.currency);
+			receipt.kindOfPayment = $localstorage.getObjectById('kindsOfPayment', receipt.kindOfPayment);
+			year = receipt.date.substr(0,4);
+			month = receipt.date.substr(4,2);
+			day = receipt.date.substr(6,2);
+			receipt.date = year + "-" + month + "-" + day;
+			updatedReceiptsCollection.push(receipt);
+		}
+		return updatedReceiptsCollection;
+	}
 	return {
 		all : function() {
 			var userData = $localstorage.getObjects('user');
@@ -140,7 +169,11 @@ function encode_utf8(s) {
 					$localstorage.setObject('currencies', data.result);
 				});
 				get('Receipts', data.url).success(function (data, status, headers, config) {
-					$localstorage.setObject('receipts', data.result);
+					$timeout(function() {
+						updatedReceipts = changeReceiptObject(data.result);
+						$localstorage.setObject('receipts', updatedReceipts);
+						location.reload();
+					},500)
 				});
 			}).error(function(data, status, headers, config) {
 				console.log(status);

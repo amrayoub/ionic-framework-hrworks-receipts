@@ -92,7 +92,7 @@ angular.module('starter.services', [])
 		}
 	}
 })
-.factory('getData', function ($q, $localstorage, $http, $timeout, GetCurrentUrl) {
+.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, GetCurrentUrl) {
 
 	generateSignature = function(companyId, personId, request, timeStamp, password) {
 		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
@@ -127,10 +127,11 @@ angular.module('starter.services', [])
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = "1";
+		jsonObject.deviceId = $cordovaDevice.getUUID();
 		jsonObject.languageKey = "de";
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
+		console.log(jsonObject);
 		return $http({
 			url: api,
 			method: "POST",

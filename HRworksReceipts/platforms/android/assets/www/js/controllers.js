@@ -1,10 +1,10 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('loginCtrl', function($scope, $state, $localstorage, $timeout, getData) {
+.controller('loginCtrl', function($scope, $state, $localstorage, $timeout, $ionicPopup, getData) {
 	$scope.user = {};
-	$scope.user.companyId = "ClassWare";
-	$scope.user.personId = "hum";
-	$scope.user.mobilePassword = "tevfw5h";
+	$scope.user.companyId = "jaco";
+	$scope.user.personId = "jaco";
+	$scope.user.mobilePassword = "hjpjpkf";
 	$scope.user.targetServer = "area51-0";
 	$scope.login = function (user) {
 		var promise = getData.userLogin(user);
@@ -15,7 +15,10 @@ angular.module('starter.controllers', ['ionic'])
 				$state.go("tab.receipts");
 			} else {
 				if(success.errors[0].errorId == "8") {
-					console.log("Userdaten sind falsch");
+					$ionicPopup.alert({
+						title: 'Fehler bei der Anmeldung:',
+						template: 'Die Anmeldedaten sind fehlerhaft!'
+					});
 				} else {
 					console.log(success.errors[0]);
 				}
