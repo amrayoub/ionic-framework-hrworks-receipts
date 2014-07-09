@@ -33,8 +33,11 @@ to be sent to iCloud. Note: enabling this could result in Apple rejecting your a
 	</feature>
 	<feature name="Device">
 		<param name="android-package" value="org.apache.cordova.device.Device" />
-		<param name="ios-package" value="org.apache.cordova.device.Device" />
 	</feature>
+	<feature name="Device">
+        <param name="ios-package" value="CDVDevice" />
+    </feature>
+
 	
 	<platform name="android">
 		<icon src="res/drawable-hdpi/ic_launcher.png"  gap:platform="android" gap:density="hdpi" />
