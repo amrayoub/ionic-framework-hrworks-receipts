@@ -106,11 +106,11 @@
 							collection-item-width="'100%'"
 							href="#/tab/receipt/{{receipt.guid}}">
 							<div class="row">
-								<div class="col col-50">
+								<div class="col col-67">
 									<p><b>{{receipt.text}}</b></p>
 									<span ng-bind="receipt.receiptKind.description"></span></p>
 								</div>
-								<div class="col col-50" style="text-align:right;">
+								<div class="col col-33" style="text-align:right;">
 									<p>{{ receipt.date | date : shortDate}}</p>
 									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 								</div>

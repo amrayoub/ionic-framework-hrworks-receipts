@@ -87,7 +87,7 @@
 		</script>
 
 		<script id="receipts.html" type="text/ng-template">
-			<ion-view title="{{ 'RECEIPTS' | translate }}">
+			<ion-view title="{{ 'RECEIPTS' | translate }}" class="hide-tabs">
 				<ion-nav-buttons side="left">
 					<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
 				</ion-nav-buttons>
@@ -106,11 +106,11 @@
 							collection-item-width="'100%'"
 							href="#/tab/receipt/{{receipt.guid}}">
 							<div class="row">
-								<div class="col col-50">
+								<div class="col col-70">
 									<p><b>{{receipt.text}}</b></p>
 									<span ng-bind="receipt.receiptKind.description"></span></p>
 								</div>
-								<div class="col col-50" style="text-align:right;">
+								<div class="col col-30" style="text-align:right;">
 									<p>{{ receipt.date | date : shortDate}}</p>
 									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 								</div>

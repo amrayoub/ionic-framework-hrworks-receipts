@@ -32,12 +32,15 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 .controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
+	
 	$localstorage.setObject('copyGUID', new Array());
 	var tabs = document.querySelectorAll('div.tabs')[0];
 	tabs = angular.element(tabs);
+	angular.element(document).find('ion-content').addClass('remove-tabs');
 	tabs.css('display', 'none');
 	$scope.$on('$destroy', function() {
 		tabs.css('display', '');
+		
 	});
 	console.log($ionicViewService);
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
@@ -499,7 +502,7 @@ angular.module('starter.controllers', ['ionic'])
 				guid : generateGUID()
 			});
 		}
-	};
+	}
 })
 
 .controller('infosCtrl', function ($scope) {

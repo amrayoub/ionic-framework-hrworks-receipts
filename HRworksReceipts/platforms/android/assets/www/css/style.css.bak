@@ -50,3 +50,9 @@ form .has-error input, form .has-error {
 form.ng-submitted input.ng-valid + i.error {
 	display: none;
 }
+.hide-footer .bar-footer, .hide-footer .tabs {
+display: flex;
+}
+.hide-footer .has-footer, .hide-footer .has-tabs {
+bottom: 44px;
+}
