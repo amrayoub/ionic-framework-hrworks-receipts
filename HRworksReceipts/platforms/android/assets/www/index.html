@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-		<title>HRworks</title>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimal-ui">
+		<title>HRworks - Belegerfassung</title>
 
 		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
@@ -16,13 +16,20 @@
 		<script src="lib/ionic/js/ionic.bundle.js"></script>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.2.15/angular-locale_de-de.js"></script>
 		<!-- cordova script (this will be a 404 during development) -->
+		<script src="lib/ngCordova/dist/ng-cordova.js"></script>
 		<script src="cordova.js"></script>
+		
+		<!-- API JS -->
+		
+		<script src="js/hmacsha1.js"></script>
+		<script src="js/awssigner.js"></script>
 
 		<!-- your app's js -->
 		<script src="js/app.js"></script>
 		<script src="js/controllers.js"></script>
 		<script src="js/services.js"></script>
 		<script src="js/validation.js"></script>
+		<script src="js/angular-translate.min.js"></script>
 	</head>
 	<body ng-app="starter" animation="slide-left-right-ios7">
 	
@@ -35,22 +42,52 @@
 	
 		<script id="tabs.html" type="text/ng-template">
 			<ion-tabs class="tabs-icon-top tabs-positive">
-				<ion-tab title="Belege" icon="icon ion-clipboard" href="#/tab/receipts">
+				<ion-tab title="{{ 'RECEIPTS' | translate }}" icon="icon ion-clipboard" href="#/tab/receipts">
 					<ion-nav-view name="receipts"></ion-nav-view>
 				</ion-tab>
 
-				<ion-tab title="Infos" icon="icon ion-information-circled" href="#/tab/infos">
+				<ion-tab title="{{ 'INFOS' | translate }}" icon="icon ion-information-circled" href="#/tab/infos">
 					<ion-nav-view name="infos"></ion-nav-view>
 				</ion-tab>
 
-				<ion-tab title="Einstellungen" icon="icon ion-wrench" href="#/tab/settings">
+				<ion-tab title="{{ 'SETTINGS' | translate }}" icon="icon ion-wrench" href="#/tab/settings">
 					<ion-nav-view name="settings"></ion-nav-view>
 				</ion-tab>
 			</ion-tabs>
 		</script>
 
+		<script id="login.html" type="text/ng-template">
+			<ion-view title="{{ 'LOGIN' | translate }}">
+				<ion-nav-buttons side="right">
+					<button class="button button-icon button-clear ion-checkmark" form="loginForm"></button>
+				</ion-nav-buttons>
+				<ion-content>
+					<form novalidate="novalidate" on-valid-submit="login(user)" id="loginForm">
+					<div class="list">
+						<label class="item item-input item-stacked-label">
+							<span class="input-label" translate="COMPNYID"></span>
+							<input type="text" ng-model="user.companyId">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label" translate="PERSONID"></span>
+							<input type="text" ng-model="user.personId">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label" translate="MOBILEPASSWORD"></span>
+							<input type="text" ng-model="user.mobilePassword">
+						</label>
+					</div>
+					</form>
+					</div>
+					<div class="card">
+						<div class="item item-text-wrap" translate="LOGIN_INFO_TEXT"></div>
+					</div>
+				</ion-content>
+			</ion-view>
+		</script>
+
 		<script id="receipts.html" type="text/ng-template">
-			<ion-view title="Belege">
+			<ion-view title="{{ 'RECEIPTS' | translate }}">
 				<ion-nav-buttons side="left">
 					<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
 				</ion-nav-buttons>
@@ -58,13 +95,16 @@
 					<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/receipt/new')"></button>
 				</ion-nav-buttons>
 				<ion-content has-header="true">
+					<ion-refresher
+						pulling-text="{{ 'SYNCHRONIZE' | translate }}"
+						on-refresh="show()">
+					</ion-refresher>
 					<ion-list option-buttons="itemButtons">
 						<ion-item class="item myItem"
-							collection-repeat="receipt in receipts | orderBy:timestamp"
+							collection-repeat="receipt in receipts | orderBy: 'timestamp':true"
 							collection-item-height="70"
 							collection-item-width="'100%'"
-							href="#/tab/receipt/{{receipt.guid}}"	
-							">
+							href="#/tab/receipt/{{receipt.guid}}">
 							<div class="row">
 								<div class="col col-50">
 									<p><b>{{receipt.text}}</b></p>
@@ -75,131 +115,182 @@
 									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 								</div>
 							</div>
-							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/updateReceipt/{{ receipt.guid }}')">Bearbeiten</ion-option-button>
-							<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)">Löschen</ion-option-button>
-						</ion-item>
+							<!--
+							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/receipt/{{ receipt.guid }}')" translate="EDIT"></ion-option-button>
+							<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)" translate="DELETE"></ion-option-button>
+							-->
 					</ion-list>
 				</ion-content>
 			</ion-view>
 		</script>
 	
 		<script id="settings.html" type="text/ng-template">
-			<ion-view title="Einstellungen">
+			<ion-view title="{{ 'SETTINGS' | translate }}">
 				<ion-content class="has-header" padding="true">
-					<h1> Einstelungen</h1>
+					<h1 translate="SETTINGS"></h1>
+					<div class="list">
+						<div class="button-bar">
+							<a class="button de {{(type == true) && 'active' || ''}}" ng-click="changeLang('de', $event)" translate="GERMAN"></a>
+							<a class="button en {{(type == '') && 'active' || ''}}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
+						</div>
+					</div>
+					<form novalidate="novalidate" on-valid-submit="saveSettings()">
+					<div class="list">
+						<label class="item item-input item-stacked-label">
+							<span class="input-label" translate="COMPANYID"></span>
+							<input type="text" ng-model="form.companyId">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label" translate="PERSONID"></span>
+							<input type="text" ng-model="form.personId">
+						</label>
+						<label class="item item-input item-stacked-label">
+							<span class="input-label" translate="MOBILEPASSWORD"></span>
+							<input type="text" ng-model="form.mobilePassword">
+						</label>
+						<label class="item item-input item-select">
+							<div class="input-label" translate="TARGETSERVER"></div>
+							<select ng-model="form.targetServer">
+								<option value="0">Produktiver Server</option>
+								<option value="demo-0">Testserver Demo</option>
+								<option value="area51-0">Testserver Area51</option>
+							</select>
+						</label>
+						<button type="submit" class="button button-positive button-block" translate="SAVE"></button>
+					</div>
+					</form>
 					<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen</button>
 				</ion-content>
 			</ion-view>
 		</script>
-
-		<script id="feedback.html" type="text/ng-template">
-			<ion-view title="Feedback">
-				<ion-content class="has-header" padding="true">
-					<div class="list">
-						<label class="item item-input">
-							<span class="input-label">To</span>
-							<input type="text">
-						</label>
-						<label class="item item-input">
-							<span class="input-label">Message</span>
-							<textarea rows="4"></textarea>
-						</label>
-					</div>
-					<button class="button icon icon-right ion-arrow-right-c button-balanced button-block">Send</button>
-				</ion-content>
-			</ion-view>
-		</script>
 		<script id="receipt.html" type="text/ng-template">
-			<ion-view title="Neuer Beleg">
+			<ion-view title="{{ receiptTitle }}">
 				<ion-nav-buttons side="right">
 					<button class="button button-icon button-clear ion-checkmark" form="myform"></button>
+					<button class="button button-icon button-clear ion-navicon" ng-if="isEdit()" ng-click="showActionsheet()"></button>
 				</ion-nav-buttons>
 				<ion-content has-header="true">
 					<form novalidate="novalidate" on-valid-submit="saveReceipt()" id="myform">
 					<div class="list">
 						<label class="item item-input item-stacked-label validated">
-							<span class="input-label">Bezeichnung</span>
-								<input name="text" type="text" placeholder="z.B. Aral Tankstelle" required="required" ng-model="form.text" />
-								<i class="error">Bitte geben Sie eine Bezeichnung ein.</i>
+							<span class="input-label" translate="DESCRIPTION"></span>
+								<input name="text" type="text" required="required" ng-model="form.text" />
+								<i class="error" translate="ERRORMESSAGE_DESCRIPTION"></i>
 						</label>
 						<label class="item item-input item-stacked-label validated">
-							<span class="input-label">Betrag</span>
+							<span class="input-label" translate="AMOUNT"></span>
 								<input type="tel" name="amount" pattern="[0-9.,]*" id='amount' step="any" required="required" ng-model="form.amount" ng-keyup="changeit(form.amount)"  />
-								<i class="error">Bitte geben Sie einen Betrag ein.</i>
+								<i class="error" translate="ERRORMESSAGE_AMOUNT"></i>
 						</label>
 						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openCurrenciesModal()">
-							<span class="input-label">Währung</span>
+							<span class="input-label" translate="CURRENCY"></span>
 							<span class="input-span">{{ form.currency.description }}</span>
 							<input type="hidden" name="currency" ng-model="form.currency.description" required="required">
-							<i class="error">Bitte wählen Sie eine Währung aus.</i>
+							<i class="error" translate="ERRORMESSAGE_CURRENCY"></i>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
 						<label class="item item-input item-stacked-label validated">
-							<span class="input-label">Datum</span>
+							<span class="input-label" translate="DATE"></span>
 							<input required="required" type="date" name="date" ng-model="form.date" />
-							<i class="error">Bitte geben Sie ein Datum ein.</i>
+							<i class="error" translate="ERRORMESSAGE_DATE"></i>
+						</label>
+						<label ng-if="form.receiptKind.isHotel == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="ENDDATE"></span>
+							<input required="required" type="date" name="date" ng-model="form.endDate" />
+							<i class="error" translate="ERRORMESSAGE_ENDDATE"></i>
 						</label>
 						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openReceiptKindsModal()">
-							<span class="input-label">Belegart</span>
+							<span class="input-label" translate="RECEIPTKIND"></span>
 							<span class="input-span">{{ form.receiptKind.description }}</span>
 							<input type="hidden" name="receiptKind" ng-model="form.receiptKind.description" required="required">
-							<i class="error">Bitte wählen Sie eine Belegart aus.</i>
+							<i class="error" translate="ERRORMESSAGE_RECEIPTKIND"></i>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
+						<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="REASON"></span>
+								<input name="text" type="text" required="required" ng-model="form.reason" />
+								<i class="error" translate="ERRORMESSAGE_REASON"></i>
+						</label>
+						<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="PERSONS"></span>
+								<input name="text" type="text" required="required" ng-model="form.persons" />
+								<i class="error" translate="ERRORMESSAGE_PERSONS"></i>
+						</label>
+						<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="PLACE"></span>
+								<input name="text" type="text" required="required" ng-model="form.place" />
+								<i class="error" translate="ERRORMESSAGE_PLACE"></i>
+						</label>
 						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openKindsOfPaymentModal()">
-							<span class="input-label">Zahlungsart</span>
+							<span class="input-label" translate="KINDOFPYMENT"></span>
 							<span class="input-span">{{ form.kindOfPayment.description }}</span>
 							<input type="hidden" name="kindOfPayment" ng-model="form.kindOfPayment.description" required="required">
-							<i class="error">Bitte wählen Sie eine Zahlungsart aus.</i>
+							<i class="error" translate="ERRORMESSAGE_KINDOFPYMENT"></i>
 							<i class="icon ion-chevron-right icon-gray"></i>
 						</label>
 					</div>
 					</form>
 				</ion-content>
 		</ion-view>
-	</script>
+		</script>
 
-	<script id="infos.html" type="text/ng-template">
-		<ion-view title="Infos">
-			<ion-content class="has-header" padding="true">
-				<h1>Infos</h1>
-			</ion-content>
-		</ion-view>
-	</script>
+		<script id="infos.html" type="text/ng-template">
+			<ion-view title="{{ 'INFOS' | translate }}">
+				<ion-content class="has-header" padding="true">
+					<h1 translate="INFOS"></h1>
+					<p translate="INFOS_INFO_TEXT"></p>
+					<h1 translate="FEEDBACK"></h1>
+					<p translate="FEEDBACK_QUESTION"></p>
+					<div class="list">
+						<label class="item item-input item-select">
+							<div class="input-label" translate="SUBJECT"></div>
+							<select>
+								<option translate="BUG"></option>
+								<option translate="ADVANCEMENT"></option>
+								<option translate="NEW_FUNCTIONALITY"></option>
+							</select>
+						</label>
+						<label class="item item-input">
+							 <textarea rows="10"></textarea>
+					  </label>
+					  <button class="button button-block button-positive" translate="SEND"></button>
+					</div>
+				</ion-content>
+			</ion-view>
+		</script>
 		<script id="currencies-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Währung wählen</h1>
+					<h1 class="title" translate="CHOOSE_CURRENCY"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeCurrenciesModal()"></button>
 				</ion-header-bar>
+
+				<ion-header-bar class="bar-light bar-subheader">
+					<div class="button-bar">
+						<a class="button {{(type == true) && 'active' || ''}}" ng-click="setType($event)">Favoriten</a>
+						<a class="button {{(type == '') && 'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
+					</div>
+						<div id="search-box" class="item-input-inset" style="padding:5px 5px 5px 10px;">
+							<input type="search" id="currenciesSearch" placeholder="Suche..." ng-model="data.searchQueryCurrencies" autofocus>
+							<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
+					</div>
+				</ion-header-bar>
 				<ion-content
+					style="top:127px"
 					start-y="55"
 					padding="false"
 					has-tabs="true"
 					has-header="true">
-					<div class="bar  bar-header">
-						<div class="button-bar">
-							<a class="button {{(type == true) &&  'active' || ''}}" ng-click="setType($event)">Favoriten</a>
-							<a class="button {{(type == '') &&  'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
-						</div>
-					</div>
-					<div id="search-box" class="bar bar-subheader item-input-inset">
-						<div class="item-input-wrapper">
-							<i class="icon ion-ios7-search placeholder-icon"></i>
-							<input type="search" placeholder="Suche" ng-model="data.searchQueryCurrencies">
-						</div>
-						<button class="button button-clear" ng-click="clearSearchCurrencies()">Abbrechen</button>
-					</div>
-					<div class="list" ng-if="showListCurrencies" style="top:43px">
-						<ion-radio 
-							class="item myItem" 
+					<div class="list" ng-if="showListCurrencies">
+						<ion-radio
+							class="item myItem"
 							collection-repeat="currency in currencies | filter: data.searchQueryCurrencies | filter:{isPreferred:type}"
 							collection-item-height="50"
 							collection-item-width="'100%'"
 							ng-value="currency.description"
 							ng-model="currenciesSelected.description"
 							ng-click="selectCurrency(currency)">
-								{{currency.description}}
+							{{ currency.symbol }} - {{currency.description}} 
 						</ion-radio>
 					</div>
 				</ion-content>
@@ -208,31 +299,30 @@
 		<script id="receiptKinds-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Belegart wählen</h1>
+					<h1 class="title" translate="CHOOSE_RECEIPTKIND"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeReceiptKindsModal()"></button>
+				</ion-header-bar>
+				<ion-header-bar class="bar-light bar-subheader">
+					<div id="search-box" class="item-input-inset" style="padding:0 0 0 10px;">
+						<input type="search" id="receiptKindsSearch" placeholder="Suche..." ng-model="data.searchQueryReceiptKinds" autofocus>
+						<button ng-if="data.searchQueryReceiptKinds.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchReceiptKinds()"></button>
+					</div>
 				</ion-header-bar>
 				<ion-content
 					start-y="55"
 					padding="false"
 					has-tabs="true"
 					has-header="true">
-				<div id="search-box" class="bar bar-header item-input-inset">
-						<div class="item-input-wrapper">
-							<i class="icon ion-ios7-search placeholder-icon"></i>
-							<input type="search" placeholder="Suche" ng-model="data.searchQueryReceiptKind">
-						</div>
-						<button class="button button-clear" ng-click="clearSearchReceiptKinds()">Abbrechen</button>
-					</div>
 					<div class="list" ng-if="showListReceiptKinds">
-						<ion-radio 
-							class="item myItem" 
+						<ion-radio
+							class="item myItem"
 							collection-repeat="receiptKind in receiptKinds | filter: data.searchQueryReceiptKinds"
 							collection-item-height="50"
 							collection-item-width="'100%'"
 							ng-value="receiptKind.description"
 							ng-model="receiptKindsSelected.description"
 							ng-click="selectReceiptKind(receiptKind)">
-								{{receiptKind.description}}
+							{{receiptKind.description}}
 						</ion-radio>
 					</div>
 				</ion-content>
@@ -241,31 +331,30 @@
 		<script id="kindsOfPayment-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Zahlungsart wählen</h1>
+					<h1 class="title" translate="CHOOSE_KINDOFPAYMENT"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeKindsOfPaymentModal()"></button>
+				</ion-header-bar>
+				<ion-header-bar class="bar-light bar-subheader">
+					<div id="search-box" class="item-input-inset" style="padding:0 0 0 10px;">
+						<input type="search" id="kindsOfPaymentSearch" placeholder="Suche..." ng-model="data.searchQueryKindsOfPayment" autofocus>
+						<button ng-if="data.searchQueryKindsOfPayment.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchKindsOfPayment()"></button>
+					</div>
 				</ion-header-bar>
 				<ion-content
 					start-y="55"
 					padding="false"
 					has-tabs="true"
 					has-header="true">
-				<div id="search-box" class="bar bar-header item-input-inset">
-						<div class="item-input-wrapper">
-							<i class="icon ion-ios7-search placeholder-icon"></i>
-							<input type="search" placeholder="Suche" ng-model="data.searchQueryKindsOfPayment">
-						</div>
-						<button class="button button-clear" ng-click="clearSearchKindsOfPayment()">Abbrechen</button>
-					</div>
 					<div class="list" ng-if="showListKindsOfPayment">
-						<ion-radio 
-							class="item myItem" 
-							collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQueryKindsOfPayment"
-							collection-item-height="50"
-							collection-item-width="'100%'"
-							ng-value="kindOfPayment.description"
-							ng-model="kindOfPaymentSelected.description"
-							ng-click="selectKindOfPayment(kindOfPayment)">
-								{{kindOfPayment.description}}
+						<ion-radio
+						class="item myItem"
+						collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQueryKindsOfPayment"
+						collection-item-height="50"
+						collection-item-width="'100%'"
+						ng-value="kindOfPayment.description"
+						ng-model="kindOfPaymentSelected.description"
+						ng-click="selectKindOfPayment(kindOfPayment)">
+						{{kindOfPayment.description}}
 						</ion-radio>
 					</div>
 				</ion-content>
