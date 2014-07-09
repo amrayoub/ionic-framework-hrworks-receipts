@@ -1,62 +1,106 @@
 angular.module('validation', ['ionic'])
-.directive('onValidSubmit', ['$parse', '$timeout', function($parse, $timeout) {
-    return {
-      require: '^form',
-      restrict: 'A',
-      link: function(scope, element, attrs, form) {
-        form.$submitted = false;
-        var fn = $parse(attrs.onValidSubmit);
-        element.on('submit', function(event) {
-          scope.$apply(function() {
-            element.addClass('ng-submitted');
-            form.$submitted = true;
-            if (form.$valid) {
-              if (typeof fn === 'function') {
-                fn(scope, {$event: event});
-              }
-            }
-          });
-        });
-      }
-    }
+ .directive('onValidSubmit', ['$parse', '$timeout', 'ModalStatus', function($parse, $timeout, ModalStatus) {
+return {
+require: '^form',
+restrict: 'A',
+link: function(scope, element, attrs, form) {
+var forEachField = function(element, fn) {
+var inputs = element.find('*');
+for (var i = 0; i < inputs.length; i++) {
+var input = inputs[i];
+var attributes = input.attributes;
+if (!!attributes.getNamedItem('ng-model') && !!attributes.getNamedItem('name')) {
+var field = form[input.name];
+if (!!field) {
+var ret = fn(input, field);
+if (ret !== void 0) {
+return ret;
+}
+}
+}
+}
+return void 0;
+};
  
-  }])
-  .directive('validated', ['$parse', function($parse) {
-    return {
-      restrict: 'AEC',
-      require: '^form',
-      link: function(scope, element, attrs, form) {
-        var inputs = element.find("*");
-        for(var i = 0; i < inputs.length; i++) {
-          (function(input){
-            var attributes = input.attributes;
-			console.log(attributes.getNamedItem('ng-model'));
-            if (attributes.getNamedItem('ng-model') != void 0 && attributes.getNamedItem('name') != void 0) {
-			
-              var field = form[attributes.name.value];
-              if (field != void 0) {
-                angular.element(input).bind('blur',function(){
-                  scope.$apply(function(){
-                    field.$blurred = true;
-                  })
-                });
-                console.log(scope);
-                scope.$watch(function() {
-                  return form.$submitted + "_" + field.$valid + "_" + field.$blurred;
-                }, function() {console.log(arguments);
-                  if (!field.$blurred && form.$submitted != true) return;
-                  var inp = angular.element(input);
-                  if (inp.hasClass('ng-invalid')) {
-                    element.removeClass('has-success');
-                    element.addClass('has-error');
-                  } else {
-                    element.removeClass('has-error').addClass('has-success');
-                  }
-                });
-              }
-            }
-          })(inputs[i]);
-        }
-      }
-    }
-  }]);
+form.$submitted = false;
+var fn = $parse(attrs.onValidSubmit);
+ 
+window.setTimeout(function() {
+var input = element.find('input');
+input && input.focus && input.focus();
+console.log('focused');
+}, 600);
+ 
+scope.hasError = function(name) {
+if (!name || form.$submitted === false) return false;
+var hasError =
+forEachField(element, function(input, field) {
+if (field.$name === name) {
+return field.$invalid;
+}
+});
+return hasError || false;
+};
+element.on('submit', function(event) {
+forEachField(element, function(input, field) {
+if (input.type === 'checkbox' || input.type === 'hidden') {
+field.$setViewValue(field.$viewValue);
+} else if (input.hasOwnProperty('value')) {
+field.$setViewValue(input.value);
+} else {
+field.$setViewValue(angular.element(input).val());
+}
+});
+ 
+scope.$apply(function() {
+element.addClass('ng-submitted');
+form.$submitted = true;
+if (form.$valid) {
+if (typeof fn === 'function') {
+if (ModalStatus.isModalShowing()) return;
+ModalStatus.begin();
+fn(scope, {$event: event});
+}
+}
+});
+});
+}
+};
+ 
+}])
+ 
+.directive('validated', ['$parse', function() {
+var processValidated = function(scope, element, form, input) {
+var attributes = input.attributes;
+if (!!attributes.getNamedItem('ng-model') && !!attributes.getNamedItem('name')) {
+var field = form[attributes.name.value];
+if (!!field) {
+scope.$watch(function() {
+return form.$submitted + '_' + field.$valid;
+}, function() {
+if (form.$submitted !== true) {
+return;
+}
+var inp = angular.element(input);
+if (inp.hasClass('ng-invalid')) {
+element.removeClass('has-success');
+element.addClass('has-error');
+} else {
+element.removeClass('has-error').addClass('has-success');
+}
+});
+}
+}
+};
+return {
+restrict: 'AEC',
+require: '^form',
+link: function(scope, element, attrs, form) {
+var inputs = element.find('*');
+for (var i = 0; i < inputs.length; i++) {
+processValidated(scope, element, form, inputs[i]);
+}
+}
+};
+}])
+;

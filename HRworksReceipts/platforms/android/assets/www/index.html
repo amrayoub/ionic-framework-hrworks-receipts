@@ -173,9 +173,9 @@
 					<form novalidate="novalidate" on-valid-submit="saveReceipt()" id="myform">
 					<div class="list">
 						<label class="item item-input item-stacked-label validated">
-							<span class="input-label" translate="RECEIPTNAME"></span>
+							<span class="input-label" translate="DESCRIPTION"></span>
 								<input name="text" type="text" required="required" ng-model="form.text" />
-								<i class="error" translate="ERRORMESSAGE_RECEIPTNAME"></i>
+								<i class="error" translate="ERRORMESSAGE_DESCRIPTION"></i>
 						</label>
 						<label class="item item-input item-stacked-label validated">
 							<span class="input-label" translate="AMOUNT"></span>
@@ -194,12 +194,32 @@
 							<input required="required" type="date" name="date" ng-model="form.date" />
 							<i class="error" translate="ERRORMESSAGE_DATE"></i>
 						</label>
+						<label ng-if="form.receiptKind.isHotel == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="ENDDATE"></span>
+							<input required="required" type="date" name="date" ng-model="form.endDate" />
+							<i class="error" translate="ERRORMESSAGE_ENDDATE"></i>
+						</label>
 						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openReceiptKindsModal()">
 							<span class="input-label" translate="RECEIPTKIND"></span>
 							<span class="input-span">{{ form.receiptKind.description }}</span>
 							<input type="hidden" name="receiptKind" ng-model="form.receiptKind.description" required="required">
 							<i class="error" translate="ERRORMESSAGE_RECEIPTKIND"></i>
 							<i class="icon ion-chevron-right icon-gray"></i>
+						</label>
+						<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="REASON"></span>
+								<input name="text" type="text" required="required" ng-model="form.reason" />
+								<i class="error" translate="ERRORMESSAGE_REASON"></i>
+						</label>
+						<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="PERSONS"></span>
+								<input name="text" type="text" required="required" ng-model="form.persons" />
+								<i class="error" translate="ERRORMESSAGE_PERSONS"></i>
+						</label>
+						<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
+							<span class="input-label" translate="PLACE"></span>
+								<input name="text" type="text" required="required" ng-model="form.place" />
+								<i class="error" translate="ERRORMESSAGE_PLACE"></i>
 						</label>
 						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openKindsOfPaymentModal()">
 							<span class="input-label" translate="KINDOFPYMENT"></span>
@@ -241,7 +261,7 @@
 		<script id="currencies-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Währung wählen</h1>
+					<h1 class="title" translate="CHOOSE_CURRENCY"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeCurrenciesModal()"></button>
 				</ion-header-bar>
 
@@ -279,7 +299,7 @@
 		<script id="receiptKinds-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Belegart wählen</h1>
+					<h1 class="title" translate="CHOOSE_RECEIPTKIND"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeReceiptKindsModal()"></button>
 				</ion-header-bar>
 				<ion-header-bar class="bar-light bar-subheader">
@@ -311,7 +331,7 @@
 		<script id="kindsOfPayment-modal.html" type="text/ng-template">
 			<div class="modal">
 				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title">Zahlungsart wählen</h1>
+					<h1 class="title" translate="CHOOSE_KINDOFPAYMENT"></h1>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeKindsOfPaymentModal()"></button>
 				</ion-header-bar>
 				<ion-header-bar class="bar-light bar-subheader">

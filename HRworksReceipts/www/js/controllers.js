@@ -9,8 +9,11 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.login = function (user) {
 		var promise = getData.userLogin(user);
 		promise.then(function(success) {
-			console.log(success.errors.length);
 			if(success.errors.length == 0) {
+				console.log(success);
+				console.log(success.result);
+				console.log(success.result.person);
+				$scope.user.person = success.result.person;
 				$localstorage.setObject("user", user);
 				$state.go("tab.receipts");
 			} else {
@@ -29,12 +32,15 @@ angular.module('starter.controllers', ['ionic'])
 	};
 })
 .controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams) {
+	
 	$localstorage.setObject('copyGUID', new Array());
 	var tabs = document.querySelectorAll('div.tabs')[0];
 	tabs = angular.element(tabs);
+	angular.element(document).find('ion-content').addClass('remove-tabs');
 	tabs.css('display', 'none');
 	$scope.$on('$destroy', function() {
 		tabs.css('display', '');
+		
 	});
 	console.log($ionicViewService);
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
@@ -102,6 +108,14 @@ angular.module('starter.controllers', ['ionic'])
 			timeStamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 			guid : $scope.generateGUID()
 		};
+		if($scope.form.receiptKind.isHotel == true) {
+			theReceiptCopy.endDate = $scope.form.endDate;
+		}
+		if($scope.form.receiptKind.isBusinessEntertainment == true) {
+			theReceiptCopy.reason = $scope.form.reason;
+			theReceiptCopy.persons = $scope.form.persons;
+			theReceiptCopy.place = $scope.form.place;
+		}
 		theReceiptCopy.guid = $stateParams.guid;
 		$localstorage.updateObject('receipts', theReceiptCopy);
 		theReceiptCopy.guid = $scope.generateGUID();
@@ -219,6 +233,14 @@ angular.module('starter.controllers', ['ionic'])
 				currency : $scope.form.currency,
 				timeStamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
 			};
+			if($scope.form.receiptKind.isHotel == true) {
+				theReceipt.endDate = $scope.form.endDate;
+			}
+			if($scope.form.receiptKind.isBusinessEntertainment == true) {
+				theReceipt.reason = $scope.form.reason;
+				theReceipt.persons = $scope.form.persons;
+				theReceipt.place = $scope.form.place;
+			}
 			if ($stateParams.guid == "new") {
 				theReceipt.guid = $scope.generateGUID();
 				$localstorage.insertObject('receipts', theReceipt);
@@ -480,7 +502,7 @@ angular.module('starter.controllers', ['ionic'])
 				guid : generateGUID()
 			});
 		}
-	};
+	}
 })
 
 .controller('infosCtrl', function ($scope) {

@@ -56,3 +56,6 @@ display: flex;
 .hide-footer .has-footer, .hide-footer .has-tabs {
 bottom: 44px;
 }
+.remove-tabs {
+bottom: 0px;
+}

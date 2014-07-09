@@ -92,7 +92,7 @@ angular.module('starter.services', [])
 		}
 	}
 })
-.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, GetCurrentUrl) {
+.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, GetCurrentUrl) {
 
 	generateSignature = function(companyId, personId, request, timeStamp, password) {
 		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
@@ -139,7 +139,7 @@ angular.module('starter.services', [])
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=iso-8895-1' }
 		});
 	};
-	changeReceiptObject= function(receipts) {
+	changeReceiptObject = function(receipts) {
 		updatedReceiptsCollection = new Array();
 		for(var i = 0; i < receipts.length; i++) {
 			receipt = receipts[i];
@@ -182,30 +182,26 @@ angular.module('starter.services', [])
 		userLogin : function(user) {
 			var deferred = $q.defer();
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
-			var request = "HrwGetKindsOfPaymentApi class";
+			var request = "HrwRegisterDeviceApi class";
 			jsonObject = {};
 			jsonObject.companyId = user.companyId;
 			jsonObject.personId = user.personId;
 			jsonObject.dateAndTime = (new Date()).toISO8601();
 			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-			jsonObject.deviceId = "1";
-			jsonObject.languageKey = "de";
+			jsonObject.deviceId = $cordovaDevice.getUUID();
+			jsonObject.deviceName = $cordovaDevice.getModel();
+			jsonObject.languageKey = $translate.use();
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
 			url.success(function (data, status, headers, config) {
 				console.log(data.url);
 				$http({
-					url: data.url + "HrwGetKindsOfPaymentApi",
+					url: data.url + "HrwRegisterDeviceApi",
 					method: "POST",
 					data: JSON.stringify(jsonObject),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded',  'Content-Transfer-Encoding': 'utf-8' }
 				}).success(function (data, status, headers, config) {
-					deferred.resolve(data);
-					//console.log(data.errors.length);
-					//console.log(data.errors);
-					//if(data.errors.length == 0) {
-				//		$localstorage.setObject('user', user);
-					//	return data;					
+					deferred.resolve(data);			
 				}).error(function(){
 					deferred.reject('Greeting ' + name + ' is not allowed.');
 				})
