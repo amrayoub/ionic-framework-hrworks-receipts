@@ -49,8 +49,9 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form = {};
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 	$scope.form.currency = $localstorage.getObjects('lastCurrency');
-	$scope.form.kindOfPayment = ""
-		$scope.form.receiptKind = "";
+	$scope.form.persons = $localstorage.getObjects('user').person + ',';
+	$scope.form.kindOfPayment = "";
+	$scope.form.receiptKind = "";
 	$scope.form.amount = "0.00";
 	if ($stateParams.guid != "new") {
 		$scope.form = $localstorage.getObject('receipts', $stateParams.guid);

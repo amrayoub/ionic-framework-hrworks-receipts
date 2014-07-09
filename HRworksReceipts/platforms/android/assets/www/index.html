@@ -87,7 +87,7 @@
 		</script>
 
 		<script id="receipts.html" type="text/ng-template">
-			<ion-view title="{{ 'RECEIPTS' | translate }}">
+			<ion-view title="{{ 'RECEIPTS' | translate }}" class="hide-tabs">
 				<ion-nav-buttons side="left">
 					<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
 				</ion-nav-buttons>
@@ -106,11 +106,11 @@
 							collection-item-width="'100%'"
 							href="#/tab/receipt/{{receipt.guid}}">
 							<div class="row">
-								<div class="col col-50">
+								<div class="col col-67">
 									<p><b>{{receipt.text}}</b></p>
 									<span ng-bind="receipt.receiptKind.description"></span></p>
 								</div>
-								<div class="col col-50" style="text-align:right;">
+								<div class="col col-33" style="text-align:right;">
 									<p>{{ receipt.date | date : shortDate}}</p>
 									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 								</div>
@@ -191,13 +191,14 @@
 						</label>
 						<label class="item item-input item-stacked-label validated">
 							<span class="input-label" translate="DATE"></span>
-							<input required="required" type="date" name="date" ng-model="form.date" />
+							<input id="date" required="required" type="date" name="date" ng-model="form.date" />
 							<i class="error" translate="ERRORMESSAGE_DATE"></i>
 						</label>
 						<label ng-if="form.receiptKind.isHotel == true" class="item item-input item-stacked-label validated">
 							<span class="input-label" translate="ENDDATE"></span>
-							<input required="required" type="date" name="date" ng-model="form.endDate" />
+							<input ng-blur="checkDate()" required="required" type="date" name="enddate" ng-model="form.endDate" />
 							<i class="error" translate="ERRORMESSAGE_ENDDATE"></i>
+							<i style="color:#cc2511" ng-show="form.endDate < form.date" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
 						</label>
 						<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openReceiptKindsModal()">
 							<span class="input-label" translate="RECEIPTKIND"></span>
