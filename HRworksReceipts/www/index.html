@@ -263,23 +263,21 @@
 		</script>
 		<script id="currencies-modal.html" type="text/ng-template">
 			<div class="modal">
-				<ion-header-bar class="bar bar-header bar-positive">
-					<h1 class="title" translate="CHOOSE_CURRENCY"></h1>
+				<ion-header-bar class="bar bar-header bar-positive item-input-inset">
+					<label class="item-input-wrapper" style="background: none repeat scroll 0 0 #145fd7;">
+						<input style="background-color:#145fd7; color:#fff;" type="search" id="currenciesSearch" placeholder="{{ 'SEARCH' | translate }}" ng-model="data.searchQueryCurrencies" autofocus>
+						<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
+						</label>
 					<button class="button button-clear button-primary ion-chevron-down" ng-click="closeCurrenciesModal()"></button>
 				</ion-header-bar>
 
 				<ion-header-bar class="bar-light bar-subheader">
 					<div class="button-bar">
-						<a class="button {{(type == true) && 'active' || ''}}" ng-click="setType($event)">Favoriten</a>
-						<a class="button {{(type == '') && 'active' || ''}}" ng-click="setType($event)">Alle Währungen</a>
-					</div>
-						<div id="search-box" class="item-input-inset" style="padding:5px 5px 5px 10px;">
-							<input type="search" id="currenciesSearch" placeholder="Suche..." ng-model="data.searchQueryCurrencies" autofocus>
-							<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
+						<a class="button {{(type == true) && 'active' || ''}}" ng-click="setType($event)" translate="FAVORITES"></a>
+						<a class="button {{(type == '') && 'active' || ''}}" ng-click="setType($event)" translate="ALLCURRENCIES"></a>
 					</div>
 				</ion-header-bar>
 				<ion-content
-					style="top:127px"
 					start-y="55"
 					padding="false"
 					has-tabs="true"

@@ -164,6 +164,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUBJECT : 'Subject',
 		SYNCHRONIZE : 'Synchronize...',
 		TARGETSERVER : 'Target Server',
+		ALLCURRENCIES : 'All Currencies',
+		FAVORITES : 'Favorites'
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -202,7 +204,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		NEW_FUNCTIONALITY : 'neue Funktionalit&auml;t',
 		PERSONID : 'Benutzerkennung',
 		RECEIPT : 'Beleg',
-		REASONS : 'Grund der Bewirtung',
+		REASON : 'Grund der Bewirtung',
 		PERSONS : 'Bewirtete Personen',
 		PLACE : 'Ort der Bewirtung',
 		RECEIPTKIND : 'Belegart',
@@ -215,6 +217,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUBJECT : 'Betreff',
 		SYNCHRONIZE : 'Synchronisieren...',
 		TARGETSERVER : 'Zielsever',
+		ALLCURRENCIES : 'Alle W&auml;hrungen',
+		FAVORITES : 'Favoriten',
+		SEARCH : 'Suche...'
 	});
 	$translateProvider.preferredLanguage('de');
 });

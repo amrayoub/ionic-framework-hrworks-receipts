@@ -35,7 +35,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if (window.cordova && window.cordova.plugins.Keyboard) {
-			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
 		if (window.StatusBar) {
 			console.log(window.StatusBar);
@@ -164,6 +164,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUBJECT : 'Subject',
 		SYNCHRONIZE : 'Synchronize...',
 		TARGETSERVER : 'Target Server',
+		ALLCURRENCIES : 'All Currencies',
+		FAVORITES : 'Favorites'
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -215,6 +217,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUBJECT : 'Betreff',
 		SYNCHRONIZE : 'Synchronisieren...',
 		TARGETSERVER : 'Zielsever',
+		ALLCURRENCIES : 'Alle W&auml;hrungen',
+		FAVORITES : 'Favoriten',
+		SEARCH : 'Suche...'
 	});
 	$translateProvider.preferredLanguage('de');
 });
