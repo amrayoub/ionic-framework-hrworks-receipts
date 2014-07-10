@@ -89,15 +89,17 @@
 		<script id="receipts.html" type="text/ng-template">
 			<ion-view title="{{ 'RECEIPTS' | translate }}" class="hide-tabs">
 				<ion-nav-buttons side="left">
-					<button class="button button-icon button-clear ion-loop" ng-click="show()"></button>
+					<button class="button button-icon button-clear ion-loop" ng-click="doSync()"></button>
 				</ion-nav-buttons>
 				<ion-nav-buttons side="right">
 					<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/receipt/new')"></button>
 				</ion-nav-buttons>
 				<ion-content has-header="true">
 					<ion-refresher
-						pulling-text="{{ 'SYNCHRONIZE' | translate }}"
-						on-refresh="show()">
+						on-refresh="doRefresh()"
+						refreshing-text="{{ 'SYNCHRONIZE' | translate }}"
+						refreshing-icon="ion-loading-c">
+						>
 					</ion-refresher>
 					<ion-list option-buttons="itemButtons">
 						<ion-item class="item myItem"

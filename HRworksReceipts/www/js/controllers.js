@@ -369,16 +369,15 @@ angular.module('starter.controllers', ['ionic'])
 		$location.path(hash);
 	}
 	$scope.receipts = $localstorage.getObjects('receipts');
-
-	$scope.show = function () {
+	$scope.doSync = function () {
 		getData.all();
 		$ionicLoading.show({
 			template : 'Synchronisieren...',
 			duration : '1000'
 		});
-		$timeout(function () {
-			$scope.$broadcast('scroll.refreshComplete');
-		}, 1000);
+	}
+	$scope.doRefresh = function () {
+		getData.all();
 	};
 	$scope.hide = function () {
 		$ionicLoading.hide();
