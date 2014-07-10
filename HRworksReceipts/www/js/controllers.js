@@ -375,14 +375,18 @@ angular.module('starter.controllers', ['ionic'])
 			template : 'Synchronisieren...',
 			duration : '1000'
 		});
+	$timeout(function() {
+		$scope.receipts = $localstorage.getObjects('receipts');
+	},1000); 
 	}
 	$scope.doRefresh = function () {
         console.log("start doRefresh");
+		getData.all();
         $timeout(function() {
-            getData.all();
             $scope.$broadcast('scroll.refreshComplete');
-        },1000);
-        console.log("done");
+			$scope.receipts = $localstorage.getObjects('receipts');
+			console.log("done");
+        },1000);     
 	};
 	$scope.hide = function () {
 		$ionicLoading.hide();
