@@ -391,9 +391,11 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.hide = function () {
 		$ionicLoading.hide();
 	};
-	if ($localstorage.getObjects('currencies').length == 0) {
-		$scope.show();
-	}
+	$timeout(function() {
+		if ($localstorage.getObjects('currencies').length == 0) {
+		$scope.doSync();
+		}
+	}, 200);
 	$scope.removeReceipt = function (guid) {
 		var x = $localstorage.getIndex('receipts', guid);
 		$scope.receipts.splice(x, 1);

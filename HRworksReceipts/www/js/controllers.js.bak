@@ -375,7 +375,9 @@ angular.module('starter.controllers', ['ionic'])
 			template : 'Synchronisieren...',
 			duration : '1000'
 		});
-	$scope.receipts = $localstorage.getObjects('receipts');
+	$timeout(function() {
+		$scope.receipts = $localstorage.getObjects('receipts');
+	},1000); 
 	}
 	$scope.doRefresh = function () {
         console.log("start doRefresh");
