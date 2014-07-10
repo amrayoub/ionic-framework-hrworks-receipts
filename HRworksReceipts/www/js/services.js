@@ -172,7 +172,7 @@ angular.module('starter.services', [])
 					$timeout(function() {
 						updatedReceipts = changeReceiptObject(data.result);
 						$localstorage.setObject('receipts', updatedReceipts);
-						location.reload();
+						//location.reload();
 					},500)
 				});
 			}).error(function(data, status, headers, config) {
