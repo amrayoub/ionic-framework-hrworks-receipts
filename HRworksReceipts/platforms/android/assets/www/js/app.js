@@ -9,7 +9,8 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency, GetCurrentUrl) {
+.run(function ($localstorage, $ionicPopup, LastCurrency, GetCurrentUrl) {
+	}
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -35,7 +36,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if (window.cordova && window.cordova.plugins.Keyboard) {
-			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
 		if (window.StatusBar) {
 			console.log(window.StatusBar);
@@ -57,7 +58,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	.state('tab', {
 		url : "/tab",
 		abstract : true,
-		templateUrl : "tabs.html"
+		templateUrl : "templates/tabs.html"
 	})
 
 	// Each tab has its own nav history stack:
@@ -66,7 +67,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		url : '/receipts',
 		views : {
 			'receipts' : {
-				templateUrl : 'receipts.html',
+				templateUrl : 'templates/receipts.html',
 				controller : 'receiptsCtrl'
 			}
 		}
@@ -75,7 +76,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		url : '/receipt/:guid',
 		views : {
 			'receipts' : {
-				templateUrl : 'receipt.html',
+				templateUrl : 'templates/receipt.html',
 				controller : 'receiptCtrl'
 			}
 		}
@@ -85,7 +86,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		url : '/feedback',
 		views : {
 			'feedback' : {
-				templateUrl : 'feedback.html',
+				templateUrl : 'templates/feedback.html',
 				controller : 'feedbackCtrl'
 			}
 		}
@@ -95,7 +96,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		url : '/settings',
 		views : {
 			'settings' : {
-				templateUrl : 'settings.html',
+				templateUrl : 'templates/settings.html',
 				controller : 'settingsCtrl'
 			}
 		}
@@ -105,14 +106,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		url : '/infos',
 		views : {
 			'infos' : {
-				templateUrl : 'infos.html',
+				templateUrl : 'templates/infos.html',
 				controller : 'infosCtrl'
 			}
 		}
 	})
 	.state('login', {
 		url : '/login',
-		templateUrl : 'login.html',
+		templateUrl : 'templates/login.html',
 		controller : 'loginCtrl'
 	})
 	// if none of the above states are matched, use this as the fallback
@@ -139,7 +140,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ERRORMESSAGE_DATE : 'Date is required.',
 		ERRORMESSAGE_KINDOFPYMENT : 'Kind of Payment is required.',
 		ERRORMESSAGE_RECEIPTKIND : 'Receipt Kind is required.',
-		ERRORMESSAGE_RECEIPTNAME : 'Receiptname is required.',
+		ERRORMESSAGE_RECEIPTNAME : 'Description is required.',
+		ERRORMESSAGE_AMOUNTNOTVALIDE : 'sfdg',
 		FEEDBACK : 'Feedback',
 		FEEDBACK_QUESTION : 'About what do you want to inform us?',
 		GERMAN : 'German',
@@ -164,6 +166,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUBJECT : 'Subject',
 		SYNCHRONIZE : 'Synchronize...',
 		TARGETSERVER : 'Target Server',
+		ALLCURRENCIES : 'All Currencies',
+		FAVORITES : 'Favorites'
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -184,10 +188,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ERRORMESSAGE_CURRENCY : 'Bitte w&auml;hlen Sie eine W&auml;hrung aus.',
 		ERRORMESSAGE_DATE : 'Bitte geben Sie ein Datum ein.',
 		ERRORMESSAGE_ENDDATE : 'Bitte geben Sie ein Enddatum ein.',
-		ERRORMESSAGE_ENDDATETOLOW : 'Datum der Abreise vor der Anreise.',
+		ERRORMESSAGE_ENDDATETOLOW : 'Datum der Abreise liegt vor der Anreise.',
 		ERRORMESSAGE_KINDOFPYMENT : 'Bitte w&auml;hlen Sie eine Zahlungsart aus.',
 		ERRORMESSAGE_RECEIPTKIND : 'Bitte w&auml;hlen Sie eine Belegart aus.',
 		ERRORMESSAGE_DESCRIPTION : 'Bitte geben Sie eine Bezeichnung ein.',
+		ERRORMESSAGE_PERSONS : 'Bitte geben Sie die Personen ein.',
+		ERRORMESSAGE_REASON : 'Bitte geben Sie einen Grund an.',
+		ERRORMESSAGE_PLACE : 'Bitte geben Sie einen Ort ein.',
+		ERRORMESSAGE_AMOUNTNOTVALIDE : 'Der Betrag ist keine Zahl.',
 		FEEDBACK : 'Feedback',
 		FEEDBACK_QUESTION : 'Was wollen Sie uns mitteilen?',
 		GERMAN : 'Deutsch',
@@ -215,6 +223,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUBJECT : 'Betreff',
 		SYNCHRONIZE : 'Synchronisieren...',
 		TARGETSERVER : 'Zielsever',
+		ALLCURRENCIES : 'Alle W&auml;hrungen',
+		FAVORITES : 'Favoriten',
+		SEARCH : 'Suche...'
 	});
 	$translateProvider.preferredLanguage('de');
 });

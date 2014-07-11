@@ -1,0 +1,30 @@
+<div class="modal">
+	<ion-header-bar class="bar bar-header bar-positive">
+		<h1 class="title" translate="CHOOSE_KINDOFPAYMENT"></h1>
+		<button class="button button-clear button-primary ion-chevron-down" ng-click="closeKindsOfPaymentModal()"></button>
+	</ion-header-bar>
+	<ion-header-bar class="bar bar-subheader item-input-inset">
+		<div class="item-input-wrapper">
+			<i class="icon ion-ios7-search placeholder-icon"></i>
+			<input type="search" id="kindsOfPaymentSearch" placeholder="{{ 'SEARCH' | translate }}" ng-model="data.searchQueryKindsOfPayment" />
+			<button ng-if="data.searchQueryReceiptKinds.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchReceiptKinds()"></button>
+		</div>
+	</ion-header-bar>
+	<ion-content
+		start-y="55"
+		padding="false"
+		has-header="true">
+		<div class="list" ng-if="showListKindsOfPayment">
+			<ion-radio
+			class="item myItem"
+			collection-repeat="kindOfPayment in kindsOfPayment | filter: data.searchQueryKindsOfPayment"
+			collection-item-height="50"
+			collection-item-width="'100%'"
+			ng-value="kindOfPayment.description"
+			ng-model="kindOfPaymentSelected.description"
+			ng-click="selectKindOfPayment(kindOfPayment)">
+			{{kindOfPayment.description}}
+			</ion-radio>
+		</div>
+	</ion-content>
+</div>

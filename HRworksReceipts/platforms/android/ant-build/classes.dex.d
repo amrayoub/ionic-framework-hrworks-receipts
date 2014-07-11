@@ -13,4 +13,7 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\globalization\Globalization$1.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\globalization\Globalization.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\globalization\GlobalizationError.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar$1.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar$2.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\dexedLibs\classes-6d6764da398f04c6b5ec1b63fe298d96.jar \
