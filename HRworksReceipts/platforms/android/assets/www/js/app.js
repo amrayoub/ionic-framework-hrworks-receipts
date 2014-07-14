@@ -173,6 +173,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ADVANCEMENT : 'Verbesserung',
 		AMOUNT : 'Betrag',
 		BUG : 'Fehler',
+		CANCEL : 'Abbrechen',
+		OK : 'Ok',
 		CHOOSE_CURRENCY : 'W&auml;hrung w&auml;hlen',
 		CHOOSE_KINDOFPAYMENT : 'Zahlungsart w&auml;hlen',
 		CHOOSE_RECEIPTKIND : 'Belegart w&auml;hlen',
@@ -183,7 +185,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ENDDATE : 'Abreise Datum',
 		DELETE : 'L&ouml;schen',
 		EDIT : 'Bearbeiten',
+		EDIT_RECEIPT : 'Beleg Bearbeiten',
 		ENGLISH : 'Englisch',
+		ERROR : 'Fehler',
 		ERRORMESSAGE_AMOUNT : 'Bitte geben Sie einen Betrag ein.',
 		ERRORMESSAGE_CURRENCY : 'Bitte w&auml;hlen Sie eine W&auml;hrung aus.',
 		ERRORMESSAGE_DATE : 'Bitte geben Sie ein Datum ein.',
@@ -225,7 +229,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		TARGETSERVER : 'Zielserver',
 		ALLCURRENCIES : 'Alle W&auml;hrungen',
 		FAVORITES : 'Favoriten',
-		SEARCH : 'Suche...'
+		SEARCH : 'Suche...',
+		COPYRECEIPT : 'Beleg Kopieren',
+		COPYRECEIPT_INFO : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchf&uuml;hren?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Diese Meldung nicht mehr anzeigen.</font>',
+		COPYRECEIPT_ERROR : 'Der Beleg konnte nicht kopiert werden, da nicht alle Felder ausgef&uuml;llt sind.'
+		
 	});
 	$translateProvider.preferredLanguage('de');
 });

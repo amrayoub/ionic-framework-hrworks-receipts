@@ -51,9 +51,9 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form.receiptKind = "";
 	if ($stateParams.guid != "new") {
 		$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
-		$scope.receiptTitle = "Beleg Bearbeiten";
+		$scope.receiptTitle = "{{ 'EDIT_RECEIPT' | translate }}";
 	} else {
-		$scope.receiptTitle = "Neuer Beleg";
+		$scope.receiptTitle = "{{ 'NEWRECEIPT' | translate }}";
 	}
 	$scope.selectAmountInputType = function () {
 		if(ionic.Platform.isIOS()) {
@@ -121,21 +121,21 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.showActionsheet = function () {
 		$ionicActionSheet.show({
-			titleText : 'Belegoptionen:',
+			titleText : "{{ 'OPTIONS' | translate }}",
 			buttons : [{
-					text : '<i class="icon ion-ios7-copy-outline"></i> Kopieren'
+					text : "<i class='icon ion-ios7-copy-outline'></i> {{ 'COPY' | translate }}"
 				},
 			],
-			destructiveText : 'L&ouml;schen',
-			cancelText : 'Abbrechen',
+			destructiveText : "{{ 'DELETE' | translate }}",
+			cancelText : "{{ 'CANCEL' | translate }}",
 			scope : $scope,
 			buttonClicked : function (index) {
 				if (index == 0) {
 					if (!$scope.form.text || !$scope.form.amount || !$scope.form.date
 						 || !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency) {
 						$ionicPopup.alert({
-							title : '<b>Fehler:</b>',
-							content : 'Der Beleg konnte nicht kopiert werden, da nicht alle Felder ausgef&uuml;llt sind.'
+							title : "<b>{{ 'ERROR' | translate }}:</b>",
+							content : "{{ 'COPYRECEIPT_ERROR' | translate }}"
 						});
 						return true;
 					} else {
@@ -144,17 +144,17 @@ angular.module('starter.controllers', ['ionic'])
 							return true;
 						} else {
 							var confirmPopup = $ionicPopup.show({
-								title : '<b>Beleg kopieren:</b>',
-								template : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchf&uuml;hren?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Diese Meldung nicht mehr anzeigen.</font>',
+								title : "<b>{{ 'COPYRECEIPT' | translate }}</b>",
+								template : "{{ 'COPYRECEIPT_INFO' | translate }}",
 								scope : $scope,
 								buttons : [{
-										text : 'Abbrechen',
+										text : "{{ 'CANCEL' | translate }}",
 										onTap : function (e) {
 											return 1;
 										}
 									}, {
-										text : '<b>OK</b>',
-										type : 'button-positive',
+										text : "<b>{{ 'CANCEL' | translate }}</b>",
+										type : "button-positive",
 										onTap : function (e) {
 											if (typeof $scope.hideData.hideAlert === "undefined") {
 												return 2;
@@ -370,7 +370,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.doSync = function () {
 		getData.all();
 		$ionicLoading.show({
-			template : 'Synchronisieren...',
+			template : "{{ 'SYNCHRONIZE' | translate }}",
 			duration : '1000'
 		});
 	$timeout(function() {
@@ -411,8 +411,8 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.saveSettings = function() {
 		getData.all();
 		$localstorage.setObject('user', $scope.form);
-		};
-	}
+		}
+	};
 	$scope.type = true;
 	$scope.changeLang = function (key, event) {
 		if (angular.element(event.target).hasClass('de')) {
@@ -438,6 +438,7 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		return guid;
 	};
+	
 	$scope.create100Receipts = function () {
 		for (var i = 0; i < 100; i++) {
 			$localstorage.insertObject('receipts', {
@@ -451,8 +452,9 @@ angular.module('starter.controllers', ['ionic'])
 					isHotel : false
 				},
 				kindOfPayment : {
-					description : "Amex Privat",
-					id : "1"
+					"isDefault":true,
+					"description":"Bar Privat",
+					"id":"3"
 				},
 				currency : {
 					description : "Euro",

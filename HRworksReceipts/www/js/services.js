@@ -92,7 +92,7 @@ angular.module('starter.services', [])
 		}
 	}
 })
-.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, GetCurrentUrl) {
+.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
 
 	generateSignature = function(companyId, personId, request, timeStamp, password) {
 		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
@@ -131,7 +131,7 @@ angular.module('starter.services', [])
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = $cordovaDevice.getUUID();
+		jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
 		jsonObject.languageKey = $translate.use();
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
@@ -185,6 +185,9 @@ angular.module('starter.services', [])
 					},500)
 				});
 			}).error(function(data, status, headers, config) {
+				$localstorage.setObject('version', {
+					version : 2
+				});
 			});
 		},
 		userLogin : function(user) {
@@ -196,8 +199,8 @@ angular.module('starter.services', [])
 			jsonObject.personId = user.personId;
 			jsonObject.dateAndTime = (new Date()).toISO8601();
 			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-			jsonObject.deviceId = $cordovaDevice.getUUID();
-			jsonObject.deviceName = $cordovaDevice.getModel();
+			jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
+			jsonObject.deviceName = "pc";//$cordovaDevice.getModel();
 			jsonObject.languageKey = $translate.use();
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
