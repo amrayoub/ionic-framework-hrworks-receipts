@@ -194,6 +194,7 @@ angular.module('starter.controllers', ['ionic'])
 		return false;
 	}
 	$scope.saveReceipt = function () {
+		$scope.form.amount = $scope.form.amount.replace(",",".");
 		var errorMessage = "";
 		if ($scope.form.date > $scope.form.endDate) {
 			errorMessage = errorMessage + "" + "Enddatum liegt vor dem Startdatum<br>";
@@ -202,7 +203,7 @@ angular.module('starter.controllers', ['ionic'])
 			errorMessage = errorMessage + "" + "Betrag<br>";
 		}
 		if ($scope.amountValid()) {
-			errorMessage = errorMessage + "" + "Not a Number<br>";
+			errorMessage = errorMessage + "" + "Betrag<br>";
 		}
 		if (!$scope.form.date) {
 			errorMessage = errorMessage + "" + "Datum<br>";

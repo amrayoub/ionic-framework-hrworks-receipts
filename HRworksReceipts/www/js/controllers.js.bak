@@ -194,6 +194,7 @@ angular.module('starter.controllers', ['ionic'])
 		return false;
 	}
 	$scope.saveReceipt = function () {
+		$scope.form.amount = $scope.form.amount.replace(",",".");
 		var errorMessage = "";
 		if ($scope.form.date > $scope.form.endDate) {
 			errorMessage = errorMessage + "" + "Enddatum liegt vor dem Startdatum<br>";
@@ -419,9 +420,17 @@ angular.module('starter.controllers', ['ionic'])
 						title: 'Fehler bei der Anmeldung:',
 						template: 'Die Anmeldedaten sind fehlerhaft!'
 					});
+					$localstorage.setObject('receipts', new Array());
+					$localstorage.setObject('kindsOfPayment', new Array());
+					$localstorage.setObject('currencies', new Array());
+					$localstorage.setObject('receiptKinds', new Array());
+					$localstorage.setObject('lastCurrency', new Array());
+					$localstorage.setObject('hideAlert', new Array());
+					$localstorage.setObject('copyGUID', new Array());
+					$localstorage.setObject('user', new Array());
 					$localstorage.setObject('version', {
-						version : 2
-					});
+					version : 1
+			});
 				} else {
 					console.log(success.errors[0]);
 				}

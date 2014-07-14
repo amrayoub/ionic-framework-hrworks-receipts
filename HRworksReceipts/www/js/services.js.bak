@@ -131,7 +131,7 @@ angular.module('starter.services', [])
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = $cordovaDevice.getUUID();
+		jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
 		jsonObject.languageKey = "de";
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
@@ -182,25 +182,12 @@ angular.module('starter.services', [])
 					$timeout(function() {
 						updatedReceipts = changeReceiptObject(data.result);
 						$localstorage.setObject('receipts', updatedReceipts);
-						//location.reload();
 					},500)
 				});
 			}).error(function(data, status, headers, config) {
-				$localstorage.setObject('receipts', new Array());
-				$localstorage.setObject('kindsOfPayment', new Array());
-				$localstorage.setObject('currencies', new Array());
-				$localstorage.setObject('receiptKinds', new Array());
-				$localstorage.setObject('lastCurrency', new Array());
-				$localstorage.setObject('hideAlert', new Array());
-				$localstorage.setObject('copyGUID', new Array());
-				$localstorage.setObject('user', new Array());
 				$localstorage.setObject('version', {
-					version : 1
+					version : 2
 				});
-				$ionicPopup.alert({
-						title: 'Fehler!',
-						template: 'Fehler in der Firmenkennung.'
-					});
 			});
 		},
 		userLogin : function(user) {
@@ -212,8 +199,8 @@ angular.module('starter.services', [])
 			jsonObject.personId = user.personId;
 			jsonObject.dateAndTime = (new Date()).toISO8601();
 			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-			jsonObject.deviceId = $cordovaDevice.getUUID();
-			jsonObject.deviceName = $cordovaDevice.getModel();
+			jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
+			jsonObject.deviceName = "pc";//$cordovaDevice.getModel();
 			jsonObject.languageKey = $translate.use();
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);

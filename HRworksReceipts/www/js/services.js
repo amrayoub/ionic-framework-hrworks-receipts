@@ -132,7 +132,7 @@ angular.module('starter.services', [])
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
 		jsonObject.deviceId = $cordovaDevice.getUUID();
-		jsonObject.languageKey = "de";
+		jsonObject.languageKey = $translate.use();
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
 		console.log(jsonObject);
@@ -182,7 +182,6 @@ angular.module('starter.services', [])
 					$timeout(function() {
 						updatedReceipts = changeReceiptObject(data.result);
 						$localstorage.setObject('receipts', updatedReceipts);
-						//location.reload();
 					},500)
 				});
 			}).error(function(data, status, headers, config) {
