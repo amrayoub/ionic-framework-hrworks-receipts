@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $ionicPopup, LastCurrency, GetCurrentUrl) {
+.run(function ($localstorage, LastCurrency, GetCurrentUrl) {
 	
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
@@ -195,7 +195,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ERRORMESSAGE_PERSONS : 'Bitte geben Sie die Personen ein.',
 		ERRORMESSAGE_REASON : 'Bitte geben Sie einen Grund an.',
 		ERRORMESSAGE_PLACE : 'Bitte geben Sie einen Ort ein.',
-		ERRORMESSAGE_AMOUNTNOTVALIDE : 'Der Betrag ist keine Zahl.',
+		ERRORMESSAGE_AMOUNTNOTVALIDE : 'Bitte geben Sie einen gültigen Betrag ein.',
 		FEEDBACK : 'Feedback',
 		FEEDBACK_QUESTION : 'Was wollen Sie uns mitteilen?',
 		GERMAN : 'Deutsch',
@@ -222,7 +222,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SETTINGS : 'Einstellungen',
 		SUBJECT : 'Betreff',
 		SYNCHRONIZE : 'Synchronisieren...',
-		TARGETSERVER : 'Zielsever',
+		TARGETSERVER : 'Zielserver',
 		ALLCURRENCIES : 'Alle W&auml;hrungen',
 		FAVORITES : 'Favoriten',
 		SEARCH : 'Suche...'

@@ -37,6 +37,10 @@ form i.error {
 	display: none;
 	margin-left: 8px;
 }
+.validError {
+	margin-left: 8px;
+	color: #cc2511;
+}
 
 form.ng-submitted input.ng-invalid + i.error {
 	display: block;

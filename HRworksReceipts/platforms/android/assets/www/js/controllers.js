@@ -45,10 +45,10 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form = {};
 	$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 	$scope.form.currency = $localstorage.getObjects('lastCurrency');
+	$scope.form.persons = "";
 	$scope.form.persons = $localstorage.getObjects('user').person + ',';
 	$scope.form.kindOfPayment = "";
 	$scope.form.receiptKind = "";
-	$scope.form.amount = "0";
 	if ($stateParams.guid != "new") {
 		$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
 		$scope.receiptTitle = "Beleg Bearbeiten";
@@ -188,40 +188,42 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.amountValid = function() {
 		var regex  = /^(\d+(?:[\.\,]\d{0,2})?)$/;
-		if (!regex.test($scope.form.amount) && $scope.form.amount != "") {
-			return true;
+		if (!regex.test($scope.form.amount) && typeof $scope.form.amount !== 'undefined' ) {
+			return false;
 		}
-		return false;
+		return true;
+	}
+	$scope.personsValid = function() {
+		if($scope.form.receiptKind.isBusinessEntertainment == true) {
+			if($scope.form.persons.length > 0) {
+				var thePersonsArray = $scope.form.persons.split(",");
+				theNewPersonsArray = [];
+				for(var i = 0;	i < thePersonsArray.length; i++) {
+					if (thePersonsArray[i] !== "" && thePersonsArray[i] !== null) {
+						theNewPersonsArray.push(thePersonsArray[i]);
+					}
+				}
+				if (theNewPersonsArray.length < 2) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		}
 	}
 	$scope.saveReceipt = function () {
-		var errorMessage = "";
+		$scope.form.amount = $scope.form.amount.toString().replace(",",".");
+		var error = false;
 		if ($scope.form.date > $scope.form.endDate) {
-			errorMessage = errorMessage + "" + "Enddatum liegt vor dem Startdatum<br>";
+			error =  true;
 		}
-		if (!$scope.form.amount) {
-			errorMessage = errorMessage + "" + "Betrag<br>";
+		if ($scope.amountValid() == false) {
+			error = true;
 		}
-		if ($scope.amountValid()) {
-			errorMessage = errorMessage + "" + "Not a Number<br>";
+		if ($scope.personsValid() == false) {
+			error = true;
 		}
-		if (!$scope.form.date) {
-			errorMessage = errorMessage + "" + "Datum<br>";
-		}
-		if (!$scope.form.receiptKind) {
-			errorMessage = errorMessage + "" + "Belegart<br>";
-		}
-		if (!$scope.form.kindOfPayment) {
-			errorMessage = errorMessage + "" + "Zahlungsart<br>";
-		}
-		if (!$scope.form.currency) {
-			errorMessage = errorMessage + "" + "Währung<br>";
-		}
-		if (errorMessage.length > 0) {
-			$ionicPopup.alert({
-				title : '<b>Folgende Eingaben fehlen oder sind fehlerhaft:</b>',
-				content : errorMessage
-			});
-		} else {
+		if (error == false) {
 			theReceipt = {
 				text : $scope.form.text,
 				amount : parseFloat($scope.form.amount),
@@ -405,36 +407,11 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.form.personId = "jaco";
 	$scope.form.mobilePassword = "hjpjpkf";
 	$scope.form.targetServer = "area51-0";
-	$scope.saveSettings = function(form) {
-		var promise = getData.userLogin(form);
-		promise.then(function(success) {
-			if(success.errors.length == 0) {
-				getData.all();
-				$scope.form.person = success.result.person;
-				$localstorage.setObject("user", form);
-				$state.go("tab.receipts");
-			} else {
-				if(success.errors[0].errorId == "8") {
-					$ionicPopup.alert({
-						title: 'Fehler bei der Anmeldung:',
-						template: 'Die Anmeldedaten sind fehlerhaft!'
-					});
-					$localstorage.setObject('receipts', new Array());
-					$localstorage.setObject('kindsOfPayment', new Array());
-					$localstorage.setObject('currencies', new Array());
-					$localstorage.setObject('receiptKinds', new Array());
-					$localstorage.setObject('lastCurrency', new Array());
-					$localstorage.setObject('hideAlert', new Array());
-					$localstorage.setObject('copyGUID', new Array());
-					$localstorage.setObject('user', new Array());
-					$localstorage.setObject('version', {
-					version : 1
-			});
-				} else {
-					console.log(success.errors[0]);
-				}
-			}
-		});
+	$scope.saveSettings = function() {
+		$scope.saveSettings = function() {
+		getData.all();
+		$localstorage.setObject('user', $scope.form);
+		}
 	};
 	$scope.type = true;
 	$scope.changeLang = function (key, event) {
@@ -444,65 +421,15 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.type = '';
 		}
 		$translate.use(key).then(function (key) {
-		console.log("Sprache zu " + key + " gewechselt.");
+			console.log("Sprache zu " + key + " gewechselt.");
 		}, function (key) {
-		console.log("Irgendwas lief schief.");
+			console.log("Irgendwas lief schief.");
 		});
-	};
-	$scope.sendPostRequest = function() {
-		var expectedSignature = "meuWFCJcq7q1EUjHMKc1df3SEG4="
-		var signature = $scope.generateSignature(
-			"acme",								// companyId
-			"joe",								// personId
-			"HrwGetKindsOfPaymentApi class",	// request
-			"2012-05-10T14:02:39.533+02:00",	// timeStamp string
-			"QUXW72V");							// mobilePassword
-		if (expectedSignature == signature)
-			alert("calculation correct \n"
-				+ signature);
-		else
-			alert("Error: expected: " + expectedSignature + "\n"
-			+ "calculated: " + signature);
-	};
-	$scope.generateSignature = function (companyId, personId, request, timeStamp, password) {
-		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
-		return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
 	};
 	$scope.postRequestSucceed = function (data, textStatus, jqXHR) {
 		alert("" + JSON.stringify(data));
 		console.log(data);
 	};
-	$scope.sendPostRequest = function () {
-		var api = "HrwGetCurrenciesApi";
-		var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + $scope.form.targetServer + "/" + api;
-		var request = api + " class";
-		var password = $scope.form.mobilePassword;
-		var jsonObject = {};
-
-		// Create the json object
-		jsonObject.companyId = $scope.form.companyId;
-		jsonObject.personId = $scope.form.personId;
-		jsonObject.dateAndTime = (new Date()).toISO8601();
-		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = "1";
-		jsonObject.languageKey = "de";
-		jsonObject.version = "1";
-		jsonObject.signature = $scope.generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, password);
-
-		console.log(jsonObject);
-		console.log(JSON.stringify(jsonObject));
-		
-		$http({
-            url: url,
-            method: "POST",
-            data: JSON.stringify(jsonObject),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-			}).success(function (data, status, headers, config) {
-                $scope.persons = data; // assign  $scope.persons here as promise is resolved here 
-            }).error(function (data, status, headers, config) {
-                $scope.status = status;
-			});
-	}; 
 	generateGUID = function () {
 		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = Math.random() * 16 | 0,
@@ -515,7 +442,7 @@ angular.module('starter.controllers', ['ionic'])
 		for (var i = 0; i < 100; i++) {
 			$localstorage.insertObject('receipts', {
 				text : 'Beleg' + i,
-				amount : "123",
+				amount : 123,
 				date : '2012-03-04',
 				receiptKind : {
 					description : "Bewirtung 100%",

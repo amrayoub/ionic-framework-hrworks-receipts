@@ -222,7 +222,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SETTINGS : 'Einstellungen',
 		SUBJECT : 'Betreff',
 		SYNCHRONIZE : 'Synchronisieren...',
-		TARGETSERVER : 'Zielsever',
+		TARGETSERVER : 'Zielserver',
 		ALLCURRENCIES : 'Alle W&auml;hrungen',
 		FAVORITES : 'Favoriten',
 		SEARCH : 'Suche...'

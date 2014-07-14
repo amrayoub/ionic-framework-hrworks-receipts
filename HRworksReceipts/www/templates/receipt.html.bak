@@ -15,7 +15,7 @@
 					<span class="input-label" translate="AMOUNT"></span>
 					<input type="{{ selectAmountInputType() }}" name="amount" placeholder="0,00" id='amount' required="required" ng-model="form.amount"  />
 					<i class="error" translate="ERRORMESSAGE_AMOUNT"></i>
-					<i style="color:#cc2511" ng-show="amountValid()" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
+					<i style="color:#cc2511" ng-hide="amountValid()" translate="ERRORMESSAGE_AMOUNTNOTVALIDE"></i>
 				</label>
 				<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openCurrenciesModal()">
 					<span class="input-label" translate="CURRENCY"></span>
@@ -33,7 +33,7 @@
 					<span class="input-label" translate="ENDDATE"></span>
 					<input ng-blur="checkDate()" required="required" type="date" name="enddate" ng-model="form.endDate" />
 					<i class="error" translate="ERRORMESSAGE_ENDDATE"></i>
-					<i style="color:#cc2511" ng-show="form.endDate < form.date" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
+					<i class="validError" ng-show="form.endDate < form.date" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
 				</label>
 				<label class="item item-input item-stacked-label item-icon-right validated" ng-click="openReceiptKindsModal()">
 					<span class="input-label" translate="RECEIPTKIND"></span>
@@ -49,10 +49,10 @@
 				</label>
 				<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
 					<span class="input-label" translate="PERSONS"></span>
-					<input name="text" type="text" required="required" ng-model="form.persons" />
-					<i class="error" translate="ERRORMESSAGE_PERSONS"></i>
+					<input name="text" type="text" ng-model="form.persons" />
+					<i class="validError" ng-hide="personsValid()" translate="ERRORMESSAGE_PERSONS"></i>
 				</label>
-					<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
+				<label ng-if="form.receiptKind.isBusinessEntertainment == true" class="item item-input item-stacked-label validated">
 					<span class="input-label" translate="PLACE"></span>
 					<input name="text" type="text" required="required" ng-model="form.place" />
 					<i class="error" translate="ERRORMESSAGE_PLACE"></i>

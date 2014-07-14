@@ -92,7 +92,7 @@ angular.module('starter.services', [])
 		}
 	}
 })
-.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
+.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, GetCurrentUrl) {
 
 	generateSignature = function(companyId, personId, request, timeStamp, password) {
 		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
@@ -132,7 +132,7 @@ angular.module('starter.services', [])
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
 		jsonObject.deviceId = $cordovaDevice.getUUID();
-		jsonObject.languageKey = "de";
+		jsonObject.languageKey = $translate.use();
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
 		console.log(jsonObject);
@@ -182,13 +182,9 @@ angular.module('starter.services', [])
 					$timeout(function() {
 						updatedReceipts = changeReceiptObject(data.result);
 						$localstorage.setObject('receipts', updatedReceipts);
-						//location.reload();
 					},500)
 				});
 			}).error(function(data, status, headers, config) {
-				$localstorage.setObject('version', {
-					version : 2
-				});
 			});
 		},
 		userLogin : function(user) {

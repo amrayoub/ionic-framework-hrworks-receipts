@@ -45,8 +45,7 @@ form.ng-submitted input.ng-invalid + i.error {
 
 form .has-error input, form .has-error {
 	color: #cc2511;
-} 
-
+}
 .bar.item-input-inset .item-input-wrapper input {
 width: 81%;
   }
