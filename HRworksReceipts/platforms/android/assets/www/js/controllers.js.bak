@@ -1,33 +1,6 @@
 angular.module('starter.controllers', ['ionic'])
 
-.controller('loginCtrl', function($scope, $state, $localstorage, $timeout, $ionicPopup, getData) {
-	$scope.user = {};
-	$scope.user.companyId = "jaco";
-	$scope.user.personId = "jaco";
-	$scope.user.mobilePassword = "hjpjpkf";
-	$scope.user.targetServer = "area51-0";
-	$scope.login = function (user) {
-		var promise = getData.userLogin(user);
-		promise.then(function(success) {
-			if(success.errors.length == 0) {
-				$scope.user.person = success.result.person;
-				$localstorage.setObject("user", user);
-				$state.go("tab.receipts");
-			} else {
-				if(success.errors[0].errorId == "8") {
-					$ionicPopup.alert({
-						title: 'Fehler bei der Anmeldung:',
-						template: 'Die Anmeldedaten sind fehlerhaft!'
-					});
-				} else {
-					console.log(success.errors[0]);
-				}
-			}
-		}, function(failed) {
-			console.log(failed);
-		});		   
-	};
-})
+
 .controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE' ]).then(function (translations) {
 		$scope.translationsArray = [];
@@ -125,6 +98,95 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.setHideAlert = function () {
 		$localstorage.setObject('hideAlert', {
 			hideAlert : true
+		});
+	};
+	$scope.showActionsheet = function () {
+		$ionicActionSheet.show({
+			titleText : $scope.translationsArray['OPTIONS'],
+			buttons : [{
+					text : "<i class='icon ion-ios7-copy-outline'></i> " + $scope.translationsArray['COPYRECEIPT']
+				},
+			],
+			destructiveText : $scope.translationsArray['DELETE'],
+			cancelText : $scope.translationsArray['CANCEL'],
+			scope : $scope,
+			buttonClicked : function (index) {
+				if (index == 0) {
+					if (!$scope.form.text || !$scope.form.date
+						|| !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency
+						|| !$scope.amountValid() || typeof $scope.form.amount === 'undefined') {
+						$ionicPopup.alert({
+							title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+							content : $scope.translationsArray['COPYRECEIPT_ERROR']
+						});
+						return true;
+					}
+					if($scope.form.receiptKind.isHotel) {
+					console.log("isHotel");
+						if(!$scope.form.endDate || $scope.form.date > $scope.form.endDate) {
+						console.log("is invalid isHotel");
+							$ionicPopup.alert({
+								title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+								content : "Fehler Hotel"
+							});
+							return true;
+						}
+					}
+					if($scope.form.receiptKind.isBusinessEntertainment) {
+					console.log("isBusinessEntertainment");
+						if(!$scope.personsValid() || !$scope.form.reason || !$scope.form.place) {
+							console.log("is inValid isBusinessEntertainment");
+							$ionicPopup.alert({
+								title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+								content : "Fehler BusinessEntertainment"
+							});
+							return true;
+						}
+					}
+						if($localstorage.getObjects('hideAlert').hideAlert == true) {
+							$scope.saveCopyReceipt();
+							return true;
+						} else {
+							var confirmPopup = $ionicPopup.show({
+								title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+								template : $scope.translationsArray['COPYRECEIPT_INFO'],
+								scope : $scope,
+								buttons : [{
+										text : $scope.translationsArray['CANCEL'],
+										onTap : function (e) {
+											return 1;
+										}
+									}, {
+										text : "<b>" + $scope.translationsArray['OK'] + "</b>",
+										type : "button-positive",
+										onTap : function (e) {
+											if (typeof $scope.hideData.hideAlert === "undefined") {
+												return 2;
+											} else {
+												return 3;
+											}
+										}
+									},
+								]
+							});
+						confirmPopup.then(function (res) {
+							if (res == 1) {
+								return true;
+							}
+							if (res == 3) {
+								$scope.setHideAlert();
+							}
+							$scope.saveCopyReceipt();						
+						})
+						return true;
+					}
+				}
+			},
+			destructiveButtonClicked : function () {
+				console.log($scope.form.guid);
+				$localstorage.removeObject('receipts', $scope.form.guid);
+				$scope.$viewHistory.backView.go();
+			}
 		});
 	};
 	$scope.amountValid = function() {
@@ -298,10 +360,46 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, $state, getData) {
-	if (typeof $localstorage.getObjects('user').personId === 'undefined') {
-		$state.go('login');
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, $ionicModal, getData) {
+	$ionicModal.fromTemplateUrl('templates/login-modal.html', {
+		scope : $scope,
+	}).then(function (modal) {
+		$scope.LoginModal = modal;
+		if (typeof $localstorage.getObjects('user').personId === 'undefined') {
+		console.log("open login modal");
+		$scope.LoginModal.show();
 	}
+	});
+	$scope.user = {};
+	$scope.user.companyId = "jaco";
+	$scope.user.personId = "jaco";
+	$scope.user.mobilePassword = "hjpjpkf";
+	$scope.user.targetServer = "area51-0";
+	$scope.login = function (user) {
+		var promise = getData.userLogin(user);
+		promise.then(function(success) {
+			if(success.errors.length == 0) {
+				$scope.user.person = success.result.person;
+				$localstorage.setObject("user", user);
+				getData.all();
+				$timeout(function() {
+					$scope.receipts = $localstorage.getObjects('receipts');
+				},200);
+				$scope.LoginModal.hide();
+			} else {
+				if(success.errors[0].errorId == "8") {
+					$ionicPopup.alert({
+						title: 'Fehler bei der Anmeldung:',
+						template: 'Die Anmeldedaten sind fehlerhaft!'
+					});
+				} else {
+					console.log(success.errors[0]);
+				}
+			}
+		}, function(failed) {
+			console.log(failed);
+		});		   
+	};
 	if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
 		$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
 	}
@@ -331,15 +429,14 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.hide = function () {
 		$ionicLoading.hide();
 	};
-	$timeout(function() {
-		if ($localstorage.getObjects('currencies').length == 0) {
-		$scope.doSync();
-		}
-	}, 200);
 	$scope.removeReceipt = function (guid) {
 		var x = $localstorage.getIndex('receipts', guid);
 		$scope.receipts.splice(x, 1);
 		$localstorage.removeObject('receipts', guid);
+	};
+	
+	$scope.openLoginModal = function () {
+		$scope.LoginModal.show();
 	};
 })
 
