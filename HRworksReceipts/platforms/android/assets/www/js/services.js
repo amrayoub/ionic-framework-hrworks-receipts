@@ -131,7 +131,7 @@ angular.module('starter.services', [])
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = $cordovaDevice.getUUID();
+		jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
 		jsonObject.languageKey = $translate.use();
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
@@ -185,7 +185,7 @@ angular.module('starter.services', [])
 					},500)
 				});
 			}).error(function(data, status, headers, config) {
-				});
+				console.log(status);
 			});
 		},
 		userLogin : function(user) {
@@ -197,8 +197,8 @@ angular.module('starter.services', [])
 			jsonObject.personId = user.personId;
 			jsonObject.dateAndTime = (new Date()).toISO8601();
 			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-			jsonObject.deviceId = $cordovaDevice.getUUID();
-			jsonObject.deviceName = $cordovaDevice.getModel();
+			jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
+			jsonObject.deviceName = "pc";//$cordovaDevice.getModel();
 			jsonObject.languageKey = $translate.use();
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
@@ -208,7 +208,7 @@ angular.module('starter.services', [])
 					url: data.url + "HrwRegisterDeviceApi",
 					method: "POST",
 					data: JSON.stringify(jsonObject),
-					headers: {'Content-Type': 'application/x-www-form-urlencoded',  'Content-Transfer-Encoding': 'utf-8' }
+					headers: {'Content-Type': 'application/x-www-form-urlencoded' }
 				}).success(function (data, status, headers, config) {
 					deferred.resolve(data);			
 				}).error(function(){
