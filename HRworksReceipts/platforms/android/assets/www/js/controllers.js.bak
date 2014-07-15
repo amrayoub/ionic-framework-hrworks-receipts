@@ -366,7 +366,6 @@ angular.module('starter.controllers', ['ionic'])
 	}).then(function (modal) {
 		$scope.LoginModal = modal;
 		if (typeof $localstorage.getObjects('user').personId === 'undefined') {
-		console.log("open login modal");
 		$scope.LoginModal.show();
 	}
 	});
@@ -376,6 +375,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.user.mobilePassword = "hjpjpkf";
 	$scope.user.targetServer = "area51-0";
 	$scope.login = function (user) {
+		console.log(user);
 		var promise = getData.userLogin(user);
 		promise.then(function(success) {
 			if(success.errors.length == 0) {
@@ -384,7 +384,7 @@ angular.module('starter.controllers', ['ionic'])
 				getData.all();
 				$timeout(function() {
 					$scope.receipts = $localstorage.getObjects('receipts');
-				},200);
+				},1000);
 				$scope.LoginModal.hide();
 			} else {
 				if(success.errors[0].errorId == "8") {
@@ -441,16 +441,32 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('settingsCtrl', function ($ionicPopup, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
-	$scope.form = {};
-	$scope.form.companyId = "jaco";
-	$scope.form.personId = "jaco";
-	$scope.form.mobilePassword = "hjpjpkf";
-	$scope.form.targetServer = "area51-0";
-	$scope.saveSettings = function() {
-		$scope.saveSettings = function() {
-		getData.all();
-		$localstorage.setObject('user', $scope.form);
-		}
+	$scope.form = $localstorage.getObjects('user');
+	console.log($scope.form);
+	$scope.saveSettings = function(form) {
+		var promise = getData.userLogin(form);
+		promise.then(function(success) {
+			if(success.errors.length == 0) {
+				$scope.form.person = success.result.person;
+				$localstorage.setObject("user", form);
+				getData.all();
+				$ionicPopup.alert({
+					title: 'Anmeldung erfolgreich',
+					template: 'Die Anmeldedaten wurden erfolgeich geändert!'
+				});
+			} else {
+				if(success.errors[0].errorId == "8") {
+					$ionicPopup.alert({
+						title: 'Fehler bei der Anmeldung:',
+						template: 'Die Anmeldedaten sind fehlerhaft!'
+					});
+				} else {
+					console.log(success.errors[0]);
+				}
+			}
+		}, function(failed) {
+			console.log(failed);
+		});
 	};
 	$scope.type = true;
 	$scope.changeLang = function (key, event) {

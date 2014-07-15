@@ -131,7 +131,7 @@ angular.module('starter.services', [])
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
+		jsonObject.deviceId = $cordovaDevice.getUUID();
 		jsonObject.languageKey = $translate.use();
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
@@ -197,8 +197,8 @@ angular.module('starter.services', [])
 			jsonObject.personId = user.personId;
 			jsonObject.dateAndTime = (new Date()).toISO8601();
 			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-			jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
-			jsonObject.deviceName = "pc";//$cordovaDevice.getModel();
+			jsonObject.deviceId = $cordovaDevice.getUUID();
+			jsonObject.deviceName = $cordovaDevice.getModel();
 			jsonObject.languageKey = $translate.use();
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
