@@ -230,6 +230,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ALLCURRENCIES : 'Alle W&auml;hrungen',
 		FAVORITES : 'Favoriten',
 		SEARCH : 'Suche...',
+		OPTIONS : 'Belegoptionen:',
 		COPYRECEIPT : 'Beleg Kopieren',
 		COPYRECEIPT_INFO : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchf&uuml;hren?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Diese Meldung nicht mehr anzeigen.</font>',
 		COPYRECEIPT_ERROR : 'Der Beleg konnte nicht kopiert werden, da nicht alle Felder ausgef&uuml;llt sind.'

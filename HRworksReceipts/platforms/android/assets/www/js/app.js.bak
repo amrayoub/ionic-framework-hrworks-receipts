@@ -185,6 +185,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ENDDATE : 'Abreise Datum',
 		DELETE : 'L&ouml;schen',
 		EDIT : 'Bearbeiten',
+		EDIT_RECEIPT : 'Beleg Bearbeiten',
 		ENGLISH : 'Englisch',
 		ERROR : 'Fehler',
 		ERRORMESSAGE_AMOUNT : 'Bitte geben Sie einen Betrag ein.',

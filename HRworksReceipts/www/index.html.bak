@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimal-ui">
-		<title>HRworks - Belegerfassung</title>
+		<title>{{ 'OK' | translate }}</title>
 
 		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
@@ -39,90 +39,4 @@
 		</ion-nav-bar>
              
 		<ion-nav-view animation="slide-left-right"></ion-nav-view>
-	
-		<script id="tabs.html" type="text/ng-template">
-			<ion-tabs class="tabs-icon-top tabs-positive">
-				<ion-tab title="{{ 'RECEIPTS' | translate }}" icon="icon ion-clipboard" href="#/tab/receipts">
-					<ion-nav-view name="receipts"></ion-nav-view>
-				</ion-tab>
-
-				<ion-tab title="{{ 'INFOS' | translate }}" icon="icon ion-information-circled" href="#/tab/infos">
-					<ion-nav-view name="infos"></ion-nav-view>
-				</ion-tab>
-
-				<ion-tab title="{{ 'SETTINGS' | translate }}" icon="icon ion-wrench" href="#/tab/settings">
-					<ion-nav-view name="settings"></ion-nav-view>
-				</ion-tab>
-			</ion-tabs>
-		</script>
-
-		<script id="login.html" type="text/ng-template">
-			<ion-view title="{{ 'LOGIN' | translate }}">
-				<ion-nav-buttons side="right">
-					<button class="button button-icon button-clear ion-checkmark" form="loginForm"></button>
-				</ion-nav-buttons>
-				<ion-content>
-					<form novalidate="novalidate" on-valid-submit="login(user)" id="loginForm">
-					<div class="list">
-						<label class="item item-input item-stacked-label">
-							<span class="input-label" translate="COMPNYID"></span>
-							<input type="text" ng-model="user.companyId">
-						</label>
-						<label class="item item-input item-stacked-label">
-							<span class="input-label" translate="PERSONID"></span>
-							<input type="text" ng-model="user.personId">
-						</label>
-						<label class="item item-input item-stacked-label">
-							<span class="input-label" translate="MOBILEPASSWORD"></span>
-							<input type="text" ng-model="user.mobilePassword">
-						</label>
-					</div>
-					</form>
-					</div>
-					<div class="card">
-						<div class="item item-text-wrap" translate="LOGIN_INFO_TEXT"></div>
-					</div>
-				</ion-content>
-			</ion-view>
-		</script>
-
-		<script id="receipts.html" type="text/ng-template">
-			<ion-view title="{{ 'RECEIPTS' | translate }}" class="hide-tabs">
-				<ion-nav-buttons side="left">
-					<button class="button button-icon button-clear ion-loop" ng-click="doSync()"></button>
-				</ion-nav-buttons>
-				<ion-nav-buttons side="right">
-					<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/receipt/new')"></button>
-				</ion-nav-buttons>
-				<ion-content has-header="true">
-					<ion-refresher
-						on-refresh="doRefresh()"
-						refreshing-text="{{ 'SYNCHRONIZE' | translate }}"
-						refreshing-icon="ion-loading-c">
-						>
-					</ion-refresher>
-					<ion-list option-buttons="itemButtons">
-						<ion-item class="item myItem"
-							collection-repeat="receipt in receipts | orderBy: 'timestamp':true"
-							collection-item-height="70"
-							collection-item-width="'100%'"
-							href="#/tab/receipt/{{receipt.guid}}">
-							<div class="row">
-								<div class="col col-67">
-									<p><b>{{receipt.text}}</b></p>
-									<span ng-bind="receipt.receiptKind.description"></span></p>
-								</div>
-								<div class="col col-33" style="text-align:right;">
-									<p>{{ receipt.date | date : shortDate}}</p>
-									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
-								</div>
-							</div>
-							<!--
-							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/receipt/{{ receipt.guid }}')" translate="EDIT"></ion-option-button>
-							<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)" translate="DELETE"></ion-option-button>
-							-->
-					</ion-list>
-				</ion-content>
-			</ion-view>
-		</script>
 </html>

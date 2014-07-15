@@ -139,14 +139,37 @@ angular.module('starter.controllers', ['ionic'])
 			scope : $scope,
 			buttonClicked : function (index) {
 				if (index == 0) {
-					if (!$scope.form.text || !$scope.form.amount || !$scope.form.date
-						 || !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency) {
+					if (!$scope.form.text || !$scope.form.date
+						|| !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency
+						|| !$scope.amountValid() || typeof $scope.form.amount === 'undefined') {
 						$ionicPopup.alert({
 							title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
 							content : $scope.translationsArray['COPYRECEIPT_ERROR']
 						});
 						return true;
-					} else {
+					}
+					if($scope.form.receiptKind.isHotel) {
+					console.log("isHotel");
+						if(!$scope.form.endDate || $scope.form.date > $scope.form.endDate) {
+						console.log("is invalid isHotel");
+							$ionicPopup.alert({
+								title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+								content : "Fehler Hotel"
+							});
+							return true;
+						}
+					}
+					if($scope.form.receiptKind.isBusinessEntertainment) {
+					console.log("isBusinessEntertainment");
+						if(!$scope.personsValid() || !$scope.form.reason || !$scope.form.place) {
+							console.log("is inValid isBusinessEntertainment");
+							$ionicPopup.alert({
+								title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+								content : "Fehler BusinessEntertainment"
+							});
+							return true;
+						}
+					}
 						if($localstorage.getObjects('hideAlert').hideAlert == true) {
 							$scope.saveCopyReceipt();
 							return true;
@@ -161,7 +184,7 @@ angular.module('starter.controllers', ['ionic'])
 											return 1;
 										}
 									}, {
-										text : "<b>{{ 'OK' | translate }}</b>",
+										text : "<b>" + $scope.translationsArray['OK'] + "</b>",
 										type : "button-positive",
 										onTap : function (e) {
 											if (typeof $scope.hideData.hideAlert === "undefined") {
@@ -185,7 +208,6 @@ angular.module('starter.controllers', ['ionic'])
 						return true;
 					}
 				}
-				}
 			},
 			destructiveButtonClicked : function () {
 				console.log($scope.form.guid);
@@ -196,7 +218,7 @@ angular.module('starter.controllers', ['ionic'])
 	};
 	$scope.amountValid = function() {
 		var regex  = /^(\d+(?:[\.\,]\d{0,2})?)$/;
-		if (!regex.test($scope.form.amount) && typeof $scope.form.amount !== 'undefined' ) {
+		if (!regex.test($scope.form.amount) && typeof $scope.form.amount !== 'undefined') {
 			return false;
 		}
 		return true;
