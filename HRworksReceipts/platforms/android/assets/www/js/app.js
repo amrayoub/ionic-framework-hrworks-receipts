@@ -21,7 +21,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());
 		$localstorage.setObject('language', {
-			language : 'en'
+			language : window.navigator.userLanguage || window.navigator.language
 		});
 		$localstorage.setObject('version', {
 			version : 1
