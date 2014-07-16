@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, LastCurrency, GetCurrentUrl) {
+.run(function ($localstorage, $translate, LastCurrency, GetCurrentUrl) {
 
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
@@ -20,11 +20,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());
+		$localstorage.setObject('language', {
+			language : 'en'
+		});
 		$localstorage.setObject('version', {
 			version : 1
 		});
-		console.log("Beispiel Daten wurden geladen");
 	}
+	$translate.use($localstorage.getObjects('language').language);
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {
@@ -163,7 +166,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		FEEDBACK_QUESTION : 'Do you have questions about the application or would you like to tell us something? ',
 		GERMAN : 'German',
 		INFOS : 'Infos',
-		INFOS_INFO_TEXT : 'Creating, Editing and Deleting of costs online or offline. Synchronising with accumulative receipts (Menu Employee/Travel Costs/Accumulative Receipts) with click in Sync. Login with company-ID, User-ID and the Mobile Password (Menu Employee/Master Data/Mobile). Support/Feedback: By E-Mail to <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>'',
+		INFOS_INFO_TEXT : 'Creating, Editing and Deleting of costs online or offline. Synchronising with accumulative receipts (Menu Employee/Travel Costs/Accumulative Receipts) with click in Sync. Login with company-ID, User-ID and the Mobile Password (Menu Employee/Master Data/Mobile). Support/Feedback: By E-Mail to <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>',
 		KINDOFPYMENT : 'Kind of Payment',
 		KINDSOFPYMENT : 'Kinds of Payment',
 		LOGIN : 'Login',
@@ -261,5 +264,5 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SYNCHRONIZE : 'Synchronisieren...',
 		TARGETSERVER : 'Zielserver'
 	});
-	$translateProvider.preferredLanguage('de');
+	$translateProvider.preferredLanguage('en');
 });

@@ -418,12 +418,10 @@ angular.module('starter.controllers', ['ionic'])
 	},1000); 
 	}
 	$scope.doRefresh = function () {
-        console.log("start doRefresh");
 		getData.all();
         $timeout(function() {
             $scope.$broadcast('scroll.refreshComplete');
 			$scope.receipts = $localstorage.getObjects('receipts');
-			console.log("done");
         },1000);     
 	};
 	$scope.hide = function () {
@@ -483,7 +481,10 @@ angular.module('starter.controllers', ['ionic'])
 		} else {
 			$scope.type = '';
 		}
-		$translate.use(key).then(function (key) {
+		$translate.use(key).then(function (key) {	
+			$localstorage.setObject('language', {
+			language : 'en'
+		});
 			getData.all();
 		}, function (key) {
 			console.log("Irgendwas lief schief.");

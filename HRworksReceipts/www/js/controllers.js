@@ -481,7 +481,10 @@ angular.module('starter.controllers', ['ionic'])
 		} else {
 			$scope.type = '';
 		}
-		$translate.use(key).then(function (key) {
+		$translate.use(key).then(function (key) {	
+			$localstorage.setObject('language', {
+			language : key
+		});
 			getData.all();
 		}, function (key) {
 			console.log("Irgendwas lief schief.");
