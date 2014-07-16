@@ -3,7 +3,7 @@
 		<h1 class="title" translate="CHOOSE_KINDOFPAYMENT"></h1>
 		<button class="button button-clear button-primary ion-chevron-down" ng-click="closeKindsOfPaymentModal()"></button>
 	</ion-header-bar>
-	<!-- Search does make trouble in beta 9 
+	<!-- Search make trouble in beta 9 
 	<ion-header-bar class="bar bar-subheader item-input-inset">
 		<div class="item-input-wrapper">
 			<i class="icon ion-ios7-search placeholder-icon"></i>

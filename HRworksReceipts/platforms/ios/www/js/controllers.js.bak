@@ -2,7 +2,6 @@ angular.module('starter.controllers', ['ionic'])
 
 
 .controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
-	$scope.showTabs = false;
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE' ]).then(function (translations) {
 		$scope.translationsArray = [];
 		$scope.translationsArray["EDIT_RECEIPT"] = translations.EDIT_RECEIPT;
@@ -272,13 +271,14 @@ angular.module('starter.controllers', ['ionic'])
 		searchQueryKindsOfPayment : ""
 	};
 	$scope.openCurrenciesModal = function () {
+		var inputs = angular.element(document.querySelectorAll('input'));
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].blur && inputs[i].blur();
+		}
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
 			$scope.showListCurrencies = true;
-		}, 100);
-		$timeout(function() {
-			document.getElementById('currenciesSearch').focus();
-		}, 100);
+		}, 400);
 	};
 	$scope.closeCurrenciesModal = function () {
 		$scope.CurrenciesModal.hide();
@@ -308,13 +308,14 @@ angular.module('starter.controllers', ['ionic'])
 	});
 
 	$scope.openReceiptKindsModal = function () {
+		var inputs = angular.element(document.querySelectorAll('input'));
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].blur && inputs[i].blur();
+		}
 		$scope.receiptKindsModal.show();
 		$timeout(function () {
 			$scope.showListReceiptKinds = true;
-		}, 100)
-		$timeout(function() {
-			document.getElementById('receiptKindsSearch').focus();
-		}, 100);
+		}, 300)
 	};
 	$scope.closeReceiptKindsModal = function () {
 		$scope.receiptKindsModal.hide();
@@ -329,14 +330,16 @@ angular.module('starter.controllers', ['ionic'])
 	// KindsOfPayment Modal
 	$ionicModal.fromTemplateUrl('templates/kindsOfPayment-modal.html', {
 		scope : $scope,
-		animation : 'slide-in-up'
+		animation : 'slide-in-up',
 	}).then(function (modal) {
 		$scope.kindsOfPaymentModal = modal;
 	});
 	$scope.data = {};
 	$scope.openKindsOfPaymentModal = function () {
-		//console.log(angular.element(document.querySelectorAll('input')));
-		//angular.element(document.querySelectorAll('input')[0]).focus();
+		var inputs = angular.element(document.querySelectorAll('input'));
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].blur && inputs[i].blur();
+		}
 		$scope.kindsOfPaymentModal.show();
 		$timeout(function () {
 			$scope.showListKindsOfPayment = true;
@@ -359,10 +362,15 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, $ionicModal, getData) {
-	$scope.showTabs = true;
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
+	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
+		$scope.translationsArray = [];
+		$scope.translationsArray["WRONGCREDENTIALS_TITLE"] = translations.WRONGCREDENTIALS_TITLE;
+		$scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"] = translations.WRONGCREDENTIALS_TEMPLATE;
+		
 	$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 		scope : $scope,
+		hardwareBackButtonClose : false
 	}).then(function (modal) {
 		$scope.LoginModal = modal;
 		if (typeof $localstorage.getObjects('user').personId === 'undefined') {
@@ -372,10 +380,9 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.user = {};
 	$scope.user.companyId = "jaco";
 	$scope.user.personId = "jaco";
-	$scope.user.mobilePassword = "hjpjpkf";
-	$scope.user.targetServer = "area51-0";
+	$scope.user.mobilePassword = "tevfw5h";
+	$scope.user.targetServer = "area-51";
 	$scope.login = function (user) {
-		console.log(user);
 		var promise = getData.userLogin(user);
 		promise.then(function(success) {
 			if(success.errors.length == 0) {
@@ -389,8 +396,8 @@ angular.module('starter.controllers', ['ionic'])
 			} else {
 				if(success.errors[0].errorId == "8") {
 					$ionicPopup.alert({
-						title: 'Fehler bei der Anmeldung:',
-						template: 'Die Anmeldedaten sind fehlerhaft!'
+						title: $scope.translationsArray["WRONGCREDENTIALS_TITLE"],
+						template: $scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"]
 					});
 				} else {
 					console.log(success.errors[0]);
@@ -436,6 +443,8 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openLoginModal = function () {
 		$scope.LoginModal.show();
 	};
+
+	})
 })
 
 .controller('settingsCtrl', function ($ionicPopup, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
@@ -533,10 +542,11 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('infosCtrl', function ($scope) {
+.controller('infosCtrl', function ($scope, $window) {
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
+	$scope.mail = {};
+	$scope.sendFeedback = function() {
+		var link = "mailto:mobile.support@hrworks.de?subject=" + $scope.mail.subject + "&body="+ $scope.mail.text;     
+    $window.location.href = link;
+	}
 })
-
-.controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams) {
-	console.log($localstorage.getObject('receipts', $stateParams.guid));
-});

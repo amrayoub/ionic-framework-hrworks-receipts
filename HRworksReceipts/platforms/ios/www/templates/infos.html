@@ -1,4 +1,7 @@
 <ion-view title="{{ 'INFOS' | translate }}">
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-checkmark" ng-click="sendFeedback()"></button>
+	</ion-nav-buttons>
 	<ion-content class="has-header" padding="true">
 		<h1 translate="INFOS"></h1>
 		<p translate="INFOS_INFO_TEXT"></p>
@@ -7,18 +10,15 @@
 			<div class="list">
 			<label class="item item-input item-select">
 				<div class="input-label" translate="SUBJECT"></div>
-				<select>
-					<option translate="BUG"></option>
-					<option translate="ADVANCEMENT"></option>
-					<option translate="NEW_FUNCTIONALITY"></option>
+				<select ng-model="mail.subject">
+					<option value="{{ 'BUG' | translate }}" translate="BUG"></option>
+					<option value="{{ 'ADVANCEMENT' | translate }}"translate="ADVANCEMENT"></option>
+					<option value="{{ 'NEW_FUNCTIONALITY' | translate }}" translate="NEW_FUNCTIONALITY"></option>
 				</select>
 			</label>
 			<label class="item item-input">
-				<textarea rows="10"></textarea>
+				<textarea rows="10" ng-model="mail.text"></textarea>
 			</label>
-			<div class="hide-on-keyboard-open">
-				<button class="button button-block button-positive" translate="SEND"></button>
-			</div>
 		</div>
 	</ion-content>
 </ion-view>

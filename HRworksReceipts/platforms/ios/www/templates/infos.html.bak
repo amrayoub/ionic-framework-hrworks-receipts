@@ -1,4 +1,5 @@
 <ion-view title="{{ 'INFOS' | translate }}">
+<button class="button button-block button-positive" ng-click="sendFeedback()" translate="SEND"></button>
 	<ion-content class="has-header" padding="true">
 		<h1 translate="INFOS"></h1>
 		<p translate="INFOS_INFO_TEXT"></p>
@@ -7,31 +8,15 @@
 			<div class="list">
 			<label class="item item-input item-select">
 				<div class="input-label" translate="SUBJECT"></div>
-				<select>
-					<option translate="BUG"></option>
-					<option translate="ADVANCEMENT"></option>
-					<option translate="NEW_FUNCTIONALITY"></option>
+				<select ng-model="mail.subject">
+					<option value="{{ 'BUG' | translate }}" translate="BUG"></option>
+					<option value="{{ 'ADVANCEMENT' | translate }}"translate="ADVANCEMENT"></option>
+					<option value="{{ 'NEW_FUNCTIONALITY' | translate }}" translate="NEW_FUNCTIONALITY"></option>
 				</select>
 			</label>
 			<label class="item item-input">
-				<textarea rows="10"></textarea>
+				<textarea rows="10" ng-model="mail.text"></textarea>
 			</label>
-			<div class="hide-on-keyboard-open">
-				<button class="button button-block button-positive" translate="SEND"></button>
-			</div>
 		</div>
 	</ion-content>
 </ion-view>
-<ion-tabs class="tabs-icon-top tabs-positive">
-	<ion-tab title="{{ 'RECEIPTS' | translate }}" icon="icon ion-clipboard" href="#/tab/receipts">
-		<ion-nav-view name="receipts"></ion-nav-view>
-	</ion-tab>
-	<ion-tab title="{{ 'INFOS' | translate }}" icon="icon ion-information-circled" href="#/tab/infos">
-		<ion-nav-view name="infos"></ion-nav-view>
-	</ion-tab>
-	<div class="hide-on-keyboard-open">
-	<ion-tab title="{{ 'SETTINGS' | translate }}" icon="icon ion-wrench" href="#/tab/settings">
-		<ion-nav-view name="settings"></ion-nav-view>
-	</ion-tab>
-	</div>
-</ion-tabs>

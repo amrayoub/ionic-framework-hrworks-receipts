@@ -9,8 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate, LastCurrency, GetCurrentUrl) {
-
+.run(function ($localstorage, $translate,  LastCurrency, GetCurrentUrl) {
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -21,7 +20,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());
 		var getUserLanguage = window.navigator.userLanguage || window.navigator.language;
-		if(getUserLanguage != "de") {
+		console.log(getUserLanguage);
+		if(getUserLanguage == "de" || getUserLanguage == "de-DE" || getUserLanguage == "de_DE") {
+			getUserLanguage = "de";
+		} else {
 			getUserLanguage = "en";
 		}
 		$localstorage.setObject('language', {
@@ -34,12 +36,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform, $cordovaDevice) {
+.run(function ($ionicPlatform, $cordovaDevice, $cordovaStatusbar) {
+	$cordovaStatusbar.style(1);
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus',function(e){
 			e.preventDefault(); e.stopPropagation();
 			window.scrollTo(0,0);
 		}, true);
+		
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -139,8 +143,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		CHOOSE_RECEIPTKIND : 'Choose Receipt Kind',
 		COMPANYID : 'Company-Id',
 		COPYRECEIPT : 'Copy Receipt',
-		COPYRECEIPT_ERROR : 'Please enter all data before copy the receipt.',
-		COPYRECEIPT_INFO : 'Are you sure that you want to copy this receipt?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Do not ask again.</font>',
+		COPYRECEIPT_ERROR : 'Please enter the entire data before copying the receipt.',
+		COPYRECEIPT_INFO : 'Are you sure to copy this receipt?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Do not ask again.</font>',
 		CURRENCIES : 'Currencies',
 		CURRENCY : 'Currency',
 		DATE : 'Date',
@@ -151,30 +155,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		ENDDATE : 'End Date',
 		ENGLISH : 'English',
 		ERROR : 'Error',
-		ERRORMESSAGE_AMOUNT : 'Amount is required.',
+		ERRORMESSAGE_AMOUNT : 'Amount is mandatory.',
 		ERRORMESSAGE_AMOUNTNOTVALIDE : 'Please choose a valid amount.',
-		ERRORMESSAGE_CURRENCY : 'Currency is required.',
-		ERRORMESSAGE_DATE : 'Date is required.',
-		ERRORMESSAGE_DESCRIPTION : 'Description is required.',
-		ERRORMESSAGE_ENDDATE : 'End Date is required.',
-		ERRORMESSAGE_ENDDATETOLOW : 'Datum der Abreise liegt vor der Anreise.',
-		ERRORMESSAGE_KINDOFPYMENT : 'Kind of Payment is required.',
-		ERRORMESSAGE_PERSONS : 'Please enter at least two persons separated with a comma.',
-		ERRORMESSAGE_PLACE : 'Place is required.',
-		ERRORMESSAGE_REASON : 'Reason is requird.',
-		ERRORMESSAGE_RECEIPTKIND : 'Receipt Kind is requird.',
+		ERRORMESSAGE_CURRENCY : 'Currency is mandatory.',
+		ERRORMESSAGE_DATE : 'Date is mandatory.',
+		ERRORMESSAGE_DESCRIPTION : 'Description is mandatory.',
+		ERRORMESSAGE_ENDDATE : 'End Date is mandatory.',
+		ERRORMESSAGE_ENDDATETOLOW : 'Inconsistent data: Date of departure is before arrival date.',
+		ERRORMESSAGE_KINDOFPYMENT : 'Kind of Payment is Mandatory.',
+		ERRORMESSAGE_PERSONS : 'Please enter at least two names separated with a comma.',
+		ERRORMESSAGE_PLACE : 'Place is mandatory.',
+		ERRORMESSAGE_REASON : 'Reason is mandatory.',
+		ERRORMESSAGE_RECEIPTKIND : 'Receipt Kind is madatory.',
 		ERROR_SETTINGS_TEMPLATE : 'Your authentication data is incorrect.',
 		ERROR_SETTINGS_TITLE : 'Error:',
 		FAVORITES : 'Favorites',
 		FEEDBACK : 'Feedback',
-		FEEDBACK_QUESTION : 'Do you have questions about the application or would you like to tell us something? ',
+		FEEDBACK_QUESTION : 'Do you have questions regarding the application or would you like to tell us something? ',
 		GERMAN : 'German',
 		INFOS : 'Infos',
 		INFOS_INFO_TEXT : 'Creating, Editing and Deleting of costs online or offline. Synchronising with accumulative receipts (Menu Employee/Travel Costs/Accumulative Receipts) with click in Sync. Login with company-ID, User-ID and the Mobile Password (Menu Employee/Master Data/Mobile). Support/Feedback: By E-Mail to <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>',
 		KINDOFPYMENT : 'Kind of Payment',
 		KINDSOFPYMENT : 'Kinds of Payment',
 		LOGIN : 'Login',
-		LOGIN_INFO_TEXT : 'Please enter your company and user ID from your HRworks account. The mobile Password is located in the menu Employee/Master Data/Mobile  <br> Support/Feedback: By E-Mail to <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>',
+		LOGIN_INFO_TEXT : 'Please enter the company and user ID of your HRworks account. The mobile Password is located in menu Employee/Master Data/Mobile  <br> Support/Feedback: By E-Mail to <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>',
 		MOBILEPASSWORD : 'Mobile Password',
 		NEWRECEIPT : 'New Receipt',
 		NEW_FUNCTIONALITY : 'New Functionality',
@@ -188,6 +192,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		RECEIPTKIND : 'Receipt Kind',
 		RECEIPTKINDS : 'Receipt Kinds',
 		RECEIPTS : 'Receipts',
+		RECEIPTOVERVIEW : 'Receipts',
 		SAVE : 'Save',
 		SEARCH : 'Search...',
 		SEND : 'Send',
@@ -196,7 +201,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUCCESS_SETTINGS_TEMPLATE : 'Your settings were updated.',
 		SUCCESS_SETTINGS_TITLE : 'Success',
 		SYNCHRONIZE : 'Synchronize...',
-		TARGETSERVER : 'Targetserver'
+		TARGETSERVER : 'Targetserver',
+		NOANSWERFROMTHESERVER_TITLE : 'No answer from server',
+		NOANSWERFROMTHESERVER_TEMPLATE : 'Please try again later.',
+		WRONGCREDENTIALS_TITLE : 'Authentication error:',
+		WRONGCREDENTIALS_TEMPLATE : 'Your authentication data is incorrect.',
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -240,7 +249,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		FEEDBACK_QUESTION : 'Was wollen Sie uns mitteilen?',
 		GERMAN : 'Deutsch',
 		INFOS : 'Infos',
-		INFOS_INFO_TEXT : 'Anlegen, &auml;ndern und L&ouml;schen von Belegen online oder offline.Synchronisierung mit Sammelbelegen (Men&uuml; Mitarbeiter/Reisekosten/Sammelbelege) mit Push & Sync. Anmeldung mit Firmenkennung, Benutzerkennung und Mobiles Passwort (Men&uuml; Mitarbeiter/Stammdaten/Mobile). Support/Feedback: per E-Mail an <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>',
+		INFOS_INFO_TEXT : 'Anlegen, &auml;ndern und L&ouml;schen von Belegen online oder offline. Synchronisierung mit Sammelbelegen (Men&uuml; Mitarbeiter/Reisekosten/Sammelbelege) mit Push & Sync. Anmeldung mit Firmenkennung, Benutzerkennung und Mobiles Passwort (Men&uuml; Mitarbeiter/Stammdaten/Mobile). Support/Feedback: per E-Mail an <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>',
 		KINDOFPYMENT : 'Zahlungsart',
 		KINDSOFPYMENT : 'Zahlungsarten',
 		LOGIN : 'Anmeldung',
@@ -258,6 +267,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		RECEIPTKIND : 'Belegart',
 		RECEIPTKINDS : 'Belegarten',
 		RECEIPTS : 'Belege',
+		RECEIPTOVERVIEW : 'Belegübersicht',
 		SAVE : 'Speichern',
 		SEARCH : 'Suche...',
 		SEND : 'Senden',
@@ -266,7 +276,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUCCESS_SETTINGS_TEMPLATE : 'Einstellungen erfolgreich geändert.',
 		SUCCESS_SETTINGS_TITLE : 'Meldung:',
 		SYNCHRONIZE : 'Synchronisieren...',
-		TARGETSERVER : 'Zielserver'
+		TARGETSERVER : 'Zielserver',
+		NOANSWERFROMTHESERVER_TITLE : 'Keine Antwort vom Server',
+		NOANSWERFROMTHESERVER_TEMPLATE : 'Der Server antwortet nicht. Bitte versuchen Sie es später noch einmal.',
+		WRONGCREDENTIALS_TITLE : 'Fehler bei der Anmeldung',
+		WRONGCREDENTIALS_TEMPLATE : 'Die Anmeldedaten sind fehlerhaft.',
+		
 	});
 	$translateProvider.preferredLanguage('en');
 });

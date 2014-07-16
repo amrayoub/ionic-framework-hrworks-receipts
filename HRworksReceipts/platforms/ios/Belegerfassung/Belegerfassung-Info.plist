@@ -49,7 +49,7 @@
       </dict>
     </dict>
     <key>CFBundleIdentifier</key>
-    <string>de.hrworks.mobileReceiptsPhonejs</string>
+    <string>de.hrworks.ionicframework.mobileReceipts</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
