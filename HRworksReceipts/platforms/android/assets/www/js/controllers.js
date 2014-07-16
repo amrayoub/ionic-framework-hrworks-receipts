@@ -2,6 +2,7 @@ angular.module('starter.controllers', ['ionic'])
 
 
 .controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
+	$scope.showTabs = false;
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE' ]).then(function (translations) {
 		$scope.translationsArray = [];
 		$scope.translationsArray["EDIT_RECEIPT"] = translations.EDIT_RECEIPT;
@@ -15,7 +16,6 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.translationsArray["CANCEL"] = translations.CANCEL;
 		$scope.translationsArray["OK"] = translations.OK;
 		$scope.translationsArray["DELETE"] = translations.DELETE;
-		console.log($scope.translationsArray);
 		
 	$localstorage.setObject('copyGUID', new Array());
 	var tabs = document.querySelectorAll('div.tabs')[0];
@@ -24,7 +24,6 @@ angular.module('starter.controllers', ['ionic'])
 	tabs.css('display', 'none');
 	$scope.$on('$destroy', function() {
 		tabs.css('display', '');
-		
 	});
 	$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 	$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
@@ -361,6 +360,7 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, $ionicModal, getData) {
+	$scope.showTabs = true;
 	$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 		scope : $scope,
 	}).then(function (modal) {
@@ -418,12 +418,10 @@ angular.module('starter.controllers', ['ionic'])
 	},1000); 
 	}
 	$scope.doRefresh = function () {
-        console.log("start doRefresh");
 		getData.all();
         $timeout(function() {
             $scope.$broadcast('scroll.refreshComplete');
 			$scope.receipts = $localstorage.getObjects('receipts');
-			console.log("done");
         },1000);     
 	};
 	$scope.hide = function () {
@@ -441,6 +439,13 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('settingsCtrl', function ($ionicPopup, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
+	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
+	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
+	$scope.translationsArray = [];
+	$scope.translationsArray["SUCCESS_SETTINGS_TITLE"] = translations.SUCCESS_SETTINGS_TITLE;
+	$scope.translationsArray["SUCCESS_SETTINGS_TEMPLATE"] = translations.SUCCESS_SETTINGS_TEMPLATE;
+	$scope.translationsArray["ERROR_SETTINGS_TITLE"] = translations.ERROR_SETTINGS_TITLE;
+	$scope.translationsArray["ERROR_SETTINGS_TEMPLATE"] = translations.ERROR_SETTINGS_TEMPLATE;
 	$scope.form = $localstorage.getObjects('user');
 	console.log($scope.form);
 	$scope.saveSettings = function(form) {
@@ -452,14 +457,14 @@ angular.module('starter.controllers', ['ionic'])
 				$localstorage.setObject("user", form);
 				getData.all();
 				$ionicPopup.alert({
-					title: 'Anmeldung erfolgreich',
-					template: 'Die Anmeldedaten wurden erfolgeich geändert!'
+					title: $scope.translationsArray['SUCCESS_SETTINGS_TITLE'],
+					template: $scope.translationsArray['SUCCESS_SETTINGS_TEMPLATE']
 				});
 			} else {
 				if(success.errors[0].errorId == "8") {
 					$ionicPopup.alert({
-						title: 'Fehler bei der Anmeldung:',
-						template: 'Die Anmeldedaten sind fehlerhaft!'
+						title: $scope.translationsArray['ERROR_SETTINGS_TITLE'],
+						template: $scope.translationsArray['ERROR_SETTINGS_TEMPLATE'],
 					});
 				} else {
 					console.log(success.errors[0]);
@@ -477,7 +482,7 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.type = '';
 		}
 		$translate.use(key).then(function (key) {
-			console.log("Sprache zu " + key + " gewechselt.");
+			getData.all();
 		}, function (key) {
 			console.log("Irgendwas lief schief.");
 		});
@@ -522,9 +527,11 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		}
 	}
+	});
 })
 
 .controller('infosCtrl', function ($scope) {
+	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 })
 
 .controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams) {

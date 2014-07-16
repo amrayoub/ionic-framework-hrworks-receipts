@@ -9,7 +9,7 @@
 				<a class="button en {{(type == '') && 'active' || ''}}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
 			</div>
 		</div>
-		<form novalidate="novalidate" id="settingsForm" on-valid-submit="saveSettings()">
+		<form novalidate="novalidate" id="settingsForm" on-valid-submit="saveSettings(form)">
 			<div class="list">
 				<label class="item item-input item-stacked-label">
 					<span class="input-label" translate="COMPANYID"></span>
@@ -33,6 +33,6 @@
 				</label>
 			</div>
 		</form>
-		<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen</button>
+		<button class="button button-positive button-block" ng-Click="create100Receipts()">100 Beispielbelege erstellen (nur klicken, wenn die App auf deutsch eingestellt ist und jaco auf auf Area)</button>
 	</ion-content>
 </ion-view>

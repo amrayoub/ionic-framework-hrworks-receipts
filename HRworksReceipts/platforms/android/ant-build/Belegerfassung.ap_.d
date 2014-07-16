@@ -65,6 +65,7 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic-angular.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic-angular.min.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic.bundle.js \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic.bundle.js.bak \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic.bundle.min.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\js\ionic.min.js \
@@ -108,6 +109,7 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ionic\js\ionic-angular.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ionic\js\ionic-angular.min.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ionic\js\ionic.bundle.js \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ionic\js\ionic.bundle.js.bak \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ionic\js\ionic.bundle.min.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ionic\js\ionic.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ionic\js\ionic.min.js \

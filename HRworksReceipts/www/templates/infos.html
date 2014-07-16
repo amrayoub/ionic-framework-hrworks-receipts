@@ -1,22 +1,24 @@
 <ion-view title="{{ 'INFOS' | translate }}">
-				<ion-content class="has-header" padding="true">
-					<h1 translate="INFOS"></h1>
-					<p translate="INFOS_INFO_TEXT"></p>
-					<h1 translate="FEEDBACK"></h1>
-					<p translate="FEEDBACK_QUESTION"></p>
-					<div class="list">
-						<label class="item item-input item-select">
-							<div class="input-label" translate="SUBJECT"></div>
-							<select>
-								<option translate="BUG"></option>
-								<option translate="ADVANCEMENT"></option>
-								<option translate="NEW_FUNCTIONALITY"></option>
-							</select>
-						</label>
-						<label class="item item-input">
-							 <textarea rows="10"></textarea>
-					  </label>
-					  <button class="button button-block button-positive" translate="SEND"></button>
-					</div>
-				</ion-content>
-			</ion-view>
+	<ion-content class="has-header" padding="true">
+		<h1 translate="INFOS"></h1>
+		<p translate="INFOS_INFO_TEXT"></p>
+		<h1 translate="FEEDBACK"></h1>
+			<p translate="FEEDBACK_QUESTION"></p>
+			<div class="list">
+			<label class="item item-input item-select">
+				<div class="input-label" translate="SUBJECT"></div>
+				<select>
+					<option translate="BUG"></option>
+					<option translate="ADVANCEMENT"></option>
+					<option translate="NEW_FUNCTIONALITY"></option>
+				</select>
+			</label>
+			<label class="item item-input">
+				<textarea rows="10"></textarea>
+			</label>
+			<div class="hide-on-keyboard-open">
+				<button class="button button-block button-positive" translate="SEND"></button>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>
