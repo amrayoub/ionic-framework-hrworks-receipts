@@ -20,8 +20,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());
+		var getUserLanguage = window.navigator.userLanguage || window.navigator.language;
+		if(getUserLanguage != "de") {
+			getUserLanguage = "en";
+		}
 		$localstorage.setObject('language', {
-			language : window.navigator.userLanguage || window.navigator.language
+			language : getUserLanguage
 		});
 		$localstorage.setObject('version', {
 			version : 1
