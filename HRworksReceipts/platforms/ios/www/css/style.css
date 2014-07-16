@@ -37,6 +37,10 @@ form i.error {
 	display: none;
 	margin-left: 8px;
 }
+.validError {
+	margin-left: 8px;
+	color: #cc2511;
+}
 
 form.ng-submitted input.ng-invalid + i.error {
 	display: block;
@@ -45,8 +49,18 @@ form.ng-submitted input.ng-invalid + i.error {
 
 form .has-error input, form .has-error {
 	color: #cc2511;
-} 
+}
+.bar.item-input-inset .item-input-wrapper input {
+width: 81%;
+  }
+.headerSearch {
+background: none repeat scroll 0 0 #145fd7;
+}
 
+.headerSearch input {
+background-color:#145fd7;
+color:#ffffff;
+}
 form.ng-submitted input.ng-valid + i.error {
 	display: none;
 }

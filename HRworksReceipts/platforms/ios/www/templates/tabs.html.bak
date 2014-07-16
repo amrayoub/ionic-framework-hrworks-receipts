@@ -1,0 +1,12 @@
+<ion-tabs class="tabs-icon-top tabs-positive">
+	<ion-tab title="{{ 'RECEIPTS' | translate }}" icon="icon ion-clipboard" href="#/tab/receipts">
+		<ion-nav-view name="receipts"></ion-nav-view>
+	</ion-tab>
+	<ion-tab title="{{ 'INFOS' | translate }}" icon="icon ion-information-circled" href="#/tab/infos">
+		<ion-nav-view name="infos"></ion-nav-view>
+	</ion-tab>
+
+	<ion-tab title="{{ 'SETTINGS' | translate }}" icon="icon ion-wrench" href="#/tab/settings">
+		<ion-nav-view name="settings"></ion-nav-view>
+	</ion-tab>
+</ion-tabs>

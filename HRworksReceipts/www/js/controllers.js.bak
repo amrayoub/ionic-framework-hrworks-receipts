@@ -272,13 +272,14 @@ angular.module('starter.controllers', ['ionic'])
 		searchQueryKindsOfPayment : ""
 	};
 	$scope.openCurrenciesModal = function () {
+		var inputs = angular.element(document.querySelectorAll('input'));
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].blur && inputs[i].blur();
+		}
 		$scope.CurrenciesModal.show();
 		$timeout(function () {
 			$scope.showListCurrencies = true;
-		}, 100);
-		$timeout(function() {
-			document.getElementById('currenciesSearch').focus();
-		}, 100);
+		}, 400);
 	};
 	$scope.closeCurrenciesModal = function () {
 		$scope.CurrenciesModal.hide();
@@ -308,13 +309,14 @@ angular.module('starter.controllers', ['ionic'])
 	});
 
 	$scope.openReceiptKindsModal = function () {
+		var inputs = angular.element(document.querySelectorAll('input'));
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].blur && inputs[i].blur();
+		}
 		$scope.receiptKindsModal.show();
 		$timeout(function () {
 			$scope.showListReceiptKinds = true;
-		}, 100)
-		$timeout(function() {
-			document.getElementById('receiptKindsSearch').focus();
-		}, 100);
+		}, 300)
 	};
 	$scope.closeReceiptKindsModal = function () {
 		$scope.receiptKindsModal.hide();
@@ -329,19 +331,21 @@ angular.module('starter.controllers', ['ionic'])
 	// KindsOfPayment Modal
 	$ionicModal.fromTemplateUrl('templates/kindsOfPayment-modal.html', {
 		scope : $scope,
-		animation : 'slide-in-up'
+		animation : 'slide-in-up',
 	}).then(function (modal) {
 		$scope.kindsOfPaymentModal = modal;
 	});
 	$scope.data = {};
 	$scope.openKindsOfPaymentModal = function () {
-			$scope.kindsOfPaymentModal.show();
-			$timeout(function () {
-				$scope.showListKindsOfPayment = true;
+		var inputs = angular.element(document.querySelectorAll('input'));
+		for(var i = 0; i < inputs.length; i++) {
+			inputs[i].blur && inputs[i].blur();
+		}
+		$scope.kindsOfPaymentModal.show();
+		$timeout(function () {
+			$scope.showListKindsOfPayment = true;
 			}, 100);
-		$timeout(function() {
-			document.getElementById('kindsOfPaymentSearch').focus();
-		}, 100);
+
 	};
 	$scope.closeKindsOfPaymentModal = function () {
 		$scope.kindsOfPaymentModal.hide();
@@ -363,6 +367,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.showTabs = true;
 	$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 		scope : $scope,
+		hardwareBackButtonClose : false
 	}).then(function (modal) {
 		$scope.LoginModal = modal;
 		if (typeof $localstorage.getObjects('user').personId === 'undefined') {
@@ -483,7 +488,7 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		$translate.use(key).then(function (key) {	
 			$localstorage.setObject('language', {
-			language : 'en'
+			language : key
 		});
 			getData.all();
 		}, function (key) {
@@ -533,8 +538,14 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('infosCtrl', function ($scope) {
+.controller('infosCtrl', function ($scope,$window) {
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
+	$scope.subject = "";
+	$scope.text = "";
+	$scope.sendFeedback = function() {
+		var link = "mailto:christoph.hummel@hrworks.de?subject=" + $scope.subject + "&body="+ $scope.text;     
+    $window.location.href = link;
+	}
 })
 
 .controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams) {
