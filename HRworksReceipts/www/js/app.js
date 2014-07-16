@@ -10,7 +10,7 @@
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
 .run(function ($localstorage, $translate, LastCurrency, GetCurrentUrl) {
-
+	$cordovaStatusbar.styleColor('white');
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -188,6 +188,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		RECEIPTKIND : 'Receipt Kind',
 		RECEIPTKINDS : 'Receipt Kinds',
 		RECEIPTS : 'Receipts',
+		RECEIPTOVERVIEW : 'Receipts',
 		SAVE : 'Save',
 		SEARCH : 'Search...',
 		SEND : 'Send',
@@ -258,6 +259,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		RECEIPTKIND : 'Belegart',
 		RECEIPTKINDS : 'Belegarten',
 		RECEIPTS : 'Belege',
+		RECEIPTOVERVIEW : 'Belegübersicht',
 		SAVE : 'Speichern',
 		SEARCH : 'Suche...',
 		SEND : 'Senden',

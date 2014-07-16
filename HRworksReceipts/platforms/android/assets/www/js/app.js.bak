@@ -25,7 +25,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			getUserLanguage = "en";
 		}
 		$localstorage.setObject('language', {
-			language : window.navigator.userLanguage || window.navigator.language
+			language : getUserLanguage
 		});
 		$localstorage.setObject('version', {
 			version : 1
@@ -258,6 +258,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		RECEIPTKIND : 'Belegart',
 		RECEIPTKINDS : 'Belegarten',
 		RECEIPTS : 'Belege',
+		RECEIPTOVERVIEW : 'Belegübersicht',
 		SAVE : 'Speichern',
 		SEARCH : 'Suche...',
 		SEND : 'Senden',
