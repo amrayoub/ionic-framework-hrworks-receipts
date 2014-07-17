@@ -491,7 +491,11 @@ angular.module('starter.controllers', ['ionic'])
 			console.log(failed);
 		});
 	};
-	$scope.type = true;
+	if($translate.use() == "de") {
+		$scope.type = true;
+	} else {
+		$scope.type = "";
+	}
 	$scope.changeLang = function (key, event) {
 		if (angular.element(event.target).hasClass('de')) {
 			$scope.type = true;

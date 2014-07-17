@@ -77,9 +77,21 @@ angular.module('ionic.utils', [])
 	]);
 angular.module('starter.services', [])
 
-.factory('GetCurrentUrl', function ($localstorage, $http) {
+.factory('GetCurrentUrl', function ($localstorage, $http, $translate, $cordovaNetwork, $ionicPopup) {
+	var translationsArray = [];
+	$translate(['NOINTERNETACCESS_TITLE', 'NOINTERNETACCESS_TEMPLATE']).then(function (translations) {
+		translationsArray["NOINTERNETACCESS_TITLE"] = translations.NOINTERNETACCESS_TITLE;
+		translationsArray["NOINTERNETACCESS_TEMPLATE"] = translations.NOINTERNETACCESS_TEMPLATE;
+	})
 	return {
 		get : function(targetServer, companyId) {
+			if($cordovaNetwork.isOffline()) {
+				$ionicPopup.alert({
+					title: "{{ 'NOINTERNETACCESS_TITLE' | translate }}",
+					template: "{{ 'NOINTERNETACCESS_TEMPLATE' | translate }}"
+				});
+				return false;
+			}
 			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
 			var jsonObject = {};
 			jsonObject.companyId = companyId;
@@ -135,7 +147,7 @@ angular.module('starter.services', [])
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
 		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = "1";//$cordovaDevice.getUUID();
+		jsonObject.deviceId = $cordovaDevice.getUUID();
 		jsonObject.languageKey = $translate.use();
 		jsonObject.version = "1";
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
@@ -172,6 +184,9 @@ angular.module('starter.services', [])
 		all : function() {
 			var userData = $localstorage.getObjects('user');
 			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
+			if(url == false) {
+				return false
+			}
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
 					$localstorage.setObject('kindsOfPayment', data.result);
@@ -195,6 +210,10 @@ angular.module('starter.services', [])
 		userLogin : function(user) {
 			var deferred = $q.defer();
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
+			console.log(url);
+			if(url == false) {
+				return false
+			}
 			var request = "HrwRegisterDeviceApi class";
 			jsonObject = {};
 			jsonObject.companyId = user.companyId;
@@ -207,7 +226,6 @@ angular.module('starter.services', [])
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
 			url.success(function (data, status, headers, config) {
-				console.log(data.url);
 				$http({
 					url: data.url + "HrwRegisterDeviceApi",
 					method: "POST",

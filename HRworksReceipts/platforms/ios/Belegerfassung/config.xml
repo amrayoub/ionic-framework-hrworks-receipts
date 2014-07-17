@@ -54,4 +54,7 @@
     <preference name="android-targetSdkVersion" value="17" />
     <preference name="android-minSdkVersion" value="11" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
 </widget>

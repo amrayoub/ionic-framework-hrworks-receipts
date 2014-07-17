@@ -205,6 +205,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		NOANSWERFROMTHESERVER_TEMPLATE : 'Please try again later.',
 		WRONGCREDENTIALS_TITLE : 'Authentication error:',
 		WRONGCREDENTIALS_TEMPLATE : 'Your authentication data is incorrect.',
+		PLEASEWAIT : 'Please wait...',
+		NOINTERNETACCESS_TITLE : 'No Internet Access',
+		NOINTERNETACCESS_TEMPLATE : 'Please check your internet access.'
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -280,6 +283,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		NOANSWERFROMTHESERVER_TEMPLATE : 'Der Server antwortet nicht. Bitte versuchen Sie es später noch einmal.',
 		WRONGCREDENTIALS_TITLE : 'Fehler bei der Anmeldung',
 		WRONGCREDENTIALS_TEMPLATE : 'Die Anmeldedaten sind fehlerhaft.',
+		PLEASEWAIT : 'Bitte warten...',
+		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
+		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.'
 		
 	});
 	$translateProvider.preferredLanguage('en');

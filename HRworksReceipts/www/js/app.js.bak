@@ -51,7 +51,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		if (window.StatusBar) {
 			console.log(window.StatusBar);
 			// org.apache.cordova.statusbar required
-			StatusBar.styleDefault();
+			StatusBar.styleLightContent();
 		}
 	});
 })
@@ -205,6 +205,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		NOANSWERFROMTHESERVER_TEMPLATE : 'Please try again later.',
 		WRONGCREDENTIALS_TITLE : 'Authentication error:',
 		WRONGCREDENTIALS_TEMPLATE : 'Your authentication data is incorrect.',
+		PLEASEWAIT : 'Please wait...',
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -280,6 +281,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		NOANSWERFROMTHESERVER_TEMPLATE : 'Der Server antwortet nicht. Bitte versuchen Sie es später noch einmal.',
 		WRONGCREDENTIALS_TITLE : 'Fehler bei der Anmeldung',
 		WRONGCREDENTIALS_TEMPLATE : 'Die Anmeldedaten sind fehlerhaft.',
+		PLEASEWAIT : 'Bitte warten...',
+		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
+		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.'
 		
 	});
 	$translateProvider.preferredLanguage('en');

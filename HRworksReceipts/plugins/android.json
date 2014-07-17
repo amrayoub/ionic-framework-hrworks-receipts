@@ -23,6 +23,20 @@
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" onload=\"true\" value=\"org.apache.cordova.statusbar.StatusBar\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -44,6 +58,9 @@
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
+        },
+        "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         }
     },
     "dependent_plugins": {}

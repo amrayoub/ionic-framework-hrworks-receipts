@@ -39,6 +39,20 @@
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "framework": {
+                "parents": {
+                    "SystemConfiguration.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
                         }
                     ]
                 }
@@ -60,6 +74,9 @@
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
+        },
+        "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         }
     },
     "dependent_plugins": {}
