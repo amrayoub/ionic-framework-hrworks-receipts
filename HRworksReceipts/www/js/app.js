@@ -9,8 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate, LastCurrency, GetCurrentUrl) {
-	$cordovaStatusbar.styleColor('white');
+.run(function ($localstorage, $translate,  LastCurrency, GetCurrentUrl) {
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -21,7 +20,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());
 		var getUserLanguage = window.navigator.userLanguage || window.navigator.language;
-		if(getUserLanguage != "de") {
+		console.log(getUserLanguage);
+		if(getUserLanguage == "de" || getUserLanguage == "de-DE" || getUserLanguage == "de_DE") {
+			getUserLanguage = "de";
+		} else {
 			getUserLanguage = "en";
 		}
 		$localstorage.setObject('language', {
@@ -197,7 +199,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUCCESS_SETTINGS_TEMPLATE : 'Your settings were updated.',
 		SUCCESS_SETTINGS_TITLE : 'Success',
 		SYNCHRONIZE : 'Synchronize...',
-		TARGETSERVER : 'Targetserver'
+		TARGETSERVER : 'Targetserver',
+		NOANSWERFROMTHESERVER_TITLE : 'No answer from the server',
+		NOANSWERFROMTHESERVER_TEMPLATE : 'Please try again later.',
+		WRONGCREDENTIALS_TITLE : 'Authentication error:',
+		WRONGCREDENTIALS_TEMPLATE : 'Your authentication data is incorrect.',
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -268,7 +274,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUCCESS_SETTINGS_TEMPLATE : 'Einstellungen erfolgreich geändert.',
 		SUCCESS_SETTINGS_TITLE : 'Meldung:',
 		SYNCHRONIZE : 'Synchronisieren...',
-		TARGETSERVER : 'Zielserver'
+		TARGETSERVER : 'Zielserver',
+		NOANSWERFROMTHESERVER_TITLE : 'Keine Antwort vom Server',
+		NOANSWERFROMTHESERVER_TEMPLATE : 'Der Server antwortet nicht. Bitte versuchen Sie es später noch einmal.',
+		WRONGCREDENTIALS_TITLE : 'Fehler bei der Anmeldung',
+		WRONGCREDENTIALS_TEMPLATE : 'Die Anmeldedaten sind fehlerhaft.',
+		
 	});
 	$translateProvider.preferredLanguage('en');
 });

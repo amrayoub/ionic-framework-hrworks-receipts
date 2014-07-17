@@ -93,7 +93,11 @@ angular.module('starter.services', [])
 	}
 })
 .factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
-
+	var translationsArray = [];
+	$translate(['NOANSWERFROMTHESERVER_TITLE', 'NOANSWERFROMTHESERVER_TEMPLATE']).then(function (translations) {
+		translationsArray["NOANSWERFROMTHESERVER_TITLE"] = translations.NOANSWERFROMTHESERVER_TITLE;
+		translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"] = translations.NOANSWERFROMTHESERVER_TEMPLATE;
+	})
 	generateSignature = function(companyId, personId, request, timeStamp, password) {
 		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
 		return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
@@ -212,7 +216,10 @@ angular.module('starter.services', [])
 				}).success(function (data, status, headers, config) {
 					deferred.resolve(data);			
 				}).error(function(){
-					deferred.reject('Greeting ' + name + ' is not allowed.');
+					$ionicPopup.alert({
+						title: translationsArray["NOANSWERFROMTHESERVER_TITLE"],
+						template: translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
+					});
 				})
 			}).error(function(data, status, headers, config) {
 				console.log(status);

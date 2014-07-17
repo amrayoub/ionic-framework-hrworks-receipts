@@ -1,8 +1,8 @@
 angular.module('starter.controllers', ['ionic'])
 
 
-.controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
-	$scope.showTabs = false;
+.controller('receiptCtrl', function ($scope, $localstorage, $cordovaStatusbar, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
+	$cordovaStatusbar.styleColor('white');
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE' ]).then(function (translations) {
 		$scope.translationsArray = [];
 		$scope.translationsArray["EDIT_RECEIPT"] = translations.EDIT_RECEIPT;
@@ -363,8 +363,12 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $location, $ionicModal, getData) {
-	$scope.showTabs = true;
+.controller('receiptsCtrl', function ($scope, $timeout, $cordovaStatusbar, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
+	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
+		$scope.translationsArray = [];
+		$scope.translationsArray["WRONGCREDENTIALS_TITLE"] = translations.WRONGCREDENTIALS_TITLE;
+		$scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"] = translations.WRONGCREDENTIALS_TEMPLATE;
+		
 	$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 		scope : $scope,
 		hardwareBackButtonClose : false
@@ -375,12 +379,11 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	});
 	$scope.user = {};
-	$scope.user.companyId = "jaco";
-	$scope.user.personId = "jaco";
-	$scope.user.mobilePassword = "hjpjpkf";
-	$scope.user.targetServer = "area51-0";
+	$scope.user.companyId = "ClassWare";
+	$scope.user.personId = "hum";
+	$scope.user.mobilePassword = "tevfw5h";
+	$scope.user.targetServer = "0";
 	$scope.login = function (user) {
-		console.log(user);
 		var promise = getData.userLogin(user);
 		promise.then(function(success) {
 			if(success.errors.length == 0) {
@@ -394,8 +397,8 @@ angular.module('starter.controllers', ['ionic'])
 			} else {
 				if(success.errors[0].errorId == "8") {
 					$ionicPopup.alert({
-						title: 'Fehler bei der Anmeldung:',
-						template: 'Die Anmeldedaten sind fehlerhaft!'
+						title: $scope.translationsArray["WRONGCREDENTIALS_TITLE"],
+						template: $scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"]
 					});
 				} else {
 					console.log(success.errors[0]);
@@ -441,9 +444,12 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openLoginModal = function () {
 		$scope.LoginModal.show();
 	};
+	$cordovaStatusbar.styleColor('white');
+	})
 })
 
-.controller('settingsCtrl', function ($ionicPopup, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
+.controller('settingsCtrl', function ($ionicPopup, $state, $cordovaStatusbar, $scope, $http, $localstorage, $filter, $translate, getData) {
+	$cordovaStatusbar.styleColor('white');
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
 	$scope.translationsArray = [];
@@ -538,7 +544,8 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('infosCtrl', function ($scope,$window) {
+.controller('infosCtrl', function ($scope, $window, $cordovaStatusbar) {
+	$cordovaStatusbar.styleColor('white');
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$scope.mail = {};
 	$scope.sendFeedback = function() {
@@ -547,6 +554,7 @@ angular.module('starter.controllers', ['ionic'])
 	}
 })
 
-.controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams) {
+.controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams, $cordovaStatusbar) {
+	$cordovaStatusbar.styleColor('white');
 	console.log($localstorage.getObject('receipts', $stateParams.guid));
 });
