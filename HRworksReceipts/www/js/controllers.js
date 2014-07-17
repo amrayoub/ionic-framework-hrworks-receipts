@@ -378,10 +378,10 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	});
 	$scope.user = {};
-	$scope.user.companyId = "ClassWare";
-	$scope.user.personId = "hum";
+	$scope.user.companyId = "jaco";
+	$scope.user.personId = "jaco";
 	$scope.user.mobilePassword = "tevfw5h";
-	$scope.user.targetServer = "0";
+	$scope.user.targetServer = "area51-0";
 	$scope.login = function (user) {
 		var promise = getData.userLogin(user);
 		promise.then(function(success) {
