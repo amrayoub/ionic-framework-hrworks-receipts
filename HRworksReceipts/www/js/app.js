@@ -51,7 +51,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		if (window.StatusBar) {
 			console.log(window.StatusBar);
 			// org.apache.cordova.statusbar required
-			StatusBar.styleDefault();
+			StatusBar.styleLightContent();
 		}
 	});
 })
