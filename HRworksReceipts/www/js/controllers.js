@@ -362,7 +362,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
+.controller('receiptsCtrl', function ($scope, $ionicPopup, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
 		$scope.translationsArray = [];
 		$scope.translationsArray["WRONGCREDENTIALS_TITLE"] = translations.WRONGCREDENTIALS_TITLE;
@@ -380,10 +380,16 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.user = {};
 	$scope.user.companyId = "jaco";
 	$scope.user.personId = "jaco";
-	$scope.user.mobilePassword = "tevfw5h";
+	$scope.user.mobilePassword = "hjpjpkf";
 	$scope.user.targetServer = "area51-0";
 	$scope.login = function (user) {
 		var promise = getData.userLogin(user);
+		if(promise == false) {
+			return false
+		}
+		$ionicLoading.show({
+			template : "<i class='icon ion-loading-c'></i><br> {{ 'PLEASEWAIT' | translate }}",
+		});
 		promise.then(function(success) {
 			if(success.errors.length == 0) {
 				$scope.user.person = success.result.person;
@@ -392,9 +398,11 @@ angular.module('starter.controllers', ['ionic'])
 				$timeout(function() {
 					$scope.receipts = $localstorage.getObjects('receipts');
 				},1000);
+				$ionicLoading.hide();
 				$scope.LoginModal.hide();
 			} else {
 				if(success.errors[0].errorId == "8") {
+					$ionicLoading.hide();
 					$ionicPopup.alert({
 						title: $scope.translationsArray["WRONGCREDENTIALS_TITLE"],
 						template: $scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"]
@@ -417,7 +425,7 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.doSync = function () {
 		getData.all();
 		$ionicLoading.show({
-			template : "{{ 'SYNCHRONIZE' | translate }}",
+			template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
 			duration : '1000'
 		});
 	$timeout(function() {

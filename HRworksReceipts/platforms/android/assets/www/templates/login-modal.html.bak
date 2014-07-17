@@ -1,6 +1,6 @@
 <div class="modal">
-	<ion-header-bar class="bar bar-header bar-positive">
-		<h1 class="title" translate="CHOOSE_KINDOFPAYMENT"></h1>
+	<ion-header-bar class="bar bar-header bar-energized">
+		<h1 class="title" translate="LOGIN"></h1>
 		<button class="button button-icon button-clear ion-checkmark" form="loginForm"></button>
 	</ion-header-bar>
 	<ion-content

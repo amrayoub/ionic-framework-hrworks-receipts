@@ -2,6 +2,13 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\com\ionic\keyboard\IonicKeyboard$1.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\com\ionic\keyboard\IonicKeyboard$2.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\com\ionic\keyboard\IonicKeyboard.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\Belegerfassung.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\BuildConfig.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\R$attr.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\R$drawable.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\R$string.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\R$xml.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\R.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\mobileReceiptsPhonejs\Belegerfassung.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\mobileReceiptsPhonejs\BuildConfig.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\mobileReceiptsPhonejs\R$attr.class \
@@ -13,6 +20,8 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\globalization\Globalization$1.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\globalization\Globalization.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\globalization\GlobalizationError.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\networkinformation\NetworkManager$1.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\networkinformation\NetworkManager.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar$1.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar$2.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar.class \

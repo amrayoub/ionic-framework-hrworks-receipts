@@ -1,5 +1,5 @@
 <div class="modal">
-	<ion-header-bar class="bar bar-header bar-positive">
+	<ion-header-bar class="bar bar-header bar-energized">
 		<div class="button-bar">
 			<a class="button fav {{(type == true) && 'active' || ''}}" ng-click="setType($event)" translate="FAVORITES"></a>
 			<a class="button all {{(type == '') && 'active' || ''}}" ng-click="setType($event)" translate="ALLCURRENCIES"></a>
@@ -10,7 +10,7 @@
 	<ion-header-bar class="bar bar-subheader item-input-inset">
 		<div class="item-input-wrapper">
 			<i class="icon ion-ios7-search placeholder-icon"></i>
-			<input type="search" id="currenciesSearch" placeholder="{{ 'SEARCH' | translate }}" ng-model="data.searchQueryCurrencies" />
+			<input type="search" id="currenciesSearch" placeholder="{{ 'SEARCH' | translate }}" ng-model="data.searchQueryCurrencies" autofocus />
 			<button ng-if="data.searchQueryCurrencies.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchCurrencies()"></button>
 		</div>
 	</ion-header-bar>

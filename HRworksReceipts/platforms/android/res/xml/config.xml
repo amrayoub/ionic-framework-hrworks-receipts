@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="de.hrworks.mobileReceiptsPhonejs" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="de.hrworks.ionicframework.mobileReceipts" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidLaunchMode" value="singleTop" />
     <feature name="App">
@@ -10,6 +10,9 @@
     </feature>
     <feature name="Globalization">
         <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
     <icon gap:density="hdpi" gap:platform="android" src="res/drawable-hdpi/ic_launcher.png" />
     <icon gap:density="mdpi" gap:platform="android" src="res/drawable-mdpi/ic_launcher.png" />
@@ -30,9 +33,6 @@
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="BackupWebStorage" value="none" />
-    <preference name="android-targetSdkVersion" value="17" />
-    <preference name="android-minSdkVersion" value="11" />
     <feature name="StatusBar">
         <param name="android-package" onload="true" value="org.apache.cordova.statusbar.StatusBar" />
         <param name="ios-package" onload="true" value="CDVStatusBar" />
@@ -42,4 +42,8 @@
         <param name="onload" value="true" />
         <param name="ios-package" onload="true" value="IonicKeyboard" />
     </feature>
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="android-targetSdkVersion" value="17" />
+    <preference name="android-minSdkVersion" value="11" />
+    <preference name="StatusBarStyle" value="lightcontent" />
 </widget>
