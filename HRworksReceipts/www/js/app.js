@@ -36,8 +36,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform, $cordovaDevice, $cordovaStatusbar) {
-	$cordovaStatusbar.style(1);
+.run(function ($ionicPlatform, $cordovaDevice) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus',function(e){
 			e.preventDefault(); e.stopPropagation();
