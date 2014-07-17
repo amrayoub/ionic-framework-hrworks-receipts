@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget 
-	id="de.hrworks.mobileReceiptsPhonejs" 
+	id="de.hrworks.ionicframework.mobileReceipts" 
 	version="0.0.1" 
 	xmlns="http://www.w3.org/ns/widgets" 
 	xmlns:cdv="http://cordova.apache.org/ns/1.0"
@@ -19,19 +19,17 @@
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
-
-    <!-- Don't store local date in an iCloud backup. Turn this to "cloud" to enable storage
-to be sent to iCloud. Note: enabling this could result in Apple rejecting your app.
--->
-    <preference name="BackupWebStorage" value="none" />
-	<preference name="android-targetSdkVersion" value="17" />
-	<preference name="android-minSdkVersion" value="11" />
-    <feature name="StatusBar">
+	<feature name="StatusBar">
 		<param name="ios-package" value="CDVStatusBar" onload="true" />
-    </feature>
+	</feature>
 	<feature name="Keyboard">
 		<param name="ios-package" value="IonicKeyboard" onload="true" />
 	</feature>
+    <preference name="BackupWebStorage" value="none" />
+	<preference name="android-targetSdkVersion" value="17" />
+	<preference name="android-minSdkVersion" value="11" />
+	<preference name="StatusBarStyle" value="lightcontent" />
+
 	<platform name="android">
 		<icon src="res/drawable-hdpi/ic_launcher.png"  gap:platform="android" gap:density="hdpi" />
 		<icon src="res/drawable-mdpi/ic_launcher.png"  gap:platform="android" gap:density="mdpi" />

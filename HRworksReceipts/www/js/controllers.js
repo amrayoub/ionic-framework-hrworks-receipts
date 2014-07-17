@@ -1,8 +1,7 @@
 angular.module('starter.controllers', ['ionic'])
 
 
-.controller('receiptCtrl', function ($scope, $localstorage, $cordovaStatusbar, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
-	$cordovaStatusbar.styleColor('white');
+.controller('receiptCtrl', function ($scope, $localstorage, $location, $ionicViewService, $filter, $ionicActionSheet, $state, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE' ]).then(function (translations) {
 		$scope.translationsArray = [];
 		$scope.translationsArray["EDIT_RECEIPT"] = translations.EDIT_RECEIPT;
@@ -363,7 +362,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $timeout, $cordovaStatusbar, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
+.controller('receiptsCtrl', function ($scope, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
 		$scope.translationsArray = [];
 		$scope.translationsArray["WRONGCREDENTIALS_TITLE"] = translations.WRONGCREDENTIALS_TITLE;
@@ -444,12 +443,11 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openLoginModal = function () {
 		$scope.LoginModal.show();
 	};
-	$cordovaStatusbar.styleColor('white');
+
 	})
 })
 
-.controller('settingsCtrl', function ($ionicPopup, $state, $cordovaStatusbar, $scope, $http, $localstorage, $filter, $translate, getData) {
-	$cordovaStatusbar.styleColor('white');
+.controller('settingsCtrl', function ($ionicPopup, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
 	$scope.translationsArray = [];
@@ -544,8 +542,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('infosCtrl', function ($scope, $window, $cordovaStatusbar) {
-	$cordovaStatusbar.styleColor('white');
+.controller('infosCtrl', function ($scope, $window) {
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$scope.mail = {};
 	$scope.sendFeedback = function() {
@@ -553,8 +550,3 @@ angular.module('starter.controllers', ['ionic'])
     $window.location.href = link;
 	}
 })
-
-.controller('updateReceiptCtrl', function ($scope, $localstorage, $stateParams, $cordovaStatusbar) {
-	$cordovaStatusbar.styleColor('white');
-	console.log($localstorage.getObject('receipts', $stateParams.guid));
-});

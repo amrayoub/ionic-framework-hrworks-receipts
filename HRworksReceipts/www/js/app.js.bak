@@ -9,7 +9,8 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate,  LastCurrency, GetCurrentUrl) {
+.run(function ($localstorage, $translate,  LastCurrency, GetCurrentUrl, $cordovaStatusbar) {
+	$cordovaStatusbar.style(1);
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -21,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('user', new Array());
 		var getUserLanguage = window.navigator.userLanguage || window.navigator.language;
 		console.log(getUserLanguage);
-		if(getUserLanguage == "de" || getUserLanguage == "de-DE") {
+		if(getUserLanguage == "de" || getUserLanguage == "de-DE" || getUserLanguage == "de_DE") {
 			getUserLanguage = "de";
 		} else {
 			getUserLanguage = "en";
