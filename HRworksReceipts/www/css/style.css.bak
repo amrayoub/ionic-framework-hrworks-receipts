@@ -74,15 +74,15 @@ bottom: 44px;
 bottom: 0px;
 }
 .platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
-  height: 64px; }
+  height: 45px !important; }
 .platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
-    margin-top: 19px !important; }
+    margin-top: 1px !important; }
 .platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
-    margin-top: 20px; }
+    margin-top: 1px !important; }
 .platform-ios6.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios6.platform-cordova:not(.fullscreen) .tabs.tabs-top {
-  top: 64px; }
+  top: 45px !important; }
 .platform-ios6.platform-cordova:not(.fullscreen) .has-header, .platform-ios6.platform-cordova:not(.fullscreen) .bar-subheader {
-  top: 64px; }
+  top: 45px !important; }
 .platform-ios6.platform-cordova:not(.fullscreen) .has-subheader {
   top: 89px; }
 .platform-ios6.platform-cordova:not(.fullscreen) .has-tabs-top {
