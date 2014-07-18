@@ -34,6 +34,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		});
 	}
 	$translate.use($localstorage.getObjects('language').language);
+	console.log(ionic.Platform.device());
+	console.log(ionic.Platform.platform());
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {
@@ -206,6 +208,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		WRONGCREDENTIALS_TITLE : 'Authentication error:',
 		WRONGCREDENTIALS_TEMPLATE : 'Your authentication data is incorrect.',
 		PLEASEWAIT : 'Please wait...',
+		NOINTERNETACCESS_TITLE : 'No Internet Access',
+		NOINTERNETACCESS_TEMPLATE : 'Please check your internet access.'
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',

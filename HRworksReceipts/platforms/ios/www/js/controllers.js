@@ -423,14 +423,14 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	$scope.receipts = $localstorage.getObjects('receipts');
 	$scope.doSync = function () {
-		getData.all();
+		var promise = getData.all();
 		$ionicLoading.show({
 			template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
-			duration : '1000'
 		});
-	$timeout(function() {
-		$scope.receipts = $localstorage.getObjects('receipts');
-	},1000); 
+		promise.then(function() {
+			$ionicLoading.hide();
+			$scope.receipts = $localstorage.getObjects('receipts');
+		})
 	}
 	$scope.doRefresh = function () {
 		getData.all();
@@ -451,7 +451,6 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openLoginModal = function () {
 		$scope.LoginModal.show();
 	};
-
 	})
 })
 

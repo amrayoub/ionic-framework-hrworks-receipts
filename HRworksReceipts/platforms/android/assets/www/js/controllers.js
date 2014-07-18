@@ -394,12 +394,12 @@ angular.module('starter.controllers', ['ionic'])
 			if(success.errors.length == 0) {
 				$scope.user.person = success.result.person;
 				$localstorage.setObject("user", user);
-				getData.all();
-				$timeout(function() {
+				var dataPromise = getData.all();
+				dataPromise.then(function(success) {
 					$scope.receipts = $localstorage.getObjects('receipts');
-				},1000);
-				$ionicLoading.hide();
-				$scope.LoginModal.hide();
+					$ionicLoading.hide();
+					$scope.LoginModal.hide();
+				})
 			} else {
 				if(success.errors[0].errorId == "8") {
 					$ionicLoading.hide();
@@ -423,24 +423,19 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	$scope.receipts = $localstorage.getObjects('receipts');
 	$scope.doSync = function () {
-		getData.all();
 		$ionicLoading.show({
 			template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
-			duration : '1000'
 		});
-	$timeout(function() {
-		$scope.receipts = $localstorage.getObjects('receipts');
-	},1000); 
+		var promise = getData.all();
+		promise.then(function() {
+			$scope.receipts = $localstorage.getObjects('receipts');
+			$ionicLoading.hide();
+		});
 	}
 	$scope.doRefresh = function () {
-		getData.all();
-        $timeout(function() {
-            $scope.$broadcast('scroll.refreshComplete');
-			$scope.receipts = $localstorage.getObjects('receipts');
-        },1000);     
-	};
-	$scope.hide = function () {
-		$ionicLoading.hide();
+		$scope.$broadcast('scroll.refreshComplete');
+		$scope.doSync();
+		$scope.receipts = $localstorage.getObjects('receipts');
 	};
 	$scope.removeReceipt = function (guid) {
 		var x = $localstorage.getIndex('receipts', guid);
@@ -451,11 +446,10 @@ angular.module('starter.controllers', ['ionic'])
 	$scope.openLoginModal = function () {
 		$scope.LoginModal.show();
 	};
-
 	})
 })
 
-.controller('settingsCtrl', function ($ionicPopup, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
+.controller('settingsCtrl', function ($ionicPopup, $ionicLoading, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
 	$scope.translationsArray = [];
@@ -472,11 +466,17 @@ angular.module('starter.controllers', ['ionic'])
 				$scope.form.person = success.result.person;
 				$localstorage.setObject('receipts', new Array());
 				$localstorage.setObject("user", form);
-				getData.all();
-				$ionicPopup.alert({
-					title: $scope.translationsArray['SUCCESS_SETTINGS_TITLE'],
-					template: $scope.translationsArray['SUCCESS_SETTINGS_TEMPLATE']
+				$ionicLoading.show({
+					template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
 				});
+				var promise = getData.all();
+				promise.then(function() {
+					$ionicLoading.hide();
+					$ionicPopup.alert({
+						title: $scope.translationsArray['SUCCESS_SETTINGS_TITLE'],
+						template: $scope.translationsArray['SUCCESS_SETTINGS_TEMPLATE']
+					});
+				})
 			} else {
 				if(success.errors[0].errorId == "8") {
 					$ionicPopup.alert({
@@ -504,9 +504,15 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		$translate.use(key).then(function (key) {	
 			$localstorage.setObject('language', {
-			language : key
-		});
-			getData.all();
+				language : key
+			});
+			$ionicLoading.show({
+				template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
+			});
+			var promise = getData.all();
+			promise.then(function() {
+				$ionicLoading.hide();
+			})
 		}, function (key) {
 			console.log("Irgendwas lief schief.");
 		});
