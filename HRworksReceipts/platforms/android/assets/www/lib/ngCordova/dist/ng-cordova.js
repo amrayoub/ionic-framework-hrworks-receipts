@@ -878,6 +878,7 @@ angular.module('ngCordova.plugins.network', [])
 
     isOffline: function () {
       var networkState = navigator.connection.type;
+	  console.log(navigator.connection.type);
       return networkState === Connection.UNKNOWN || networkState === Connection.NONE;
     }
   }
