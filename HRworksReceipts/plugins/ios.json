@@ -25,6 +25,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"StatusBar\"><param name=\"ios-package\" onload=\"true\" value=\"CDVStatusBar\" /></feature>",
                             "count": 1
                         },
@@ -38,10 +42,6 @@
                         },
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -61,21 +61,21 @@
     },
     "installed_plugins": {
         "com.ionic.keyboard": {
-            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         },
         "org.apache.cordova.console": {
-            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         },
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         },
         "org.apache.cordova.globalization": {
-            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
-        },
-        "org.apache.cordova.statusbar": {
-            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         },
         "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
+        },
+        "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         }
     },
