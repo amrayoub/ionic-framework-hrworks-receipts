@@ -73,3 +73,21 @@ bottom: 44px;
 .remove-tabs {
 bottom: 0px;
 }
+.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+  height: 64px; }
+.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+    margin-top: 19px !important; }
+.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+    margin-top: 20px; }
+.platform-ios6.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios6.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+  top: 64px; }
+.platform-ios6.platform-cordova:not(.fullscreen) .has-header, .platform-ios6.platform-cordova:not(.fullscreen) .bar-subheader {
+  top: 64px; }
+.platform-ios6.platform-cordova:not(.fullscreen) .has-subheader {
+  top: 108px; }
+.platform-ios6.platform-cordova:not(.fullscreen) .has-tabs-top {
+  top: 113px; }
+.platform-ios6.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
+  top: 157px; }
+.platform-ios6.platform-cordova.status-bar-hide {
+  margin-bottom: 20px; }
