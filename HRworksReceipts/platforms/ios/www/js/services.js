@@ -182,38 +182,36 @@ angular.module('starter.services', [])
 	}
 	return {
 		all : function() {
+			var deferred = $q.defer();
 			var userData = $localstorage.getObjects('user');
 			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
-			if(url == false) {
-				return false
-			}
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
 					$localstorage.setObject('kindsOfPayment', data.result);
-				});
-				get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
-					$localstorage.setObject('receiptKinds', data.result);
-				});
-				get('Currencies', data.url).success(function (data, status, headers, config) {
-					$localstorage.setObject('currencies', data.result);
-				});
-				get('Receipts', data.url).success(function (data, status, headers, config) {
-					$timeout(function() {
-						updatedReceipts = changeReceiptObject(data.result);
-						$localstorage.setObject('receipts', updatedReceipts);
-					},500)
-				});
+				}).then(function() {
+					get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
+						$localstorage.setObject('receiptKinds', data.result);
+					}).then(function() {
+						get('Currencies', data.url).success(function (data, status, headers, config) {
+							$localstorage.setObject('currencies', data.result);
+						}).then(function() {
+							get('Receipts', data.url).success(function (data, status, headers, config) {
+								updatedReceipts = changeReceiptObject(data.result);
+								$localstorage.setObject('receipts', updatedReceipts);
+								deferred.resolve(data);		
+							})
+						})
+					})
+				})
 			}).error(function(data, status, headers, config) {
-				console.log(status);
+				return false
 			});
+			return deferred.promise;
 		},
 		userLogin : function(user) {
 			var deferred = $q.defer();
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
 			console.log(url);
-			if(url == false) {
-				return false
-			}
 			var request = "HrwRegisterDeviceApi class";
 			jsonObject = {};
 			jsonObject.companyId = user.companyId;
@@ -240,7 +238,7 @@ angular.module('starter.services', [])
 					});
 				})
 			}).error(function(data, status, headers, config) {
-				console.log(status);
+				return false
 			});
 			return deferred.promise;
 		}
