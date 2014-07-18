@@ -1,0 +1,75 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	/* display: none; <- Crashes Chrome on hover */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.item-complex .item-content {
+	padding: 0;
+}
+
+.list .myItem.item {
+  left: 0;
+  right: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.icon-gray {
+	margin-top:15px;
+	color: #959595;
+}
+.input-span {
+	color: #000;
+    display: block;
+    font-size: 14px;
+    height: 25px;
+	margin-left:7px;
+    line-height: 16px;
+    padding-top: 2px;
+    vertical-align: middle;
+}
+form i.icon.error {
+	color: #ef4e3a;
+}
+
+form i.error {
+	display: none;
+	margin-left: 8px;
+}
+.validError {
+	margin-left: 8px;
+	color: #cc2511;
+}
+
+form.ng-submitted input.ng-invalid + i.error {
+	display: block;
+}
+
+
+form .has-error input, form .has-error {
+	color: #cc2511;
+}
+.bar.item-input-inset .item-input-wrapper input {
+width: 81%;
+  }
+.headerSearch {
+background: none repeat scroll 0 0 #145fd7;
+}
+
+.headerSearch input {
+background-color:#145fd7;
+color:#ffffff;
+}
+form.ng-submitted input.ng-valid + i.error {
+	display: none;
+}
+.hide-footer .bar-footer, .hide-footer .tabs {
+display: flex;
+}
+.hide-footer .has-footer, .hide-footer .has-tabs {
+bottom: 44px;
+}
+.remove-tabs {
+bottom: 0px;
+}

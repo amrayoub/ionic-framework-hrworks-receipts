@@ -1,0 +1,30 @@
+<div class="modal">
+	<ion-header-bar class="bar bar-header bar-energized">
+		<h1 class="title" translate="LOGIN"></h1>
+		<button class="button button-icon button-clear ion-checkmark" form="loginForm"></button>
+	</ion-header-bar>
+	<ion-content
+		start-y="55"
+		padding="false"
+		has-header="true">
+		<form novalidate="novalidate" on-valid-submit="login(user)" id="loginForm">
+			<div class="list">
+				<label class="item item-input item-stacked-label">
+					<span class="input-label" translate="COMPANYID"></span>
+					<input type="text" ng-model="user.companyId">
+				</label>
+				<label class="item item-input item-stacked-label">
+					<span class="input-label" translate="PERSONID"></span>
+					<input type="text" ng-model="user.personId">
+				</label>
+				<label class="item item-input item-stacked-label">
+					<span class="input-label" translate="MOBILEPASSWORD"></span>
+					<input type="text" ng-model="user.mobilePassword">
+				</label>
+			</div>
+		</form>
+		<div class="card">
+			<div class="item item-text-wrap" translate="LOGIN_INFO_TEXT"></div>
+		</div>
+	</ion-content>
+</div>
