@@ -74,20 +74,20 @@ bottom: 44px;
 bottom: 0px;
 }
 .platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
-  height: 64px; }
+  height: 45px; }
 .platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
-    margin-top: 19px !important; }
+    margin-top: 2px !important; }
 .platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
-    margin-top: 20px; }
+    margin-top: 1px; }
 .platform-ios6.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios6.platform-cordova:not(.fullscreen) .tabs.tabs-top {
-  top: 64px; }
+  top: 45px; }
 .platform-ios6.platform-cordova:not(.fullscreen) .has-header, .platform-ios6.platform-cordova:not(.fullscreen) .bar-subheader {
-  top: 64px; }
+  top: 45px; }
 .platform-ios6.platform-cordova:not(.fullscreen) .has-subheader {
-  top: 108px; }
+  top: 89px; }
 .platform-ios6.platform-cordova:not(.fullscreen) .has-tabs-top {
-  top: 113px; }
+  top: 94px; }
 .platform-ios6.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
-  top: 157px; }
+  top: 138px; }
 .platform-ios6.platform-cordova.status-bar-hide {
-  margin-bottom: 20px; }
+  margin-bottom: 1px; }
