@@ -374,8 +374,8 @@ angular.module('starter.controllers', ['ionic'])
 	}).then(function (modal) {
 		$scope.LoginModal = modal;
 		if (typeof $localstorage.getObjects('user').personId === 'undefined') {
-		$scope.LoginModal.show();
-	}
+			$scope.LoginModal.show();
+		}
 	});
 	$scope.user = {};
 	$scope.user.companyId = "jaco";

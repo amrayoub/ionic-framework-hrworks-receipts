@@ -504,15 +504,15 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		$translate.use(key).then(function (key) {	
 			$localstorage.setObject('language', {
-			language : key
-		});
-		$ionicLoading.show({
-			template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
-		});
-		var promise = getData.all();
-		promise.then(function() {
-			$ionicLoading.hide();
-		}
+				language : key
+			});
+			$ionicLoading.show({
+				template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
+			});
+			var promise = getData.all();
+			promise.then(function() {
+				$ionicLoading.hide();
+			})
 		}, function (key) {
 			console.log("Irgendwas lief schief.");
 		});
