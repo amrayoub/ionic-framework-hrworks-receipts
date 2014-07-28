@@ -1,37 +1,36 @@
 <ion-view title="{{ 'RECEIPTS' | translate }}" class="hide-tabs">
-				<ion-nav-buttons side="left">
-					<button class="button button-icon button-clear ion-loop" ng-click="doSync()"></button>
-				</ion-nav-buttons>
-				<ion-nav-buttons side="right">
-					<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/receipt/new')"></button>
-				</ion-nav-buttons>
-				<ion-content has-header="true">
-					<ion-refresher
-						on-refresh="doRefresh()"
-						refreshing-text="{{ 'SYNCHRONIZE' | translate }}"
-						refreshing-icon="ion-loading-c">
-						>
-					</ion-refresher>
-					<ion-list option-buttons="itemButtons">
-						<ion-item class="item myItem"
-							collection-repeat="receipt in receipts | orderBy: 'timestamp':true"
-							collection-item-height="70"
-							collection-item-width="'100%'"
-							href="#/tab/receipt/{{receipt.guid}}">
-							<div class="row">
-								<div class="col col-67">
-									<p><b>{{receipt.text}}</b></p>
-									<span ng-bind="receipt.receiptKind.description"></span></p>
-								</div>
-								<div class="col col-33" style="text-align:right;">
-									<p>{{ receipt.date | date : shortDate}}</p>
-									<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
-								</div>
-							</div>
-							<!--
-							<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/receipt/{{ receipt.guid }}')" translate="EDIT"></ion-option-button>
-							<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)" translate="DELETE"></ion-option-button>
-							-->
-					</ion-list>
-				</ion-content>
-			</ion-view>
+	<ion-nav-buttons side="left">
+		<button class="button button-icon button-clear ion-loop" ng-click="doSync()"></button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/receipt/new')"></button>
+	</ion-nav-buttons>
+	<ion-content has-header="true">
+		<ion-refresher
+			on-refresh="doRefresh()"
+			refreshing-text="{{ 'SYNCHRONIZE' | translate }}"
+			refreshing-icon="ion-loading-c">
+			>
+		</ion-refresher>
+		<ion-list option-buttons="itemButtons">
+			<ion-item class="item myItem"
+				collection-repeat="receipt in receipts | orderBy: 'timeStamp'"
+				collection-item-height="70"
+				collection-item-width="'100%'"
+				href="#/tab/receipt/{{receipt.guid}}">
+				<div class="row">
+					<div class="col col-67">
+						<p><b>{{receipt.text}}</b></p>
+						<span ng-bind="receipt.receiptKind.description"></span></p>
+					</div>
+					<div class="col col-33" style="text-align:right;">
+						<p>{{ receipt.date | date : shortDate}}</p>
+						<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
+					</div>
+				</div>
+				<ion-option-button class="button-positive" translate="COPY"></ion-option-button>
+				<ion-option-button class="button-assertive" translate="DELETE"></ion-option-button>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

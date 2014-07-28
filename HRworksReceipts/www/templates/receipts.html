@@ -14,7 +14,7 @@
 		</ion-refresher>
 		<ion-list option-buttons="itemButtons">
 			<ion-item class="item myItem"
-				collection-repeat="receipt in receipts | orderBy: 'timestamp':true"
+				collection-repeat="receipt in receipts | orderBy: 'timeStamp':true"
 				collection-item-height="70"
 				collection-item-width="'100%'"
 				href="#/tab/receipt/{{receipt.guid}}">
@@ -29,9 +29,12 @@
 					</div>
 				</div>
 				<!--
-				<ion-option-button style="padding-top: 15px" class="button-positive" ng-click="go('/tab/receipt/{{ receipt.guid }}')" translate="EDIT"></ion-option-button>
-				<ion-option-button style="padding-top: 15px" class="button-assertive" ng-click="removeReceipt(receipt.guid)" translate="DELETE"></ion-option-button>
+				Waiting for fix for this issue.
+				https://github.com/driftyco/ionic/issues/1842
+				<ion-option-button class="button-positive" translate="COPY"></ion-option-button>
+				<ion-option-button class="button-assertive" translate="DELETE"></ion-option-button>
 				-->
+			</ion-item>
 		</ion-list>
 	</ion-content>
 </ion-view>
