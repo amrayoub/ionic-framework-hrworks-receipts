@@ -14,7 +14,7 @@
 		</ion-refresher>
 		<ion-list option-buttons="itemButtons">
 			<ion-item class="item myItem"
-				collection-repeat="receipt in receipts | orderBy: 'timeStamp'"
+				collection-repeat="receipt in receipts | orderBy: 'timeStamp':true"
 				collection-item-height="70"
 				collection-item-width="'100%'"
 				href="#/tab/receipt/{{receipt.guid}}">
@@ -28,8 +28,10 @@
 						<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
 					</div>
 				</div>
+				<!--
 				<ion-option-button class="button-positive" translate="COPY"></ion-option-button>
 				<ion-option-button class="button-assertive" translate="DELETE"></ion-option-button>
+				-->
 			</ion-item>
 		</ion-list>
 	</ion-content>
