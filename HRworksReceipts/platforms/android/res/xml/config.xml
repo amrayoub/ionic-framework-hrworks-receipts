@@ -11,14 +11,17 @@
     <feature name="Globalization">
         <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
     </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+    </feature>
     <icon gap:density="hdpi" gap:platform="android" src="res/drawable-hdpi/ic_launcher.png" />
     <icon gap:density="mdpi" gap:platform="android" src="res/drawable-mdpi/ic_launcher.png" />
-    <icon gap:density="xdpi" gap:platform="android" src="res/drawable-xhdpi/ic_launcher.png" />
+    <icon gap:density="xhdpi" gap:platform="android" src="res/drawable-xhdpi/ic_launcher.png" />
     <icon gap:density="xxhdpi" gap:platform="android" src="res/drawable-xxhdpi/ic_launcher.png" />
     <icon gap:density="xxxhdpi" gap:platform="android" src="res/drawable-xxxhdpi/ic_launcher.png" />
-    <name>Belegerfassung</name>
+    <name>HRworks</name>
     <description>
-		Hrworks Belegerfassung
+		Hrworks
     </description>
     <author href="http://hrworks.de">
 		HRworks GmbH
@@ -47,4 +50,7 @@
     <preference name="android-targetSdkVersion" value="17" />
     <preference name="android-minSdkVersion" value="11" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="SplashScreen" value="foo" />
+    <preference name="SplashScreenDelay" value="10000" />
+    <preference name="auto-hide-splash-screen" value="false" />
 </widget>

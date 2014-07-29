@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate,  LastCurrency, GetCurrentUrl) {
+.run(function ($localstorage, $translate, $cordovaSplashscreen, LastCurrency, GetCurrentUrl) {
 	if($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -34,6 +34,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		});
 	}
 	$translate.use($localstorage.getObjects('language').language);
+	setTimeout(function() {
+		$cordovaSplashscreen.hide()
+  }, 3000)
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {

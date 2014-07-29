@@ -47,6 +47,7 @@
 		8ED843A757F74F2FBDE55860 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E79F74A036E7414EAB1C8081 /* CDVReachability.m */; };
 		F34B8F53C16E4230A72016FC /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A2658ADF62F24AD9B15E3643 /* CDVStatusBar.m */; };
 		E38208BFA7CE4FA8832BD5D3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6041EFEC1835477894577DC3 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1CCB36926CDB415FA7122B06 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0D5AF5B92A4BC1A7455049 /* CDVSplashScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +129,8 @@
 		A2658ADF62F24AD9B15E3643 /* CDVStatusBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVStatusBar.m"; path = "org.apache.cordova.statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		60CAD3AA583A413E87981B08 /* CDVStatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVStatusBar.h"; path = "org.apache.cordova.statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		6041EFEC1835477894577DC3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		FA0D5AF5B92A4BC1A7455049 /* CDVSplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVSplashScreen.m"; path = "Plugins\org.apache.cordova.splashscreen\CDVSplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		34E558CA01504B46874884AB /* CDVSplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVSplashScreen.h"; path = "Plugins\org.apache.cordova.splashscreen\CDVSplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +269,8 @@
 				D907A129ECDB4C3C9F6CE537 /* CDVReachability.h */,
 				A2658ADF62F24AD9B15E3643 /* CDVStatusBar.m */,
 				60CAD3AA583A413E87981B08 /* CDVStatusBar.h */,
+				FA0D5AF5B92A4BC1A7455049 /* CDVSplashScreen.m */,
+				34E558CA01504B46874884AB /* CDVSplashScreen.h */,
 			);
 			name = Plugins;
 			path = "Belegerfassung/Plugins";
@@ -468,6 +473,7 @@
 				395AF097C28B413D9F0847B7 /* CDVConnection.m in Sources */,
 				8ED843A757F74F2FBDE55860 /* CDVReachability.m in Sources */,
 				F34B8F53C16E4230A72016FC /* CDVStatusBar.m in Sources */,
+				1CCB36926CDB415FA7122B06 /* CDVSplashScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

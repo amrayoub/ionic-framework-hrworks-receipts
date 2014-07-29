@@ -34,7 +34,7 @@
 	</head>
 	<body ng-app="starter" animation="slide-left-right-ios7">
 	
-		<ion-nav-bar class="nav-title-slide-ios7 bar-energized">
+		<ion-nav-bar class="nav-title-slide-ios7 bar-positive">
 			<ion-nav-back-button class="button-icon ion-chevron-left">
 			</ion-nav-back-button>
 		</ion-nav-bar>

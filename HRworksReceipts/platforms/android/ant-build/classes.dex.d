@@ -22,6 +22,7 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\globalization\GlobalizationError.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\networkinformation\NetworkManager$1.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\networkinformation\NetworkManager.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar$1.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar$2.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\org\apache\cordova\statusbar\StatusBar.class \

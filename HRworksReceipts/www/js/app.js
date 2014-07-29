@@ -9,8 +9,9 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate,  LastCurrency, GetCurrentUrl) {
-	if($localstorage.getObjects('version').version != 1) {
+.run(function ($localstorage, $translate, $cordovaSplashscreen, LastCurrency, GetCurrentUrl) {
+	// Initialize the localStorage if the app was open for the first time
+	if ($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
 		$localstorage.setObject('currencies', new Array());
@@ -21,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('user', new Array());
 		var getUserLanguage = window.navigator.userLanguage || window.navigator.language;
 		console.log(getUserLanguage);
-		if(getUserLanguage == "de" || getUserLanguage == "de-DE" || getUserLanguage == "de_DE") {
+		if (getUserLanguage == "de" || getUserLanguage == "de-DE" || getUserLanguage == "de_DE") {
 			getUserLanguage = "de";
 		} else {
 			getUserLanguage = "en";
@@ -33,24 +34,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			version : 1
 		});
 	}
+	// set the language to the language value of the localStorage
 	$translate.use($localstorage.getObjects('language').language);
+	// Hide the Splashscreen after 3 sec
+	// Doesn't work at the moment for android
+	setTimeout(function () {
+		$cordovaSplashscreen.hide()
+	}, 3000)
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {
 	$ionicPlatform.ready(function () {
-		document.addEventListener('focus',function(e){
-			e.preventDefault(); e.stopPropagation();
-			window.scrollTo(0,0);
+		document.addEventListener('focus', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			window.scrollTo(0, 0);
 		}, true);
-		
+
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 		}
+		// Initialize the statusbar for iOS
 		if (window.StatusBar) {
-			console.log(window.StatusBar);
-			// org.apache.cordova.statusbar required
 			StatusBar.styleLightContent();
 		}
 	});
@@ -130,6 +137,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$urlRouterProvider.otherwise('/tab/receipts');
 })
 
+// Translations
 .config(function ($translateProvider) {
 	$translateProvider.translations('en', {
 		ADVANCEMENT : 'Advancement',
@@ -286,7 +294,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		PLEASEWAIT : 'Bitte warten...',
 		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
 		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.'
-		
+
 	});
 	$translateProvider.preferredLanguage('en');
 });

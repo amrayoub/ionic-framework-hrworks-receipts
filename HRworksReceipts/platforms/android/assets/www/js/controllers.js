@@ -1,5 +1,6 @@
 angular.module('starter.controllers', ['ionic'])
 
+// Controller of the Receipt View
 .controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE']).then(function (translations) {
 		
@@ -494,16 +495,26 @@ angular.module('starter.controllers', ['ionic'])
 	})
 })
 
-.controller('settingsCtrl', function ($ionicPopup, $ionicLoading, $state, $scope, $http, $localstorage, $filter, $translate, getData) {
+// Controller of the View Settings
+.controller('settingsCtrl', function ($ionicPopup, $ionicLoading, $state, $scope, $http, $localstorage, $cordovaNetwork, $filter, $translate, getData) {
+
+	// HACK: Hides the tabs if the keyboard is open
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
+	
+	// Load the translations for the controller
 	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
+	
+		// Put the the translations into a translation Array
 		$scope.translationsArray = [];
 		$scope.translationsArray["SUCCESS_SETTINGS_TITLE"] = translations.SUCCESS_SETTINGS_TITLE;
 		$scope.translationsArray["SUCCESS_SETTINGS_TEMPLATE"] = translations.SUCCESS_SETTINGS_TEMPLATE;
 		$scope.translationsArray["ERROR_SETTINGS_TITLE"] = translations.ERROR_SETTINGS_TITLE;
 		$scope.translationsArray["ERROR_SETTINGS_TEMPLATE"] = translations.ERROR_SETTINGS_TEMPLATE;
+		
+		// Get the user datas from the localStorage
 		$scope.form = $localstorage.getObjects('user');
-		console.log($scope.form);
+		
+		// Save the Settings
 		$scope.saveSettings = function (form) {
 			var promise = getData.userLogin(form);
 			promise.then(function (success) {
@@ -536,11 +547,15 @@ angular.module('starter.controllers', ['ionic'])
 				console.log(failed);
 			});
 		};
+		
+		// Set type to true if the language is "de"
 		if ($translate.use() == "de") {
 			$scope.type = true;
 		} else {
 			$scope.type = "";
-		}
+		};
+		
+		// Change language
 		$scope.changeLang = function (key, event) {
 			if (angular.element(event.target).hasClass('de')) {
 				$scope.type = true;
@@ -551,6 +566,9 @@ angular.module('starter.controllers', ['ionic'])
 				$localstorage.setObject('language', {
 					language : key
 				});
+				if($cordovaNetwork.isOffline()) {
+					return false;
+				}
 				$ionicLoading.show({
 					template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
 				});
@@ -559,13 +577,11 @@ angular.module('starter.controllers', ['ionic'])
 					$ionicLoading.hide();
 				})
 			}, function (key) {
-				console.log("Irgendwas lief schief.");
+				console.log("Error");
 			});
 		};
-		$scope.postRequestSucceed = function (data, textStatus, jqXHR) {
-			alert("" + JSON.stringify(data));
-			console.log(data);
-		};
+		
+		// Delete this function if you throw out the "Create 100 Receipts" Button
 		generateGUID = function () {
 			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 					var r = Math.random() * 16 | 0,
@@ -574,7 +590,8 @@ angular.module('starter.controllers', ['ionic'])
 				});
 			return guid;
 		};
-
+		
+		// Create 100 Receipts
 		$scope.create100Receipts = function () {
 			for (var i = 0; i < 100; i++) {
 				$localstorage.insertObject('receipts', {
@@ -605,6 +622,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
+// Controller of the Info View
 .controller('infosCtrl', function ($scope, $window) {
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$scope.mail = {};
