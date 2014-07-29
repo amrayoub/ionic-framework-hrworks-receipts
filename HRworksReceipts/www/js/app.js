@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate, $cordovaSplashscreen, LastCurrency, GetCurrentUrl) {
+.run(function ($localstorage, $translate, $cordovaSplashscreen, GetCurrentUrl) {
 	// Initialize the localStorage if the app was open for the first time
 	if ($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
@@ -215,7 +215,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		WRONGCREDENTIALS_TEMPLATE : 'Your authentication data is incorrect.',
 		PLEASEWAIT : 'Please wait...',
 		NOINTERNETACCESS_TITLE : 'No Internet Access',
-		NOINTERNETACCESS_TEMPLATE : 'Please check your internet access.'
+		NOINTERNETACCESS_TEMPLATE : 'Please check your internet access.',
+		COPYOF : 'Copy of'
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -293,7 +294,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		WRONGCREDENTIALS_TEMPLATE : 'Die Anmeldedaten sind fehlerhaft.',
 		PLEASEWAIT : 'Bitte warten...',
 		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
-		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.'
+		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.',
+		COPYOF : 'Kopie von'
 
 	});
 	$translateProvider.preferredLanguage('en');

@@ -2,7 +2,7 @@ angular.module('starter.controllers', ['ionic'])
 
 // Controller of the Receipt View
 .controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
-	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE']).then(function (translations) {
+	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'DELETE', 'COPYOF']).then(function (translations) {
 		
 		// Create a translation array for the controller
 		$scope.translationsArray = [];
@@ -17,6 +17,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.translationsArray["CANCEL"] = translations.CANCEL;
 		$scope.translationsArray["OK"] = translations.OK;
 		$scope.translationsArray["DELETE"] = translations.DELETE;
+		$scope.translationsArray["COPYOF"] = translations.COPYOF;
 
 		// Clears the copyGUID of the localStorage
 		$localstorage.setObject('copyGUID', new Array());
@@ -102,7 +103,7 @@ angular.module('starter.controllers', ['ionic'])
 			theReceiptCopy.guid = $stateParams.guid;
 			$localstorage.updateObject('receipts', theReceiptCopy);
 			theReceiptCopy.guid = $scope.generateGUID();
-			theReceiptCopy.text = 'Kopie von ' + $scope.form.text;
+			theReceiptCopy.text =  $scope.translationsArray["COPYOF"] + ' ' + $scope.form.text;
 			theReceiptCopy.timeStamp = $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ');
 			$localstorage.insertObject('receipts', theReceiptCopy);
 			$localstorage.setObject('copyGUID', {

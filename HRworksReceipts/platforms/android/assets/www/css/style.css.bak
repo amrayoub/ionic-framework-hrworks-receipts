@@ -110,23 +110,23 @@ bottom: 0px;
     .bar.bar-hrworks.bar-footer {
       background-image: linear-gradient(180deg, #004da0, #004da0 50%, transparent 50%);
 	 }
-	.bar-positive .button {
+	.bar-hrworks .button {
   border-color: #145fd7;
   background-color: #004da0;
   color: #fff; }
-  .bar-positive .button:hover {
+  .bar-hrworks .button:hover {
     color: #fff;
     text-decoration: none; }
-  .bar-positive .button.active, .bar-positive .button.activated {
+  .bar-hrworks .button.active, .bar-hrworks .button.activated {
     border-color: #145fd7;
     background-color: #004da0;
     box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.15); }
-  .bar-positive .button.button-clear {
+  .bar-hrworks .button.button-clear {
     border-color: transparent;
     background: none;
     box-shadow: none;
     color: #fff;
     font-size: 17px; }
-  .bar-positive .button.button-icon {
+  .bar-hrworks .button.button-icon {
     border-color: transparent;
     background: none; }
