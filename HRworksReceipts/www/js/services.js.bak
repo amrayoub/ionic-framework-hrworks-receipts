@@ -214,6 +214,31 @@ angular.module('starter.services', [])
 			});
 			return deferred.promise;
 		},
+		userLogout : function (user) {
+			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
+			var request = "HrwCheckOutDeviceApi class";
+			jsonObject = {};
+			jsonObject.companyId = user.companyId;
+			jsonObject.personId = user.personId;
+			jsonObject.dateAndTime = (new Date()).toISO8601();
+			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
+			jsonObject.deviceId = $cordovaDevice.getUUID();
+			jsonObject.deviceName = $cordovaDevice.getModel();
+			jsonObject.languageKey = $translate.use();
+			jsonObject.version = "1";
+			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
+			url.success(function (data, status, headers, config) {
+				console.log("hi");
+				$http({
+					url : data.url + "HrwCheckOutDeviceApi",
+					method : "POST",
+					data : JSON.stringify(jsonObject),
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded'
+					}
+				})
+			})
+		},
 		userLogin : function (user) {
 			var deferred = $q.defer();
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
@@ -248,18 +273,6 @@ angular.module('starter.services', [])
 				return false
 			});
 			return deferred.promise;
-		}
-	}
-})
-.factory('LastCurrency', function () {
-	var lastReceipt = {
-		description : "Euro",
-		isPreferred : true,
-		symbol : "EUR"
-	};
-	return {
-		all : function () {
-			return lastReceipt;
 		}
 	}
 });

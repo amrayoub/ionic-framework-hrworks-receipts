@@ -13,7 +13,7 @@
 				</label>
 				<label class="item item-input item-stacked-label validated">
 					<span class="input-label" translate="AMOUNT"></span>
-					<input type="{{ selectAmountInputType() }}" name="amount" placeholder="0,00" id='amount' required="required" ng-model="form.amount"  />
+					<input type="tel" pattern="[0-9]*" name="amount" id='amount' required="required" ng-model="form.amount" ng-keyup="amounttransformer(form.amount)" />
 					<i class="error" translate="ERRORMESSAGE_AMOUNT"></i>
 					<i class="validError" ng-hide="amountValid()" translate="ERRORMESSAGE_AMOUNTNOTVALIDE"></i>
 				</label>

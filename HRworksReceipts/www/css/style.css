@@ -139,3 +139,15 @@ form.ng-submitted input.ng-valid + i.error {
 	background: none;
 	border-color: transparent;
 }
+.button.button-icon.input-button {
+	position: absolute;
+	right: 0;
+	top: 5px;
+	color: #bbb;
+}
+.currencybuttons {
+	margin-left:2%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 96%
+}

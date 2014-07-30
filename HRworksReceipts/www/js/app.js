@@ -156,6 +156,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		CURRENCY : 'Currency',
 		DATE : 'Date',
 		DELETE : 'Delete',
+		DELETERECEIPT : 'Delete Receipt',
+		DELETERECEIPT_TEMPLATE : 'Do you realy want to delete this receipt?',
 		DESCRIPTION : 'Description',
 		EDIT : 'Edit',
 		EDIT_RECEIPT : 'Edit Receipt',
@@ -216,7 +218,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		PLEASEWAIT : 'Please wait...',
 		NOINTERNETACCESS_TITLE : 'No Internet Access',
 		NOINTERNETACCESS_TEMPLATE : 'Please check your internet access.',
-		COPYOF : 'Copy of'
+		COPYOF : 'Copy of',
+		YES : 'YES',
+		NO : 'NO'
 	});
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
@@ -235,6 +239,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		CURRENCY : 'W&auml;hrung',
 		DATE : 'Datum',
 		DELETE : 'L&ouml;schen',
+		DELETERECEIPT : 'Beleg l&ouml;schen',
+		DELETERECEIPT_TEMPLATE : 'Wollen Sie diesen Beleg wirklich l&ouml;schen?',
 		DESCRIPTION : 'Bezeichnung',
 		EDIT : 'Bearbeiten',
 		EDIT_RECEIPT : 'Beleg Bearbeiten',
@@ -295,7 +301,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		PLEASEWAIT : 'Bitte warten...',
 		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
 		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.',
-		COPYOF : 'Kopie von'
+		COPYOF : 'Kopie von',
+		YES : 'JA',
+		NO : 'NEIN'
 
 	});
 	$translateProvider.preferredLanguage('en');

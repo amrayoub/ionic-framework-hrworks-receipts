@@ -30,11 +30,12 @@
 		<script src="js/controllers.js"></script>
 		<script src="js/services.js"></script>
 		<script src="js/validation.js"></script>
+		<script src="js/autofocus.js"></script>
 		<script src="js/angular-translate.min.js"></script>
 	</head>
 	<body ng-app="starter" animation="slide-left-right-ios7">
 	
-		<ion-nav-bar class="nav-title-slide-ios7 bar-positive">
+		<ion-nav-bar class="nav-title-slide-ios7 bar-hrworks">
 			<ion-nav-back-button class="button-icon ion-chevron-left">
 			</ion-nav-back-button>
 		</ion-nav-bar>
