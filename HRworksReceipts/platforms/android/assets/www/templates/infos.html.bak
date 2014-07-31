@@ -1,11 +1,13 @@
 <ion-view title="{{ 'INFOS' | translate }}">
-<button class="button button-block button-positive" ng-click="sendFeedback()" translate="SEND"></button>
+	<ion-nav-buttons side="right">
+		<button class="button button-icon button-clear ion-checkmark" ng-click="sendFeedback()"></button>
+	</ion-nav-buttons>
 	<ion-content class="has-header" padding="true">
 		<h1 translate="INFOS"></h1>
 		<p translate="INFOS_INFO_TEXT"></p>
 		<h1 translate="FEEDBACK"></h1>
-			<p translate="FEEDBACK_QUESTION"></p>
-			<div class="list">
+		<p translate="FEEDBACK_QUESTION"></p>
+		<div class="list">
 			<label class="item item-input item-select">
 				<div class="input-label" translate="SUBJECT"></div>
 				<select ng-model="mail.subject">

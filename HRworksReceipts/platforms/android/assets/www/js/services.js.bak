@@ -228,6 +228,7 @@ angular.module('starter.services', [])
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
 			url.success(function (data, status, headers, config) {
+				console.log("hi");
 				$http({
 					url : data.url + "HrwCheckOutDeviceApi",
 					method : "POST",
@@ -236,7 +237,7 @@ angular.module('starter.services', [])
 						'Content-Type' : 'application/x-www-form-urlencoded'
 					}
 				})
-			}
+			})
 		},
 		userLogin : function (user) {
 			var deferred = $q.defer();

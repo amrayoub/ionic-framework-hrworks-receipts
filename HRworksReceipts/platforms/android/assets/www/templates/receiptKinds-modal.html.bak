@@ -15,7 +15,6 @@
 		padding="false"
 		has-header="true">
 		<div class="list" ng-if="showListReceiptKinds">
-		
 			<ion-radio
 				class="item myItem"
 				collection-repeat="receiptKind in receiptKinds | filter: data.searchQueryReceiptKinds"

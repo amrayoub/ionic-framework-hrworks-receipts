@@ -24,9 +24,14 @@
 					<i class="error" translate="ERRORMESSAGE_CURRENCY"></i>
 					<i class="icon ion-chevron-right icon-gray"></i>
 				</label>
-				<label class="item item-input item-stacked-label validated">
+				<label class="item item-input item-stacked-label validated" ng-hide="showAlternativeDatepicker">
 					<span class="input-label" translate="DATE"></span>
 					<input id="date" required="required" type="date" name="date" ng-model="form.date" />
+					<i class="error" translate="ERRORMESSAGE_DATE"></i>
+				</label>
+				<label class="item item-input item-stacked-label validated"  ng-show="showAlternativeDatepicker" ng-click="openDatePicker()">
+					<span class="input-label" translate="DATE"></span>
+					<input id="date" required="required" type="date" name="date" ng-model="form.date"  disabled />
 					<i class="error" translate="ERRORMESSAGE_DATE"></i>
 				</label>
 				<label ng-if="form.receiptKind.isHotel == true" class="item item-input item-stacked-label validated">

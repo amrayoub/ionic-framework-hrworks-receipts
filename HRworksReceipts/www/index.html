@@ -6,38 +6,37 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 		<title>HRworks</title>
 
+		<!-- ionic css -->
 		<link href="lib/ionic/css/ionic.css" rel="stylesheet">
+		<link href="css/datetimepicker.css" rel="stylesheet">
 		<link href="css/style.css" rel="stylesheet">
-
-		<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-		<link href="css/ionic.app.css" rel="stylesheet">
-		-->
 
 		<!-- ionic/angularjs js -->
 		<script src="lib/ionic/js/ionic.bundle.js"></script>
+		<!-- TODO: sollte offline verfügbar sein -->
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.2.15/angular-locale_de-de.js"></script>
 		<!-- cordova script (this will be a 404 during development) -->
 		<script src="lib/ngCordova/dist/ng-cordova.js"></script>
 		<script src="cordova.js"></script>
-		
+
 		<!-- API JS -->
-		
 		<script src="js/hmacsha1.js"></script>
 		<script src="js/awssigner.js"></script>
 
-		<!-- your app's js -->
+		<!-- HRworks app's js -->
 		<script src="js/app.js"></script>
 		<script src="js/controllers.js"></script>
 		<script src="js/services.js"></script>
 		<script src="js/validation.js"></script>
 		<script src="js/angular-translate.min.js"></script>
+		<script src="js/moment-with-langs.min.js"></script>
+		<script src="js/datetimepicker.js"></script>
 	</head>
 	<body ng-app="starter" animation="slide-left-right-ios7">
-	
 		<ion-nav-bar class="nav-title-slide-ios7 bar-hrworks">
 			<ion-nav-back-button class="button-icon ion-chevron-left">
 			</ion-nav-back-button>
 		</ion-nav-bar>
-             
 		<ion-nav-view animation="slide-left-right"></ion-nav-view>
+	</body>
 </html>

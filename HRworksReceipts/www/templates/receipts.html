@@ -10,6 +10,7 @@
 			on-refresh="doRefresh()"
 			refreshing-text="{{ 'SYNCHRONIZE' | translate }}"
 			refreshing-icon="ion-loading-c">
+			<!-- TODO: Was macht der Pfeil ?-->
 			>
 		</ion-refresher>
 		<ion-list option-buttons="itemButtons">
@@ -25,10 +26,10 @@
 					</div>
 					<div class="col col-33" style="text-align:right;">
 						<p>{{ receipt.date | date : shortDate}}</p>
-						<p>{{receipt.amount}} {{receipt.currency.symbol}}</p>
+						<p>{{ receipt.amount }} {{ receipt.currency.symbol }}</p>
 					</div>
 				</div>
-				<!--
+				<!-- TODO:
 				Waiting for fix for this issue.
 				https://github.com/driftyco/ionic/issues/1842
 				https://github.com/driftyco/ionic/issues/1811

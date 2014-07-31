@@ -7,6 +7,7 @@ input::-webkit-inner-spin-button {
 .item-complex .item-content {
 	padding: 0;
 }
+/* TODO: myItem umbennenen */
 .list .myItem.item {
 	left: 0;
 	padding-bottom: 0;
@@ -145,7 +146,7 @@ form.ng-submitted input.ng-valid + i.error {
 	top: 5px;
 	color: #bbb;
 }
-.currency-buttons {
+.currencybuttons {
 	margin-left:2%;
 	margin-top: 5px;
 	margin-bottom: 5px;

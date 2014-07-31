@@ -7,11 +7,12 @@
 		<div class="item-input-wrapper">
 			<i class="icon ion-ios7-search placeholder-icon"></i>
 			<input type="search" id="receiptKindsSearch" placeholder="{{ 'SEARCH' | translate }}" ng-model="data.searchQueryReceiptKinds" />
-			<button ng-if="data.searchQueryReceiptKinds.length>0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchReceiptKinds()"></button>
+			<button ng-if="data.searchQueryReceiptKinds.length > 0" class="button button-icon ion-ios7-close-empty input-button" ng-click="clearSearchReceiptKinds()"></button>
 		</div>
 	</ion-header-bar>
+	<!-- TODO: start-y-->
 	<ion-content
-		start-y="55"
+		start-y="55" 
 		padding="false"
 		has-header="true">
 		<div class="list" ng-if="showListReceiptKinds">
@@ -23,7 +24,7 @@
 				ng-value="receiptKind.description"
 				ng-model="receiptKindsSelected.description"
 				ng-click="selectReceiptKind(receiptKind)">
-				{{receiptKind.description}}
+				{{ receiptKind.description }}
 			</ion-radio>
 		</div>
 	</ion-content>
