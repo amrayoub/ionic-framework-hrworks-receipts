@@ -40,7 +40,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	// Hide the Splashscreen after 3 sec
 	// Doesn't work at the moment for android
 	setTimeout(function () {
-		$cordovaSplashscreen.hide()
+		//$cordovaSplashscreen.hide()
 	}, 3000)
 })
 
@@ -219,7 +219,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		COPYOF : 'Copy of',
 		YES : 'YES',
 		NO : 'NO',
-		ALTERNATIVE_DATEPICKER : 'alternative Datepicker'
+		ALTERNATIVE_DATEPICKER : 'alternative Datepicker',
+		CHOOSE_DATE: 'Choose date'
 	});
 	// TODO: Sotieren
 	$translateProvider.translations('de', {
@@ -304,7 +305,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		COPYOF : 'Kopie von',
 		YES : 'JA',
 		NO : 'NEIN',
-		ALTERNATIVE_DATEPICKER : 'alternative Datumsauswahl'
+		ALTERNATIVE_DATEPICKER : 'alternative Datumsauswahl',
+		CHOOSE_DATE : 'Datum auswählen'
 	});
 	$translateProvider.preferredLanguage('en');
 });

@@ -10,12 +10,12 @@ angular.module('ionic.utils', [])
 					return $window.localStorage[key] || defaultValue;
 				},
 				setObject : function (key, value) {
-					$window.localStorage[key] = JSON.stringify(value);
+					$window.localStorage[key] = angular.toJson(value);
 				},
 				insertObject : function (key, value) {
 					var objects = JSON.parse($window.localStorage[key] || '{}');
 					objects.push(value);
-					$window.localStorage[key] = JSON.stringify(objects);
+					$window.localStorage[key] = angular.toJson(objects);
 				},
 				getObjects : function (key) {
 					return JSON.parse($window.localStorage[key] || '{}');
@@ -58,7 +58,7 @@ angular.module('ionic.utils', [])
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].guid == guid) {
 							objects.splice(i, 1);
-							$window.localStorage[key] = JSON.stringify(objects);
+							$window.localStorage[key] = angular.toJson(objects);
 							return;
 						}
 					}
@@ -68,7 +68,7 @@ angular.module('ionic.utils', [])
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].guid == value.guid) {
 							objects[i] = value;
-							$window.localStorage[key] = JSON.stringify(objects);
+							$window.localStorage[key] = angular.toJson(objects);
 							return;
 						}
 					}
@@ -87,20 +87,20 @@ angular.module('starter.services', [])
 	})
 	return {
 		get : function (targetServer, companyId) {
-			if ($cordovaNetwork.isOffline()) {
+			/* if ($cordovaNetwork.isOffline()) {
 				$ionicPopup.alert({
 					title : translationsArray["NOINTERNETACCESS_TITLE"],
 					template : translationsArray["NOINTERNETACCESS_TEMPLATE"]
 				});
 				return false;
-			}
+			} */
 			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
 			var jsonObject = {};
 			jsonObject.companyId = companyId;
 			return $http({
 				url : url,
 				method : "POST",
-				data : JSON.stringify(jsonObject),
+				data : angular.toJson(jsonObject),
 				headers : {
 					'Content-Type' : 'application/x-www-form-urlencoded',
 					'Content-Transfer-Encoding' : 'utf-8'
@@ -159,7 +159,7 @@ angular.module('starter.services', [])
 		return $http({
 			url : api,
 			method : "POST",
-			data : JSON.stringify(jsonObject),
+			data : angular.toJson(jsonObject),
 			headers : {
 				'Content-Type' : 'application/x-www-form-urlencoded; charset=iso-8895-1'
 			}
@@ -228,11 +228,10 @@ angular.module('starter.services', [])
 			jsonObject.version = "1";
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
 			url.success(function (data, status, headers, config) {
-				console.log("hi");
 				$http({
 					url : data.url + "HrwCheckOutDeviceApi",
 					method : "POST",
-					data : JSON.stringify(jsonObject),
+					data : angular.toJson(jsonObject),
 					headers : {
 						'Content-Type' : 'application/x-www-form-urlencoded'
 					}
@@ -257,7 +256,7 @@ angular.module('starter.services', [])
 				$http({
 					url : data.url + "HrwRegisterDeviceApi",
 					method : "POST",
-					data : JSON.stringify(jsonObject),
+					data : angular.toJson(jsonObject),
 					headers : {
 						'Content-Type' : 'application/x-www-form-urlencoded'
 					}
