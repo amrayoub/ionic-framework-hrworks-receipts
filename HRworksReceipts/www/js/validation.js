@@ -36,6 +36,8 @@ angular.module('validation', ['ionic'])
 						if (field != void 0) {
 							angular.element(input).bind('blur', function () {
 								scope.$apply(function () {
+									console.log(this);
+									console.log(field);
 									field.$blurred = true;
 								})
 							});

@@ -303,7 +303,7 @@ angular.module('starter.controllers', ['ionic'])
 				return false;
 			}
 			return true;
-		}
+		};
 		// Check if the person input is valid
 		$scope.personsValid = function () {
 			if ($scope.form.receiptKind.isBusinessEntertainment == true) {
@@ -322,7 +322,7 @@ angular.module('starter.controllers', ['ionic'])
 					}
 				}
 			}
-		}
+		};
 
 		// Save receipt
 		$scope.saveReceipt = function () {
@@ -337,6 +337,8 @@ angular.module('starter.controllers', ['ionic'])
 			if ($scope.personsValid() == false) {
 				error = true;
 			}
+			console.log($scope.form.receiptKind);
+			console.log($scope.form.currency);
 			if (error == false) {
 				theReceipt = {
 					text : $scope.form.text,
@@ -369,6 +371,14 @@ angular.module('starter.controllers', ['ionic'])
 				}
 			}
 		};
+		// blur InputItem
+		$scope.blurInputItems = function() {
+			$timeout(function() {
+				if(document.querySelectorAll('input:focus').length > 0) {
+					document.querySelectorAll('input:focus')[0].blur();
+				}
+			},300);
+		}
 		// Write Modal information into the scope
 		$scope.data = {
 			showListCurrencies : false,
@@ -389,10 +399,7 @@ angular.module('starter.controllers', ['ionic'])
 
 		// Open Currencies Modal
 		$scope.openCurrenciesModal = function () {
-			var inputs = angular.element(document.querySelectorAll('input'));
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].blur && inputs[i].blur();
-			}
+			//$scope.blurInputItems();
 			$scope.CurrenciesModal.show();
 			$timeout(function () {
 				$scope.showListCurrencies = true;
@@ -436,10 +443,7 @@ angular.module('starter.controllers', ['ionic'])
 
 		// Open the receiptKinds Modal
 		$scope.openReceiptKindsModal = function () {
-			var inputs = angular.element(document.querySelectorAll('input'));
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].blur && inputs[i].blur();
-			}
+			//$scope.blurInputItems();
 			$scope.receiptKindsModal.show();
 			$timeout(function () {
 				$scope.showListReceiptKinds = true;
@@ -458,6 +462,7 @@ angular.module('starter.controllers', ['ionic'])
 
 		// Select a receiptKind
 		$scope.selectReceiptKind = function (receiptKind) {
+			console.log(receiptKind);
 			$scope.form.receiptKind = receiptKind;
 			$scope.closeReceiptKindsModal();
 		};
@@ -473,10 +478,6 @@ angular.module('starter.controllers', ['ionic'])
 		// Open KindsOfPayment Modal
 		$scope.data = {};
 		$scope.openKindsOfPaymentModal = function () {
-			var inputs = angular.element(document.querySelectorAll('input'));
-			for (var i = 0; i < inputs.length; i++) {
-				inputs[i].blur && inputs[i].blur();
-			}
 			$scope.kindsOfPaymentModal.show();
 			$timeout(function () {
 				$scope.showListKindsOfPayment = true;
