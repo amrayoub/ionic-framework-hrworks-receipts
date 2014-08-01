@@ -39,9 +39,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 	// Hide the Splashscreen after 3 sec
 	// Doesn't work at the moment for android
-	setTimeout(function () {
-		//$cordovaSplashscreen.hide()
-	}, 3000)
+	/* setTimeout(function () {
+		$cordovaSplashscreen.hide()
+	}, 3000) */
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {
@@ -303,8 +303,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
 		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.',
 		COPYOF : 'Kopie von',
-		YES : 'JA',
-		NO : 'NEIN',
+		YES : 'Ja',
+		NO : 'Nein',
 		ALTERNATIVE_DATEPICKER : 'alternative Datumsauswahl',
 		CHOOSE_DATE : 'Datum auswählen'
 	});

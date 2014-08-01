@@ -443,7 +443,7 @@ angular.module('starter.controllers', ['ionic'])
 
 		// Open the receiptKinds Modal
 		$scope.openReceiptKindsModal = function () {
-			//$scope.blurInputItems();
+			$scope.blurInputItems();
 			$scope.receiptKindsModal.show();
 			$timeout(function () {
 				$scope.showListReceiptKinds = true;
@@ -497,13 +497,13 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $ionicPopup, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
+.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
 
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
 		$scope.translationsArray = [];
 		$scope.translationsArray["WRONGCREDENTIALS_TITLE"] = translations.WRONGCREDENTIALS_TITLE;
 		$scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"] = translations.WRONGCREDENTIALS_TEMPLATE;
-
+		
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
 			hardwareBackButtonClose : false
@@ -523,7 +523,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.login = function (user) {
 			var promise = getData.userLogin(user);
 			if (promise == false) {
-				return false
+				return false;
 			}
 			$ionicLoading.show({
 				template : "<i class='icon ion-loading-c'></i><br> {{ 'PLEASEWAIT' | translate }}",
@@ -542,6 +542,7 @@ angular.module('starter.controllers', ['ionic'])
 					if (success.errors[0].errorId == "8") {
 						$ionicLoading.hide();
 						$ionicPopup.alert({
+							scope: $scope,
 							title : $scope.translationsArray["WRONGCREDENTIALS_TITLE"],
 							template : $scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"]
 						});
@@ -565,6 +566,12 @@ angular.module('starter.controllers', ['ionic'])
 				// TODO: evtl datei erstellen mit template für das synchronizen, wenn nur einmal dann hier ok
 				template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
 			});
+			if ($cordovaNetwork.isOffline()) {
+				$ionicLoading.hide();
+				$ionicPopup.alert({
+					template : "{{ 'NOINTERNETACCESS_TEMPLATE' | translate }}"
+				});
+			} 
 			var promise = getData.all();
 			promise.then(function () {
 				$scope.receipts = $localstorage.getObjects('receipts');
@@ -616,6 +623,12 @@ angular.module('starter.controllers', ['ionic'])
 				// TODO: TEMPLATE, auch suchen, ob nochmla wo anders vorkommt
 				template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
 			});
+			if ($cordovaNetwork.isOffline()) {
+				$ionicLoading.hide();
+				$ionicPopup.alert({
+					template : "{{ 'NOINTERNETACCESS_TEMPLATE' | translate }}"
+				});
+			}
 			var savePromise = getData.all();
 			savePromise.then(function (success) {
 			var promise = getData.userLogin(form);
@@ -735,6 +748,8 @@ angular.module('starter.controllers', ['ionic'])
 	// TODO: note HACK 
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$scope.mail = {};
+	$scope.mail.subject = "";
+	$scope.mail.text = "";
 	$scope.sendFeedback = function () {
 		$window.location.href = "mailto:mobile.support@hrworks.de?subject=" + $scope.mail.subject + "&body=" + $scope.mail.text;
 	}

@@ -338,14 +338,11 @@ C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\p
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ngCordova\test\plugins\splashscreen.spec.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ngCordova\test\plugins\toast.spec.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\lib\ngCordova\test\plugins\vibration.spec.js \
-C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\com.ionic.keyboard \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.device \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.globalization \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.network-information \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.splashscreen \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.statusbar \
-C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\com.ionic.keyboard\www \
-C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\com.ionic.keyboard\www\keyboard.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.device\www \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.device\www\device.js \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\assets\www\plugins\org.apache.cordova.globalization\www \

@@ -13,15 +13,15 @@ angular.module('ionic.utils', [])
 					$window.localStorage[key] = angular.toJson(value);
 				},
 				insertObject : function (key, value) {
-					var objects = JSON.parse($window.localStorage[key] || '{}');
+					var objects = angular.fromJson($window.localStorage[key] || '{}');
 					objects.push(value);
 					$window.localStorage[key] = angular.toJson(objects);
 				},
 				getObjects : function (key) {
-					return JSON.parse($window.localStorage[key] || '{}');
+					return angular.fromJson($window.localStorage[key] || '{}');
 				},
 				getIndex : function (key, guid) {
-					var objects = JSON.parse($window.localStorage[key] || '{}');
+					var objects = angular.fromJson($window.localStorage[key] || '{}');
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].guid == guid) {
 							return i;
@@ -29,7 +29,7 @@ angular.module('ionic.utils', [])
 					}
 				},
 				getObject : function (key, guid) {
-					var objects = JSON.parse($window.localStorage[key] || '{}');
+					var objects = angular.fromJson($window.localStorage[key] || '{}');
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].guid == guid) {
 							return objects[i];
@@ -37,7 +37,7 @@ angular.module('ionic.utils', [])
 					}
 				},
 				getCurrencyObject : function (symbol) {
-					var objects = JSON.parse($window.localStorage['currencies'] || '{}');
+					var objects = angular.fromJson($window.localStorage['currencies'] || '{}');
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].symbol == symbol) {
 							return objects[i];
@@ -45,7 +45,7 @@ angular.module('ionic.utils', [])
 					}
 				},
 				getObjectById : function (key, id) {
-					var objects = JSON.parse($window.localStorage[key] || '{}');
+					var objects = angular.fromJson($window.localStorage[key] || '{}');
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].id == id) {
 
@@ -54,7 +54,7 @@ angular.module('ionic.utils', [])
 					}
 				},
 				removeObject : function (key, guid) {
-					var objects = JSON.parse($window.localStorage[key] || '{}');
+					var objects = angular.fromJson($window.localStorage[key] || '{}');
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].guid == guid) {
 							objects.splice(i, 1);
@@ -64,7 +64,7 @@ angular.module('ionic.utils', [])
 					}
 				},
 				updateObject : function (key, value) {
-					var objects = JSON.parse($window.localStorage[key] || '{}');
+					var objects = angular.fromJson($window.localStorage[key] || '{}');
 					for (var i = 0; i < objects.length; i++) {
 						if (objects[i].guid == value.guid) {
 							objects[i] = value;
@@ -87,13 +87,13 @@ angular.module('starter.services', [])
 	})
 	return {
 		get : function (targetServer, companyId) {
-			/* if ($cordovaNetwork.isOffline()) {
+			 if ($cordovaNetwork.isOffline()) {
 				$ionicPopup.alert({
 					title : translationsArray["NOINTERNETACCESS_TITLE"],
 					template : translationsArray["NOINTERNETACCESS_TEMPLATE"]
 				});
 				return false;
-			} */
+			} 
 			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
 			var jsonObject = {};
 			jsonObject.companyId = companyId;

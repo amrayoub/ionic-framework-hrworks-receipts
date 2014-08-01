@@ -87,13 +87,6 @@ angular.module('starter.services', [])
 	})
 	return {
 		get : function (targetServer, companyId) {
-			/* if ($cordovaNetwork.isOffline()) {
-				$ionicPopup.alert({
-					title : translationsArray["NOINTERNETACCESS_TITLE"],
-					template : translationsArray["NOINTERNETACCESS_TEMPLATE"]
-				});
-				return false;
-			} */
 			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
 			var jsonObject = {};
 			jsonObject.companyId = companyId;

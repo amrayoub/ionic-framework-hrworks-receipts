@@ -12,7 +12,7 @@
 				<div class="input-label" translate="SUBJECT"></div>
 				<select ng-model="mail.subject">
 					<option value="{{ 'BUG' | translate }}" translate="BUG"></option>
-					<option value="{{ 'ADVANCEMENT' | translate }}"translate="ADVANCEMENT"></option>
+					<option value="{{ 'ADVANCEMENT' | translate }}" translate="ADVANCEMENT"></option>
 					<option value="{{ 'NEW_FUNCTIONALITY' | translate }}" translate="NEW_FUNCTIONALITY"></option>
 				</select>
 			</label>
