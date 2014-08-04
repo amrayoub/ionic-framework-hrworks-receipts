@@ -57,10 +57,7 @@ angular.module('starter.controllers', ['ionic'])
 		console.log($scope.showAlternativeDatepicker);
 		$scope.form.kindOfPayment = "";
 		var kindsOfPaymentCollection = $localstorage.getObjects('kindsOfPayment');
-		console.log(kindsOfPaymentCollection);
 		for (var j = 0; j < kindsOfPaymentCollection.length; j++) {
-			// TODO: console logs entfernen
-			console.log(kindsOfPaymentCollection[j].description);
 			if (kindsOfPaymentCollection[j].description == "Bar Privat") {
 				$scope.form.kindOfPayment = kindsOfPaymentCollection[j];
 				break;
@@ -75,39 +72,40 @@ angular.module('starter.controllers', ['ionic'])
 		
 		// TODO: gross-klein schreibung		
 		// TODO: Immer semikolon verwenden
-		$scope.amounttransformer = function (val) {
-			val = val.toString();
+		$scope.amountTransformer = function (amount) {
+			amount = amount.toString();
 			dotOrComma = ".";
 			if($translate.use() == "de") {
 				var dotOrComma = ",";
 			}
-			var period = val.indexOf(dotOrComma);
+			var period = amount.indexOf(dotOrComma);
 			if (period > -1) {
-				val = val.substring(0, period) + val.substring(period + 1)
+				amount = amount.substring(0, period) + amount.substring(period + 1)
 			}
-			var len = val.length;
-			while (len < 3) {
-				val = "0" + val;
-				len = val.length;
+			var amountLength = amount.length;
+			while (amountLength < 3) {
+				amount = "0" + amount;
+				amountLength = amount.length;
 			}
-			val = val.substring(0, len - 2) + dotOrComma + val.substring(len - 2, len);
-			while (val.length > 4 && (val[0] == 0 || isNaN(val[0]))) {
-				val = val.substring(1)
+			amount = amount.substring(0, amountLength - 2) + dotOrComma + amount.substring(amountLength - 2, amountLength);
+			while (amount.length > 4 && (amount[0] == 0 || isNaN(amount[0]))) {
+				amount = amount.substring(1);
 			}
-			if (val[0] == dotOrComma) {
-				val = "0" + val
+			if (amount[0] == dotOrComma) {
+				amount = "0" + amount;
 			}
-			if(val.charAt(val.length-1) == "," || val.charAt(val.length-1) == ".") {
-				val = val.replace(".", "");
-				val = val.replace(",", "");
+			if(amount.charAt(amount.length-1) == "," || amount.charAt(amount.length-1) == ".") {
+				amount = amount.replace(".", "");
+				amount = amount.replace(",", "");
 			}
-			$scope.form.amount = val;
+			$scope.form.amount = amount;
 		};
 
 		// Set the title of the view
 		// TODO: prüfen ob man die methode isEdit aufrufen kann.
 		if ($stateParams.guid != "new") {
 			$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
+			$scope.form.amount = $filter('number')($scope.form.amount, 2);
 			$scope.receiptTitle = $scope.translationsArray['EDIT_RECEIPT'];
 		} else {
 			$scope.receiptTitle = $scope.translationsArray['NEWRECEIPT'];

@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate, $cordovaSplashscreen, GetCurrentUrl) {
+.run(function ($localstorage, $translate, $cordovaSplashscreen, $ionicPlatform, GetCurrentUrl) {
 	// Initialize the localStorage if the app was open for the first time
 	if ($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
@@ -22,7 +22,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('user', new Array());
 		// TODO: Variablen name getUserLanguage
 		var getUserLanguage = window.navigator.userLanguage || window.navigator.language;
-		console.log(getUserLanguage);
 		if (getUserLanguage == "de" || getUserLanguage == "de-DE" || getUserLanguage == "de_DE") {
 			getUserLanguage = "de";
 		} else {
@@ -39,9 +38,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 	// Hide the Splashscreen after 3 sec
 	// Doesn't work at the moment for android
-	/* setTimeout(function () {
-		$cordovaSplashscreen.hide()
-	}, 3000) */
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {
@@ -54,9 +50,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
+		/*
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-		}
+		} */
 		// Initialize the statusbar for iOS
 		if (window.StatusBar) {
 			StatusBar.styleLightContent();

@@ -9,10 +9,6 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
                             "count": 1
                         },
@@ -21,11 +17,15 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /></feature>",
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -47,19 +47,19 @@
         "org.apache.cordova.console": {
             "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
         },
-        "org.apache.cordova.device": {
-            "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
-        },
         "org.apache.cordova.globalization": {
             "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
         },
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "de.hrworks.mobileReceiptsPhonejs"
         },
+        "org.apache.cordova.splashscreen": {
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
+        },
         "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         },
-        "org.apache.cordova.splashscreen": {
+        "org.apache.cordova.device": {
             "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         }
     },
