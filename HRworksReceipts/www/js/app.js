@@ -20,24 +20,21 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('hideAlert', new Array());
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());
-		// TODO: Variablen name getUserLanguage
-		var getUserLanguage = window.navigator.userLanguage || window.navigator.language;
-		if (getUserLanguage == "de" || getUserLanguage == "de-DE" || getUserLanguage == "de_DE") {
-			getUserLanguage = "de";
+
+		var userLanguage = window.navigator.userLanguage || window.navigator.language;
+		if (userLanguage == "de" || userLanguage == "de-DE" || userLanguage == "de_DE") {
+			userLanguage = "de";
 		} else {
-			getUserLanguage = "en";
+			userLanguage = "en";
 		}
 		$localstorage.setObject('language', {
-			language : getUserLanguage
+			language : userLanguage
 		});
 		$localstorage.setObject('version', {
 			version : 1
 		});
 	}
-	// set the language to the language value of the localStorage
 	$translate.use($localstorage.getObjects('language').language);
-	// Hide the Splashscreen after 3 sec
-	// Doesn't work at the moment for android
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {
@@ -62,7 +59,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 })
 
 .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
-
 	// Ionic uses AngularUI Router which uses the concept of states
 	// Learn more here: https://github.com/angular-ui/ui-router
 	// Set up the various states which the app can be in.
@@ -133,17 +129,19 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
 // Translations
 .config(function ($translateProvider) {
-	// TODO: Sotieren
 	$translateProvider.translations('en', {
 		ADVANCEMENT : 'Advancement',
 		ALLCURRENCIES : 'All Currencies',
+		ALTERNATIVE_DATEPICKER : 'alternative Datepicker',
 		AMOUNT : 'Amount',
 		BUG : 'Bug',
 		CANCEL : 'Cancel',
 		CHOOSE_CURRENCY : 'Choose Currency',
+		CHOOSE_DATE: 'Choose date',
 		CHOOSE_KINDOFPAYMENT : 'Choose Kind of Payment',
 		CHOOSE_RECEIPTKIND : 'Choose Receipt Kind',
 		COMPANYID : 'Company-Id',
+		COPYOF : 'Copy of',
 		COPYRECEIPT : 'Copy Receipt',
 		COPYRECEIPT_ERROR : 'Please enter the entire data before copying the receipt.',
 		COPYRECEIPT_INFO : 'Are you sure to copy this receipt?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Do not ask again.</font>',
@@ -186,17 +184,23 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		MOBILEPASSWORD : 'Mobile Password',
 		NEWRECEIPT : 'New Receipt',
 		NEW_FUNCTIONALITY : 'New Functionality',
+		NO : 'No',
+		NOANSWERFROMTHESERVER_TEMPLATE : 'Please try again later.',
+		NOANSWERFROMTHESERVER_TITLE : 'No answer from server',
+		NOINTERNETACCESS_TEMPLATE : 'Please check your internet access.',
+		NOINTERNETACCESS_TITLE : 'No Internet Access',
 		OK : 'Ok',
 		OPTIONS : 'Options',
 		PERSONID : 'Person-Id',
 		PERSONS : 'Persons',
 		PLACE : 'Place',
+		PLEASEWAIT : 'Please wait...',
 		REASON : 'Reason',
 		RECEIPT : 'Receipt',
 		RECEIPTKIND : 'Receipt Kind',
 		RECEIPTKINDS : 'Receipt Kinds',
-		RECEIPTS : 'Receipts',
 		RECEIPTOVERVIEW : 'Receipts',
+		RECEIPTS : 'Receipts',
 		SAVE : 'Save',
 		SEARCH : 'Search...',
 		SEND : 'Send',
@@ -206,30 +210,24 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUCCESS_SETTINGS_TITLE : 'Success',
 		SYNCHRONIZE : 'Synchronize...',
 		TARGETSERVER : 'Targetserver',
-		NOANSWERFROMTHESERVER_TITLE : 'No answer from server',
-		NOANSWERFROMTHESERVER_TEMPLATE : 'Please try again later.',
-		WRONGCREDENTIALS_TITLE : 'Authentication error:',
 		WRONGCREDENTIALS_TEMPLATE : 'Your authentication data is incorrect.',
-		PLEASEWAIT : 'Please wait...',
-		NOINTERNETACCESS_TITLE : 'No Internet Access',
-		NOINTERNETACCESS_TEMPLATE : 'Please check your internet access.',
-		COPYOF : 'Copy of',
-		YES : 'Yes',
-		NO : 'No',
-		ALTERNATIVE_DATEPICKER : 'alternative Datepicker',
-		CHOOSE_DATE: 'Choose date'
+		WRONGCREDENTIALS_TITLE : 'Authentication error:',
+		YES : 'Yes'
 	});
-	// TODO: Sotieren
+
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
 		ALLCURRENCIES : 'Alle W&auml;hrungen',
+		ALTERNATIVE_DATEPICKER : 'alternative Datumsauswahl',
 		AMOUNT : 'Betrag',
 		BUG : 'Fehler',
 		CANCEL : 'Abbrechen',
 		CHOOSE_CURRENCY : 'W&auml;hrung w&auml;hlen',
+		CHOOSE_DATE : 'Datum ausw&auml;hlen',
 		CHOOSE_KINDOFPAYMENT : 'Zahlungsart w&auml;hlen',
 		CHOOSE_RECEIPTKIND : 'Belegart w&auml;hlen',
 		COMPANYID : 'Firmenkennung',
+		COPYOF : 'Kopie von',
 		COPYRECEIPT : 'Beleg Kopieren',
 		COPYRECEIPT_ERROR : 'Der Beleg konnte nicht kopiert werden, da nicht alle Felder ausgef&uuml;llt sind.',
 		COPYRECEIPT_INFO : 'Der Beleg wird gespeichert und kopiert! Wollen Sie diese Aktion durchf&uuml;hren?<br><input type="checkbox" ng-model="hideData.hideAlert"><font size="2"> Diese Meldung nicht mehr anzeigen.</font>',
@@ -264,7 +262,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		FEEDBACK_QUESTION : 'Was wollen Sie uns mitteilen?',
 		GERMAN : 'Deutsch',
 		INFOS : 'Infos',
-		INFOS_INFO_TEXT : 'Anlegen, &auml;ndern und L&ouml;schen von Belegen online oder offline. Synchronisierung mit Sammelbelegen (Men&uuml; Mitarbeiter/Reisekosten/Sammelbelege) mit Push & Sync. Anmeldung mit Firmenkennung, Benutzerkennung und Mobiles Passwort (Men&uuml; Mitarbeiter/Stammdaten/Mobile). Support/Feedback: per E-Mail an <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a><br><br>Sollte beim Feld "Datum" in der Belegerfassung keine Auswahl erscheinen, aktivieren Sie das Feld Datumsauswahl in den Einstellungen.',
+		INFOS_INFO_TEXT : 'Anlegen, &Auml;ndern und L&ouml;schen von Belegen online oder offline. Synchronisierung mit Sammelbelegen (Men&uuml; Mitarbeiter/Reisekosten/Sammelbelege) mit Push & Sync. Anmeldung mit Firmenkennung, Benutzerkennung und Mobiles Passwort (Men&uuml; Mitarbeiter/Stammdaten/Mobile). Support/Feedback: per E-Mail an <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a><br><br>Sollte beim Feld "Datum" in der Belegerfassung keine Auswahl erscheinen, aktivieren Sie das Feld Datumsauswahl in den Einstellungen.',
 		KINDOFPYMENT : 'Zahlungsart',
 		KINDSOFPYMENT : 'Zahlungsarten',
 		LOGIN : 'Anmeldung',
@@ -272,17 +270,23 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		MOBILEPASSWORD : 'Mobiles Passwort',
 		NEWRECEIPT : 'Neuer Beleg',
 		NEW_FUNCTIONALITY : 'neue Funktionalit&auml;t',
+		NO : 'Nein',
+		NOANSWERFROMTHESERVER_TEMPLATE : 'Der Server antwortet nicht. Bitte versuchen Sie es später noch einmal.',
+		NOANSWERFROMTHESERVER_TITLE : 'Keine Antwort vom Server',
+		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob, Ihr Gerät mit dem Internet verbunden ist.',
+		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
 		OK : 'Ok',
 		OPTIONS : 'Belegoptionen:',
 		PERSONID : 'Benutzerkennung',
 		PERSONS : 'Bewirtete Personen',
 		PLACE : 'Ort der Bewirtung',
+		PLEASEWAIT : 'Bitte warten...',
 		REASON : 'Grund der Bewirtung',
 		RECEIPT : 'Beleg',
 		RECEIPTKIND : 'Belegart',
 		RECEIPTKINDS : 'Belegarten',
+		RECEIPTOVERVIEW : 'Beleg&uuml;bersicht',
 		RECEIPTS : 'Belege',
-		RECEIPTOVERVIEW : 'Belegübersicht',
 		SAVE : 'Speichern',
 		SEARCH : 'Suche...',
 		SEND : 'Senden',
@@ -292,18 +296,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		SUCCESS_SETTINGS_TITLE : 'Meldung:',
 		SYNCHRONIZE : 'Synchronisieren...',
 		TARGETSERVER : 'Zielserver',
-		NOANSWERFROMTHESERVER_TITLE : 'Keine Antwort vom Server',
-		NOANSWERFROMTHESERVER_TEMPLATE : 'Der Server antwortet nicht. Bitte versuchen Sie es später noch einmal.',
-		WRONGCREDENTIALS_TITLE : 'Fehler bei der Anmeldung',
 		WRONGCREDENTIALS_TEMPLATE : 'Die Anmeldedaten sind fehlerhaft.',
-		PLEASEWAIT : 'Bitte warten...',
-		NOINTERNETACCESS_TITLE : 'Kein Internetzugriff',
-		NOINTERNETACCESS_TEMPLATE : 'Bitte prüfen Sie ob Ihr Gerät mit dem Internet verbunden ist.',
-		COPYOF : 'Kopie von',
-		YES : 'Ja',
-		NO : 'Nein',
-		ALTERNATIVE_DATEPICKER : 'alternative Datumsauswahl',
-		CHOOSE_DATE : 'Datum auswählen'
+		WRONGCREDENTIALS_TITLE : 'Fehler bei der Anmeldung',
+		YES : 'Ja'
 	});
 	$translateProvider.preferredLanguage('en');
 });

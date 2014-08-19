@@ -20,12 +20,8 @@
     <icon gap:density="xxhdpi" gap:platform="android" src="res/drawable-xxhdpi/ic_launcher.png" />
     <icon gap:density="xxxhdpi" gap:platform="android" src="res/drawable-xxxhdpi/ic_launcher.png" />
     <name>HRworks</name>
-    <description>
-		Hrworks
-    </description>
-    <author href="http://hrworks.de">
-		HRworks GmbH
-    </author>
+    <description>Hrworks</description>
+    <author href="http://hrworks.de">HRworks GmbH</author>
     <content src="index.html" />
     <access origin="*" />
     <preference name="Orientation" value="portrait" />

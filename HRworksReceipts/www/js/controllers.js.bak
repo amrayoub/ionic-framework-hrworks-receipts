@@ -4,28 +4,6 @@ angular.module('starter.controllers', ['ionic'])
 .controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'SAVE', 'CHOOSE_DATE', 'DELETE', 'COPYOF', 'DELETERECEIPT', 'DELETERECEIPT_TEMPLATE', 'YES', 'NO']).then(function (translations) {
 
-		// Create a translation array for the controller
-		//TODO: prüfen ob nochmal ein array von Nöten
-		$scope.translationsArray = [];
-		$scope.translationsArray["EDIT_RECEIPT"] = translations.EDIT_RECEIPT;
-		$scope.translationsArray["NEWRECEIPT"] = translations.NEWRECEIPT;
-		$scope.translationsArray["OPTIONS"] = translations.OPTIONS;
-		$scope.translationsArray["COPY"] = translations.COPY;
-		$scope.translationsArray["ERROR"] = translations.ERROR;
-		$scope.translationsArray["COPYRECEIPT_ERROR"] = translations.COPYRECEIPT_ERROR;
-		$scope.translationsArray["COPYRECEIPT"] = translations.COPYRECEIPT;
-		$scope.translationsArray["COPYRECEIPT_INFO"] = translations.COPYRECEIPT_INFO;
-		$scope.translationsArray["CANCEL"] = translations.CANCEL;
-		$scope.translationsArray["OK"] = translations.OK;
-		$scope.translationsArray["DELETE"] = translations.DELETE;
-		$scope.translationsArray["COPYOF"] = translations.COPYOF;
-		$scope.translationsArray["DELETERECEIPT"] = translations.DELETERECEIPT;
-		$scope.translationsArray["DELETERECEIPT_TEMPLATE"] = translations.DELETERECEIPT_TEMPLATE;
-		$scope.translationsArray["YES"] = translations.YES;
-		$scope.translationsArray["NO"] = translations.NO;
-		$scope.translationsArray["SAVE"] = translations.SAVE;
-		$scope.translationsArray["CHOOSE_DATE"] = translations.CHOOSE_DATE;
-
 		// Clears the copyGUID of the localStorage
 		$localstorage.setObject('copyGUID', new Array());
 
@@ -54,7 +32,6 @@ angular.module('starter.controllers', ['ionic'])
 		// TODO: prüfen ob nach personen komma hin muss oder nicht
 		$scope.form.persons = $localstorage.getObjects('user').person + ',';
 		$scope.showAlternativeDatepicker = $localstorage.getObjects('user').alternativeDatepicker;
-		console.log($scope.showAlternativeDatepicker);
 		$scope.form.kindOfPayment = "";
 		var kindsOfPaymentCollection = $localstorage.getObjects('kindsOfPayment');
 		for (var j = 0; j < kindsOfPaymentCollection.length; j++) {
@@ -74,7 +51,6 @@ angular.module('starter.controllers', ['ionic'])
 		// TODO: Immer semikolon verwenden
 		$scope.amountTransformer = function (amount) {
 			amount = amount.toString();
-			console.log(amount);
 			dotOrComma = ".";
 			if($translate.use() == "de") {
 				var dotOrComma = ",";
@@ -99,7 +75,6 @@ angular.module('starter.controllers', ['ionic'])
 				amount = amount.replace(".", "");
 				amount = amount.replace(",", "");
 			}
-			console.log(amount);
 			$scope.form.amount = amount;
 		};
 
@@ -108,9 +83,9 @@ angular.module('starter.controllers', ['ionic'])
 		if ($stateParams.guid != "new") {
 			$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
 			$scope.form.amount = $filter('number')($scope.form.amount, 2);
-			$scope.receiptTitle = $scope.translationsArray['EDIT_RECEIPT'];
+			$scope.receiptTitle = translations.EDIT_RECEIPT;
 		} else {
-			$scope.receiptTitle = $scope.translationsArray['NEWRECEIPT'];
+			$scope.receiptTitle = translations.NEWRECEIPT;
 		}
 		
 		$scope.openDatePicker = function() {
@@ -118,12 +93,12 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.tmp.datePickerDate = $scope.form.date;
 			$ionicPopup.show({
 				template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
-				title : $scope.translationsArray['CHOOSE_DATE'],
+				title : translations.CHOOSE_DATE,
 				scope: $scope,
 				buttons: [{ 
-						text: $scope.translationsArray['CANCEL'] 
+						text: translations.CANCEL 
 					},{
-						text: $scope.translationsArray['SAVE'],
+						text: translations.SAVE,
 						type: 'button-positive',
 						onTap: function(e) {
 							$scope.form.date = $filter('date')($scope.tmp.datePickerDate, 'yyyy-MM-dd');
@@ -192,13 +167,13 @@ angular.module('starter.controllers', ['ionic'])
 		// Show the ActionSheet with the options
 		$scope.showActionsheet = function () {
 			$ionicActionSheet.show({
-				titleText : $scope.translationsArray['OPTIONS'],
+				titleText : translations.OPTIONS,
 				buttons : [{
-						text : "<i class='icon ion-ios7-copy-outline'></i> " + $scope.translationsArray['COPYRECEIPT']
+						text : "<i class='icon ion-ios7-copy-outline'></i> " + translations.COPYRECEIPT
 					},
 				],				
-				destructiveText : $scope.translationsArray['DELETE'],
-				cancelText : $scope.translationsArray['CANCEL'],
+				destructiveText : translations.DELETE,
+				cancelText : translations.CANCEL,
 				scope : $scope,
 				// TODO: buttonClicked vs. destructiveButtonClicked - wtf namen
 				buttonClicked : function (index) {
@@ -207,8 +182,8 @@ angular.module('starter.controllers', ['ionic'])
 							 || !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency
 							 || !$scope.amountValid() || typeof $scope.form.amount === 'undefined') {
 							$ionicPopup.alert({
-								title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
-								content : $scope.translationsArray['COPYRECEIPT_ERROR']
+								title : "<b>" + translations.COPYRECEIPT + "</b>",
+								content : translations.COPYRECEIPT_ERROR
 							});
 							return true;
 						}
@@ -216,17 +191,16 @@ angular.module('starter.controllers', ['ionic'])
 						// TODO: translate
 							if (!$scope.form.endDate || $scope.form.date > $scope.form.endDate) {
 								$ionicPopup.alert({
-									title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+									title : "<b>" + translations.COPYRECEIPT + "</b>",
 									content : "Fehler Hotel"
 								});
 								return true;
 							}
 						}
 						if ($scope.form.receiptKind.isBusinessEntertainment) {
-							console.log("isBusinessEntertainment");
 							if (!$scope.personsValid() || !$scope.form.reason || !$scope.form.place) {
 								$ionicPopup.alert({
-									title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
+									title : "<b>" + translations.COPYRECEIPT + "</b>",
 									content : "Fehler BusinessEntertainment"
 								});
 								return true;
@@ -238,11 +212,11 @@ angular.module('starter.controllers', ['ionic'])
 						} else {
 							var confirmPopup = $ionicPopup.show({
 							// TODO: Formatierung
-									title : "<b>" + $scope.translationsArray['COPYRECEIPT'] + "</b>",
-									template : $scope.translationsArray['COPYRECEIPT_INFO'],
+									title : "<b>" + translations.COPYRECEIPT + "</b>",
+									template : translations.COPYRECEIPT_INFO,
 									scope : $scope,
 									buttons : [{
-											text : "<b>" + $scope.translationsArray['OK'] + "</b>",
+											text : "<b>" + translations.OK + "</b>",
 											type : "button-positive",
 											onTap : function (e) {
 												if (typeof $scope.hideData.hideAlert === "undefined") {
@@ -252,7 +226,7 @@ angular.module('starter.controllers', ['ionic'])
 												}
 											}
 										}, {
-											text : $scope.translationsArray['CANCEL'],
+											text : translations.CANCEL,
 											onTap : function (e) {
 												return 1;
 											}
@@ -274,18 +248,18 @@ angular.module('starter.controllers', ['ionic'])
 				},
 				destructiveButtonClicked : function () {
 					$ionicPopup.show({
-						title : "<b>" + $scope.translationsArray['DELETERECEIPT'] + "</b>",
-						template : $scope.translationsArray['DELETERECEIPT_TEMPLATE'],
+						title : "<b>" + translations.DELETERECEIPT + "</b>",
+						template : translations.DELETERECEIPT_TEMPLATE,
 						scope : $scope,
 						buttons : [{
-								text : "<b>" + $scope.translationsArray['YES'] + "</b>",
+								text : "<b>" + translations.YES + "</b>",
 								type : "button-positive",
 								onTap : function (e) {
 									$localstorage.removeObject('receipts', $scope.form.guid);
 									$scope.$viewHistory.backView.go();
 								}
 							}, {
-								text : $scope.translationsArray['NO'],
+								text : translations.NO,
 								onTap : function (e) {
 									return true;
 								}
@@ -500,9 +474,6 @@ angular.module('starter.controllers', ['ionic'])
 .controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
 
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
-		$scope.translationsArray = [];
-		$scope.translationsArray["WRONGCREDENTIALS_TITLE"] = translations.WRONGCREDENTIALS_TITLE;
-		$scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"] = translations.WRONGCREDENTIALS_TEMPLATE;
 		
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
@@ -513,12 +484,7 @@ angular.module('starter.controllers', ['ionic'])
 				$scope.LoginModal.show();
 			}
 		});
-		// TODO: passwörter schelchte idee für github
 		$scope.user = {};
-		$scope.user.companyId = "jaco";
-		$scope.user.personId = "jaco";
-		$scope.user.mobilePassword = "hjpjpkf";
-		$scope.user.targetServer = "area51-0";
 		$scope.user.alternativeDatepicker = false;
 		$scope.login = function (user) {
 			var promise = getData.userLogin(user);
@@ -543,15 +509,17 @@ angular.module('starter.controllers', ['ionic'])
 						$ionicLoading.hide();
 						$ionicPopup.alert({
 							scope: $scope,
-							title : $scope.translationsArray["WRONGCREDENTIALS_TITLE"],
-							template : $scope.translationsArray["WRONGCREDENTIALS_TEMPLATE"]
+							title : translations.WRONGCREDENTIALS_TITLE,
+							template : translations.WRONGCREDENTIALS_TEMPLATE
 						});
 					} else {
-						console.log(success.errors[0]);
+						$ionicPopup.alert({
+							title : translations.WRONGCREDENTIALS_TITLE,
+							template : success.errors[0]
+						});
+						$ionicLoading.hide();
 					}
 				}
-			}, function (failed) {
-				console.log(failed);
 			});
 		};
 		if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
@@ -606,13 +574,6 @@ angular.module('starter.controllers', ['ionic'])
 	// Load the translations for the controller
 	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
 
-		// Put the the translations into a translation Array
-		$scope.translationsArray = [];
-		$scope.translationsArray["SUCCESS_SETTINGS_TITLE"] = translations.SUCCESS_SETTINGS_TITLE;
-		$scope.translationsArray["SUCCESS_SETTINGS_TEMPLATE"] = translations.SUCCESS_SETTINGS_TEMPLATE;
-		$scope.translationsArray["ERROR_SETTINGS_TITLE"] = translations.ERROR_SETTINGS_TITLE;
-		$scope.translationsArray["ERROR_SETTINGS_TEMPLATE"] = translations.ERROR_SETTINGS_TEMPLATE;
-
 		// Get the user datas from the localStorage
 		$scope.form = $localstorage.getObjects('user');
 
@@ -643,23 +604,25 @@ angular.module('starter.controllers', ['ionic'])
 						promise.then(function () {
 							$ionicLoading.hide();
 							$ionicPopup.alert({
-								title : $scope.translationsArray['SUCCESS_SETTINGS_TITLE'],
-								template : $scope.translationsArray['SUCCESS_SETTINGS_TEMPLATE']
+								title : translations.SUCCESS_SETTINGS_TITLE,
+								template : translations.SUCCESS_SETTINGS_TEMPLATE
 							});
 						})
 					} else {
 						if (success.errors[0].errorId == "8") {
 							$ionicPopup.alert({
-								title : $scope.translationsArray['ERROR_SETTINGS_TITLE'],
-								template : $scope.translationsArray['ERROR_SETTINGS_TEMPLATE'],
+								title : translations.ERROR_SETTINGS_TITLE,
+								template : translations.ERROR_SETTINGS_TEMPLATE
 							});
 						} else {
-							console.log(success.errors[0]);
+							$ionicPopup.alert({
+								title : translations.ERROR_SETTINGS_TITLE,
+								template : success.errors[0]
+							});
 							$ionicLoading.hide();
 						}
 					}
 				}, function (failed) {
-					console.log(failed);
 					$ionicLoading.hide();
 				});
 			}, function (failed) {
@@ -696,9 +659,6 @@ angular.module('starter.controllers', ['ionic'])
 				promise.then(function () {
 					$ionicLoading.hide();
 				})
-			}, function (key) {
-				// TODO: console.log global suchen und evtl durch fehlermeldungen an GUI ersetzen, wenn nötig
-				console.log("Error");
 			});
 		};
 

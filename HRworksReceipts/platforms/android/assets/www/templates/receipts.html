@@ -5,13 +5,20 @@
 	<ion-nav-buttons side="right">
 		<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/receipt/new')"></button>
 	</ion-nav-buttons>
+	
 	<ion-content has-header="true">
+		<!-- TODO:
+		https://github.com/driftyco/ionic/issues/2029
+		The div around <ion-refresher> is required in beta 11
+		-->
+		<div>
 		<ion-refresher
 			on-refresh="doRefresh()"
+			pulling-text="{{ 'SYNCHRONIZE' | translate }}"
 			refreshing-text="{{ 'SYNCHRONIZE' | translate }}"
 			refreshing-icon="ion-loading-c">
-			<!-- TODO: Was macht der Pfeil ?-->
 		</ion-refresher>
+		</div>
 		<ion-list option-buttons="itemButtons">
 			<ion-item class="item myItem"
 				collection-repeat="receipt in receipts | orderBy: 'timeStamp':true"
@@ -29,7 +36,7 @@
 					</div>
 				</div>
 				<!-- TODO:
-				Waiting for fix for this issue.
+				Waiting for fix for this issue in Beta 12
 				https://github.com/driftyco/ionic/issues/1842
 				https://github.com/driftyco/ionic/issues/1811
 				<ion-option-button class="button-positive" translate="COPY"></ion-option-button>

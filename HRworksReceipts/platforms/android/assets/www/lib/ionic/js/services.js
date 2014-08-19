@@ -81,6 +81,7 @@ angular.module('starter.services', [])
 		}
 	}
 })
+// TODO: Kann das weg?
 .factory('ReceiptKinds', function () {
 	var receiptKinds = [{
 			"description" : "Benzin / Öl",

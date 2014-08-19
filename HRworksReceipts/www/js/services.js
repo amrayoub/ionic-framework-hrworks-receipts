@@ -95,8 +95,7 @@ angular.module('starter.services', [])
 				method : "POST",
 				data : angular.toJson(jsonObject),
 				headers : {
-					'Content-Type' : 'application/x-www-form-urlencoded',
-					'Content-Transfer-Encoding' : 'utf-8'
+					'Content-Type' : 'application/x-www-form-urlencoded; charset=ISO-8859-1'
 				}
 			})
 		}
@@ -104,6 +103,7 @@ angular.module('starter.services', [])
 })
 // API: Call "all" to get a complete synchronization
 .factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
+	console.log($http.defaults.headers.post);
 	var translationsArray = [];
 	$translate(['NOANSWERFROMTHESERVER_TITLE', 'NOANSWERFROMTHESERVER_TEMPLATE']).then(function (translations) {
 		translationsArray["NOANSWERFROMTHESERVER_TITLE"] = translations.NOANSWERFROMTHESERVER_TITLE;
@@ -148,14 +148,13 @@ angular.module('starter.services', [])
 		jsonObject.deviceId = $cordovaDevice.getUUID();
 		jsonObject.languageKey = $translate.use();
 		jsonObject.version = "1";
+		jsonObject.isCharsetUtf8 = true;
 		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
 		return $http({
 			url : api,
 			method : "POST",
 			data : angular.toJson(jsonObject),
-			headers : {
-				'Content-Type' : 'application/x-www-form-urlencoded; charset=iso-8895-1'
-			}
+			headers: { 'Accept-Charset': undefined }
 		});
 	};
 	changeReceiptObject = function (receipts) {
@@ -181,29 +180,45 @@ angular.module('starter.services', [])
 	}
 	return {
 		all : function () {
+			noConnectionToTheServer = function(data) {
+				deferred.resolve(data);
+				$ionicPopup.alert({
+					title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
+					template : translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
+				});
+				return deferred.promise;
+			}
 			var deferred = $q.defer();
 			var userData = $localstorage.getObjects('user');
 			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
 					$localstorage.setObject('kindsOfPayment', data.result);
-				}).then(function () {
-					get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
-						$localstorage.setObject('receiptKinds', data.result);
+					}).error(function (data, status, headers, config) {
+						noConnectionToTheServer(data);
 					}).then(function () {
-						get('Currencies', data.url).success(function (data, status, headers, config) {
-							$localstorage.setObject('currencies', data.result);
+						get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
+							$localstorage.setObject('receiptKinds', data.result);
+						}).error(function (data, status, headers, config) {
+							noConnectionToTheServer(data);
 						}).then(function () {
-							get('Receipts', data.url).success(function (data, status, headers, config) {
-								updatedReceipts = changeReceiptObject(data.result);
-								$localstorage.setObject('receipts', updatedReceipts);
-								deferred.resolve(data);
+							get('Currencies', data.url).success(function (data, status, headers, config) {
+								$localstorage.setObject('currencies', data.result);
+						}).error(function (data, status, headers, config) {
+							noConnectionToTheServer(data);
+							}).then(function () {
+								get('Receipts', data.url).success(function (data, status, headers, config) {
+									updatedReceipts = changeReceiptObject(data.result);
+									$localstorage.setObject('receipts', updatedReceipts);
+									deferred.resolve(data);
+								}).error(function (data, status, headers, config) {
+									noConnectionToTheServer(data);
+								})
 							})
 						})
 					})
-				})
 			}).error(function (data, status, headers, config) {
-				return false
+				return;
 			});
 			return deferred.promise;
 		},
@@ -224,10 +239,7 @@ angular.module('starter.services', [])
 				$http({
 					url : data.url + "HrwCheckOutDeviceApi",
 					method : "POST",
-					data : angular.toJson(jsonObject),
-					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded'
-					}
+					data : angular.toJson(jsonObject)
 				})
 			})
 		},
@@ -244,6 +256,7 @@ angular.module('starter.services', [])
 			jsonObject.deviceName = $cordovaDevice.getModel();
 			jsonObject.languageKey = $translate.use();
 			jsonObject.version = "1";
+			jsonObject.isCharsetUtf8 = true;
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
 			url.success(function (data, status, headers, config) {
 				$http({
@@ -251,18 +264,25 @@ angular.module('starter.services', [])
 					method : "POST",
 					data : angular.toJson(jsonObject),
 					headers : {
-						'Content-Type' : 'application/x-www-form-urlencoded'
+						'Content-Type' : 'application/x-www-form-urlencoded;'
 					}
 				}).success(function (data, status, headers, config) {
 					deferred.resolve(data);
 				}).error(function () {
+					deferred.resolve(data);
 					$ionicPopup.alert({
 						title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
 						template : translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
 					});
+					return deferred.promise;
 				})
 			}).error(function (data, status, headers, config) {
-				return false
+				deferred.resolve(data);
+				$ionicPopup.alert({
+					title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
+					template : translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
+				});
+				return deferred.promise;
 			});
 			return deferred.promise;
 		}
