@@ -31,17 +31,13 @@ angular.module('starter.controllers', ['ionic'])
 		console.log($scope.form.date);
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
 		$scope.form.persons = "";
-		// TODO: prüfen ob nach personen komma hin muss oder nicht
 		$scope.form.persons = $localstorage.getObjects('user').person + ',';
 		$scope.showAlternativeDatepicker = $localstorage.getObjects('user').alternativeDatepicker;
 		$scope.form.kindOfPayment = "";
 		var kindsOfPaymentCollection = $localstorage.getObjects('kindsOfPayment');
+		$scope.form.kindOfPayment = kindsOfPaymentCollection[0];
 		for (var j = 0; j < kindsOfPaymentCollection.length; j++) {
-			if (kindsOfPaymentCollection[j].description == "Bar Privat") {
-				$scope.form.kindOfPayment = kindsOfPaymentCollection[j];
-				break;
-			}
-			if (kindsOfPaymentCollection[j].description == "Cash private") {
+			if (kindsOfPaymentCollection[j].description == "Bar Privat" || kindsOfPaymentCollection[j].description == "Cash private" ) {
 				$scope.form.kindOfPayment = kindsOfPaymentCollection[j];
 				break;
 			}
@@ -81,8 +77,7 @@ angular.module('starter.controllers', ['ionic'])
 		};
 
 		// Set the title of the view
-		// TODO: prüfen ob man die methode isEdit aufrufen kann.
-		if ($stateParams.guid != "new") {
+		if ($scope.isEdit) {
 			$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
 			$scope.form.amount = $filter('number')($scope.form.amount, 2);
 			$scope.receiptTitle = translations.EDIT_RECEIPT;
@@ -319,6 +314,7 @@ angular.module('starter.controllers', ['ionic'])
 					}
 				} else {
 					return true;
+				}
 			}
 		};
 
@@ -326,24 +322,8 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.submitted = false;
 		$scope.saveReceipt = function(isValid) {
 			$scope.submitted = true;
-			console.log(isValid);
 			if (isValid) {
-				alert('our form is amazing');
-			}
-		};
-		$scope.saveReceipt2 = function () {
-			$scope.form.amount = $scope.form.amount.toString().replace(",", ".");
-			var error = false;
-			if ($scope.form.date > $scope.form.endDate) {
-				error = true;
-			}
-			if ($scope.amountValid() == false) {
-				error = true;
-			}
-			if ($scope.personsValid() == false) {
-				error = true;
-			}
-			if (error == false) {
+				$scope.form.amount = $scope.form.amount.toString().replace(",", ".");
 				theReceipt = {
 					text : $scope.form.text,
 					amount : parseFloat($scope.form.amount),
@@ -361,8 +341,7 @@ angular.module('starter.controllers', ['ionic'])
 					theReceipt.persons = $scope.form.persons;
 					theReceipt.place = $scope.form.place;
 				}
-				// TODO: prüfen ob man auch die obere methode sEdit aufrufen kann.
-				if ($stateParams.guid == "new") {
+				if ($scope.isEdit) {
 					theReceipt.guid = $scope.generateGUID();
 					$localstorage.insertObject('receipts', theReceipt);
 				} else {

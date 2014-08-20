@@ -56,24 +56,23 @@
 				</label>
 				<label ng-if="form.receiptKind.isBusinessEntertainment" class="item item-input item-stacked-label">
 					<span class="input-label" translate="REASON"></span>
-					<input name="text" type="text" required="required" ng-model="form.reason" />
+					<input name="reason" type="text" required="required" ng-model="form.reason" />
 					<i class="validError" ng-show="receiptForm.reason.$invalid && submitted" translate="ERRORMESSAGE_REASON"></i>
 				</label>
 				<label ng-if="form.receiptKind.isBusinessEntertainment" class="item item-input item-stacked-label">
 					<span class="input-label" translate="PERSONS"></span>
 					<input name="persons" type="text" ng-model="form.persons" />
-					<i class="validError" ng-hide="personsValid() && submitted" translate="ERRORMESSAGE_PERSONS"></i>
+					<i class="validError" ng-show="personsValid() && submitted" translate="ERRORMESSAGE_PERSONS"></i>
 				</label>
 				<label ng-if="form.receiptKind.isBusinessEntertainment" class="item item-input item-stacked-label">
 					<span class="input-label" translate="PLACE"></span>
 					<input name="place" type="text" required="required" ng-model="form.place" />
-					<i class="validError" ng-hide="receiptForm.place.$invalid && submitted" translate="ERRORMESSAGE_PLACE"></i>
+					<i class="validError" ng-show="receiptForm.place.$invalid && submitted" translate="ERRORMESSAGE_PLACE"></i>
 				</label>
 				<label class="item item-input item-stacked-label item-icon-right" ng-click="openKindsOfPaymentModal()">
 					<span class="input-label" translate="KINDOFPYMENT"></span>
 					<span class="input-span">{{ form.kindOfPayment.description }}</span>
 					<input type="hidden" name="kindOfPayment" ng-model="form.kindOfPayment.description" required="required">
-					<i translate="ERRORMESSAGE_KINDOFPYMENT"></i>
 					<i class="validError" ng-show="receiptForm.kindOfPayment.$invalid && submitted" translate="ERRORMESSAGE_KINDOFPYMENT"></i>
 				</label>
 			</div>

@@ -303,7 +303,7 @@ angular.module('starter.controllers', ['ionic'])
 		};
 		// Check if the person input is valid
 		$scope.personsValid = function () {
-			if ($scope.form.receiptKind.isBusinessEntertainment == true) {
+			if ($scope.form.receiptKind.isBusinessEntertainment) {
 				if ($scope.form.persons.length > 0) {
 					var thePersonsArray = $scope.form.persons.split(",");
 					theNewPersonsArray = [];
@@ -312,11 +312,13 @@ angular.module('starter.controllers', ['ionic'])
 							theNewPersonsArray.push(thePersonsArray[i]);
 						}
 					}
-					if (theNewPersonsArray.length < 2) {
+					if (theNewPersonsArray.length >= 2) {
 						return false;
 					} else {
 						return true;
 					}
+				} else {
+					return true;
 				}
 			}
 		};
