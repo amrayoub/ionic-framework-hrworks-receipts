@@ -7,8 +7,7 @@
 	</ion-nav-buttons>
 	<ion-content has-header="true">
 		<!-- TODO:
-		https://github.com/driftyco/ionic/issues/2029
-		The div around <ion-refresher> is required in beta 11
+		Div is required in beta 11. Fix for beta 12 is allreay done
 		-->
 		<div>
 		<ion-refresher

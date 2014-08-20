@@ -18,13 +18,12 @@
 		has-header="true">
 		<div class="list" ng-if="showListCurrencies">
 			<div class="button-bar currencybuttons">
-				<!-- TODO: type umbennenen showFavorit kein fav -->
-				<a class="button fav {{(type == true) && 'active' || ''}}" ng-click="setType($event)" translate="FAVORITES"></a>
-				<a class="button all {{(type == '') && 'active' || ''}}" ng-click="setType($event)" translate="ALLCURRENCIES"></a>
+				<a class="button favorite {{ isFavorite && 'active' || ''}}" ng-click="setFavorite($event)" translate="FAVORITES"></a>
+				<a class="button all {{(isFavorite == '') && 'active' || ''}}" ng-click="setFavorite($event)" translate="ALLCURRENCIES"></a>
 			</div>
 			<ion-radio
 				class="item myItem"
-				collection-repeat="currency in currencies | filter: data.searchQueryCurrencies | filter: {isPreferred:type}"
+				collection-repeat="currency in currencies | filter: data.searchQueryCurrencies | filter: {isPreferred: isFavorite}"
 				collection-item-height="50"
 				collection-item-width="'100%'"
 				ng-value="currency.description"

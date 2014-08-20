@@ -28,7 +28,7 @@
 					<input id="date" required="required" type="date" name="date" ng-model="form.date" />
 					<i class="validError" ng-show="receiptForm.date.$invalid && submitted" translate="ERRORMESSAGE_DATE"></i>
 				</label>
-				<label class="item item-input item-stacked-label "  ng-show="showAlternativeDatepicker" ng-click="openDatePicker()">
+				<label class="item item-input item-stacked-label "  ng-show="showAlternativeDatepicker" ng-click="openDatePicker('date')">
 					<span class="input-label" translate="DATE"></span>
 					<p>{{ form.date | date: dateFormat }}</p>
 					<input id="date" required="required" type="hidden" name="date" ng-model="form.date" />
@@ -40,7 +40,7 @@
 					<i class="validError" ng-show="receiptForm.endDate.$invalid && submitted" translate="ERRORMESSAGE_DATE"></i>
 					<i class="validError" ng-show="form.endDate < form.date && submitted" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
 				</label>
-				<label  ng-if="form.receiptKind.isHotel && showAlternativeDatepicker" class="item item-input item-stacked-label"  ng-click="openEndDatePicker()">
+				<label  ng-if="form.receiptKind.isHotel && showAlternativeDatepicker" class="item item-input item-stacked-label"  ng-click="openDatePicker(endDate)">
 					<span class="input-label" translate="ENDDATE"></span>
 					<p>{{ form.endDate | date: dateFormat }}</p>
 					<input id="date" required="required" type="hidden" name="endDate" ng-model="form.endDate" />
@@ -62,12 +62,12 @@
 				<label ng-if="form.receiptKind.isBusinessEntertainment" class="item item-input item-stacked-label">
 					<span class="input-label" translate="PERSONS"></span>
 					<input name="persons" type="text" ng-model="form.persons" />
-					<i class="validError" ng-hide="personsValid() && submitted" translate="ERRORMESSAGE_PERSONS"></i>
+					<i class="validError" ng-show="personsValid() && submitted" translate="ERRORMESSAGE_PERSONS"></i>
 				</label>
 				<label ng-if="form.receiptKind.isBusinessEntertainment" class="item item-input item-stacked-label">
 					<span class="input-label" translate="PLACE"></span>
 					<input name="place" type="text" required="required" ng-model="form.place" />
-					<i class="validError" ng-hide="receiptForm.place.$invalid && submitted" translate="ERRORMESSAGE_PLACE"></i>
+					<i class="validError" ng-show="receiptForm.place.$invalid && submitted" translate="ERRORMESSAGE_PLACE"></i>
 				</label>
 				<label class="item item-input item-stacked-label item-icon-right" ng-click="openKindsOfPaymentModal()">
 					<span class="input-label" translate="KINDOFPYMENT"></span>

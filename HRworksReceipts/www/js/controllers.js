@@ -27,11 +27,10 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.form.amount = "0.00";
 			scope.dateFormat = 'MM/dd/yyyy';
 		}
-		$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-		console.log($scope.form.date);
+		$scope.form.date = $scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
 		$scope.form.persons = "";
-		$scope.form.persons = $localstorage.getObjects('user').person + ',';
+		$scope.form.persons = $localstorage.getObjects('user').person + ', ';
 		$scope.showAlternativeDatepicker = $localstorage.getObjects('user').alternativeDatepicker;
 		$scope.form.kindOfPayment = "";
 		var kindsOfPaymentCollection = $localstorage.getObjects('kindsOfPayment');
@@ -42,11 +41,7 @@ angular.module('starter.controllers', ['ionic'])
 				break;
 			}
 		}
-		// TODO: wenn kein kindOfPayment selektiert, dann zumindest das erte element automatsch selektieren
 		$scope.form.receiptKind = "";
-		
-		// TODO: gross-klein schreibung		
-		// TODO: Immer semikolon verwenden
 		$scope.amountTransformer = function (amount) {
 			amount = amount.toString();
 			dotOrComma = ".";
@@ -55,7 +50,7 @@ angular.module('starter.controllers', ['ionic'])
 			}
 			var period = amount.indexOf(dotOrComma);
 			if (period > -1) {
-				amount = amount.substring(0, period) + amount.substring(period + 1)
+				amount = amount.substring(0, period) + amount.substring(period + 1);
 			}
 			var amountLength = amount.length;
 			while (amountLength < 3) {
@@ -85,9 +80,13 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.receiptTitle = translations.NEWRECEIPT;
 		}
 		
-		$scope.openDatePicker = function() {
+		$scope.openDatePicker = function(inputName) {
 			$scope.tmp = {};
 			$scope.tmp.datePickerDate = $scope.form.date;
+			console.log(inputName);
+			if(inputName == "endDate") {
+				$scope.tmp.datePickerDate = $scope.form.endDate;
+			}
 			$ionicPopup.show({
 				template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
 				title : translations.CHOOSE_DATE,
@@ -99,27 +98,13 @@ angular.module('starter.controllers', ['ionic'])
 						type: 'button-positive',
 						onTap: function(e) {
 							var theDate = $scope.tmp.datePickerDate;
-							$scope.form.date = theDate.getFullYear() + '-' + ('0' + (theDate.getMonth()+1)).slice(-2) + '-' + ('0' + theDate.getDate()).slice(-2);
-						}
-					}
-				]
-			});
-		}
-		$scope.openEndDatePicker = function() {
-			$scope.tmp = {};
-			$scope.tmp.datePickerDate = $scope.form.endDate;
-			$ionicPopup.show({
-				template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
-				title : translations.CHOOSE_DATE,
-				scope: $scope,
-				buttons: [{ 
-						text: translations.CANCEL 
-					},{
-						text: translations.SAVE,
-						type: 'button-positive',
-						onTap: function(e) {
-							var theDate = $scope.tmp.datePickerDate;
-							$scope.form.endDate = theDate.getFullYear() + '-' + ('0' + (theDate.getMonth()+1)).slice(-2) + '-' + ('0' + theDate.getDate()).slice(-2);
+							theDate = theDate.getFullYear() + '-' + ('0' + (theDate.getMonth()+1)).slice(-2) + '-' + ('0' + theDate.getDate()).slice(-2);
+							if(inputName == "date") {
+								$scope.form.date = theDate;
+							}
+							if(inputName == "endDate") {
+								$scope.form.endDate = theDate;
+							}
 						}
 					}
 				]
@@ -129,18 +114,17 @@ angular.module('starter.controllers', ['ionic'])
 		// Create a GUID
 		$scope.generateGUID = function () {
 			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			// TODO: einrückung
-					var r = Math.random() * 16 | 0,
-					v = c == 'x' ? r : (r & 0x3 | 0x8);
-					return v.toString(16);
-				});
+				var r = Math.random() * 16 | 0,
+				v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
 			return guid;
-		};
+		}
 
 		// Return true if there is a GUID of a receipt
 		$scope.isEdit = function () {
 			return $stateParams.guid != "new";
-		};
+		}
 
 		// Copying a receipt
 		$scope.saveCopyReceipt = function () {
@@ -172,7 +156,7 @@ angular.module('starter.controllers', ['ionic'])
 				guid : theReceiptCopy.guid
 			});
 			$scope.$viewHistory.backView.go();
-		};
+		}
 
 		// Write into the localeStorage that the user doesn't want to see the info altert again
 		$scope.hideData = {};
@@ -193,7 +177,6 @@ angular.module('starter.controllers', ['ionic'])
 				destructiveText : translations.DELETE,
 				cancelText : translations.CANCEL,
 				scope : $scope,
-				// TODO: buttonClicked vs. destructiveButtonClicked - wtf namen
 				buttonClicked : function (index) {
 					if (index == 0) {
 						if (!$scope.form.text || !$scope.form.date
@@ -229,41 +212,40 @@ angular.module('starter.controllers', ['ionic'])
 							return true;
 						} else {
 							var confirmPopup = $ionicPopup.show({
-							// TODO: Formatierung
-									title : "<b>" + translations.COPYRECEIPT + "</b>",
-									template : translations.COPYRECEIPT_INFO,
-									scope : $scope,
-									buttons : [{
-											text : "<b>" + translations.OK + "</b>",
-											type : "button-positive",
-											onTap : function (e) {
-												if (typeof $scope.hideData.hideAlert === "undefined") {
-													return 2;
-												} else {
-													return 3;
-												}
-											}
-										}, {
-											text : translations.CANCEL,
-											onTap : function (e) {
-												return 1;
-											}
+								title : "<b>" + translations.COPYRECEIPT + "</b>",
+								template : translations.COPYRECEIPT_INFO,
+								scope : $scope,
+								buttons : [{
+									text : "<b>" + translations.OK + "</b>",
+									type : "button-positive",
+									onTap : function (e) {
+										if (typeof $scope.hideData.hideAlert === "undefined") {
+											return 2;
+										} else {
+											return 3;
 										}
-									]
-								});
-							confirmPopup.then(function (res) {
-								if (res == 1) {
-									return true;
+									}
+								}, {
+									text : translations.CANCEL,
+									onTap : function (e) {
+										return 1;
+									}
 								}
-								if (res == 3) {
-									$scope.setHideAlert();
-								}
-								$scope.saveCopyReceipt();
-							})
-							return true;
-						}
+							]
+						});
+						confirmPopup.then(function (res) {
+							if (res == 1) {
+								return true;
+							}
+							if (res == 3) {
+								$scope.setHideAlert();
+							}
+							$scope.saveCopyReceipt();
+						})
+						return true;
 					}
-				},
+				}
+			},
 				destructiveButtonClicked : function () {
 					$ionicPopup.show({
 						title : "<b>" + translations.DELETERECEIPT + "</b>",
@@ -286,7 +268,7 @@ angular.module('starter.controllers', ['ionic'])
 					});
 				}
 			});
-		};
+		}
 
 		// Check if the amout input is valid
 		$scope.amountValid = function () {
@@ -336,7 +318,7 @@ angular.module('starter.controllers', ['ionic'])
 				if ($scope.form.receiptKind.isHotel) {
 					theReceipt.endDate = $scope.form.endDate;
 				}
-				if ($scope.form.receiptKind.isBusinessEntertainment == true) {
+				if ($scope.form.receiptKind.isBusinessEntertainment) {
 					theReceipt.reason = $scope.form.reason;
 					theReceipt.persons = $scope.form.persons;
 					theReceipt.place = $scope.form.place;
@@ -394,14 +376,12 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.CurrenciesModal.hide();
 		};
 
-		// Set type for the currencies selection "Favorites" and "All Currencies"
-		// TODO: Type ist ein "blöder" variablen namen für etwsa was beschreibt ob man Favoriten anzeigen will oder nicht
-		$scope.type = true;
-		$scope.setType = function (event) {
-			if (angular.element(event.target).hasClass('fav')) {
-				$scope.type = true;
+		$scope.isFavorite = true;
+		$scope.setFavorite = function (event) {
+			if (angular.element(event.target).hasClass('favorite')) {
+				$scope.isFavorite = true;
 			} else {
-				$scope.type = '';
+				$scope.isFavorite = '';
 			}
 		};
 
@@ -544,8 +524,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.receipts = $localstorage.getObjects('receipts');
 		$scope.doSync = function () {
 			$ionicLoading.show({
-				// TODO: evtl datei erstellen mit template für das synchronizen, wenn nur einmal dann hier ok
-				template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
+				templateUrl : 'templates/synchronize.html',
 			});
 			if ($cordovaNetwork.isOffline()) {
 				$ionicLoading.hide();
@@ -559,8 +538,7 @@ angular.module('starter.controllers', ['ionic'])
 				$ionicLoading.hide();
 			});
 		}
-		// TODO: doRefresh ist das pullToRefresh ?
-		$scope.doRefresh = function () {
+		$scope.pullToRefresh = function () {
 			$scope.$broadcast('scroll.refreshComplete');
 			$scope.doSync();
 			$scope.receipts = $localstorage.getObjects('receipts');
@@ -595,7 +573,7 @@ angular.module('starter.controllers', ['ionic'])
 			// Sync before changing the Settings
 			$ionicLoading.show({
 				// TODO: TEMPLATE, auch suchen, ob nochmla wo anders vorkommt
-				template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
+				templateUrl : 'templates/synchronize.html',
 			});
 			if ($cordovaNetwork.isOffline()) {
 				$ionicLoading.hide();
@@ -665,8 +643,7 @@ angular.module('starter.controllers', ['ionic'])
 					return false;
 				}
 				$ionicLoading.show({
-					// TODO: TEMPLATE
-					template : "<i class='icon ion-loading-c'></i><br>{{ 'SYNCHRONIZE' | translate }}",
+					templateUrl : 'templates/synchronize.html',
 				});
 				var promise = getData.all();
 				promise.then(function () {
@@ -674,46 +651,6 @@ angular.module('starter.controllers', ['ionic'])
 				})
 			});
 		};
-
-		// Delete this function if you throw out the "Create 100 Receipts" Button
-		generateGUID = function () {
-			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			// TODO: Formatierung
-					var r = Math.random() * 16 | 0,
-					v = c == 'x' ? r : (r & 0x3 | 0x8);
-					return v.toString(16);
-				});
-			return guid;
-		};
-
-		// Create 100 Receipts
-		$scope.create100Receipts = function () {
-			for (var i = 0; i < 100; i++) {
-				$localstorage.insertObject('receipts', {
-					text : 'Beleg' + i,
-					amount : 123,
-					date : '2012-03-04',
-					receiptKind : {
-						"description" : "Benzin (Ausland)",
-						"id" : "7",
-						"isHotel" : false,
-						"isBusinessEntertainment" : false
-					},
-					kindOfPayment : {
-						"isDefault" : true,
-						"description" : "Bar Privat",
-						"id" : "3"
-					},
-					currency : {
-						description : "Euro",
-						isPreferred : true,
-						symbol : "EUR"
-					},
-					timeStamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
-					guid : generateGUID()
-				});
-			}
-		}
 	});
 })
 
