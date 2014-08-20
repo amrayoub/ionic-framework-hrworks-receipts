@@ -14,6 +14,10 @@ input::-webkit-inner-spin-button {
 	padding-top: 0;
 	right: 0;
 }
+.myItem{
+  left: 0 !important;
+  right: 0 !important;
+}
 .icon-gray {
 	color: #959595;
 	margin-top: 15px;

@@ -12,10 +12,16 @@
 		<link href="css/style.css" rel="stylesheet">
 
 		<!-- ionic/angularjs js -->
-		<script src="lib/ionic/js/ionic.bundle.js"></script>
-		<!-- TODO: sollte offline verfügbar sein -->
-		<script src="js/angular-locale_de-de.js"></script>
-
+		<script src="lib/ionic/js/ionic.bundle.min.js"></script>
+		<script>
+			var locale = JSON.parse(localStorage.getItem('language'));
+			if(locale) {
+				if(locale.language == "de") {
+					locale = "de-de";
+				}
+				document.write('<script src="js/angular-locale_'+locale+'.js"><\/script>');
+			}
+		</script>
 		<!-- cordova script (this will be a 404 during development) -->
 		<script src="lib/ngCordova/dist/ng-cordova.js"></script>
 		<script src="cordova.js"></script>

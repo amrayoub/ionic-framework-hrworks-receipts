@@ -7,12 +7,10 @@ input::-webkit-inner-spin-button {
 .item-complex .item-content {
 	padding: 0;
 }
-/* TODO: myItem umbennenen */
-.list .myItem.item {
-	left: 0;
-	padding-bottom: 0;
-	padding-top: 0;
-	right: 0;
+
+.myItem{
+  left: 0 !important;
+  right: 0 !important;
 }
 .icon-gray {
 	color: #959595;
@@ -151,4 +149,43 @@ form.ng-submitted input.ng-valid + i.error {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	width: 96%
+}
+.popup-body .datetimepicker {
+  min-height: 221px;
+}
+.popup-body .datetimepicker table {
+  width: 100%;
+}
+/*
+ * Use ionic icons instead of bootstrap's glyphicons 
+ * for arrows in the datetimepicker.
+ */
+.glyphicon {
+  vertical-align: top;
+  display: inline-block;
+  font-family: "Ionicons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon:before {
+  vertical-align: top;
+  font-size: 32px;
+  line-height: 32px;
+  padding-right: 2px;
+  padding-left: 2px;
+  display: inline-block;
+  padding: 0 0 1px 0;
+}
+.glyphicon-arrow-right:before {
+  content: "\f10a";
+}
+.glyphicon-arrow-left:before{
+  content: "\f107";
 }

@@ -15,7 +15,6 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.$on('$destroy', function () {
 			tabs.css('display', '');
 		});
-
 		// Put the data form the localStorage into the scope
 		$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 		$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
@@ -23,10 +22,13 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.form = {};
 		if($translate.use() == "de") {
 			$scope.form.amount = "0,00";
+			$scope.dateFormat = 'dd.MM.yyyy';
 		} else {
 			$scope.form.amount = "0.00";
+			scope.dateFormat = 'MM/dd/yyyy';
 		}
 		$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+		console.log($scope.form.date);
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
 		$scope.form.persons = "";
 		// TODO: prüfen ob nach personen komma hin muss oder nicht
@@ -101,7 +103,31 @@ angular.module('starter.controllers', ['ionic'])
 						text: translations.SAVE,
 						type: 'button-positive',
 						onTap: function(e) {
-							$scope.form.date = $filter('date')($scope.tmp.datePickerDate, 'yyyy-MM-dd');
+							console.log($scope.form.date);
+							var theDate = $scope.tmp.datePickerDate;
+							$scope.form.date = theDate.getFullYear() + '-' + ('0' + (theDate.getMonth()+1)).slice(-2) + '-' + ('0' + theDate.getDate()).slice(-2);
+							console.log($scope.form.date);
+						}
+					}
+				]
+			});
+		}
+		$scope.openEndDatePicker = function() {
+			$scope.tmp = {};
+			$scope.tmp.datePickerDate = $scope.form.endDate;
+			$ionicPopup.show({
+				template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
+				title : translations.CHOOSE_DATE,
+				scope: $scope,
+				buttons: [{ 
+						text: translations.CANCEL 
+					},{
+						text: translations.SAVE,
+						type: 'button-positive',
+						onTap: function(e) {
+							var theDate = $scope.tmp.datePickerDate;
+							$scope.form.endDate = theDate.getFullYear() + '-' + ('0' + (theDate.getMonth()+1)).slice(-2) + '-' + ('0' + theDate.getDate()).slice(-2);
+							console.log($scope.form.date);
 						}
 					}
 				]
@@ -299,7 +325,15 @@ angular.module('starter.controllers', ['ionic'])
 		};
 
 		// Save receipt
-		$scope.saveReceipt = function () {
+		$scope.submitted = false;
+		$scope.saveReceipt = function(isValid) {
+			$scope.submitted = true;
+			console.log(isValid);
+			if (isValid) {
+				alert('our form is amazing');
+			}
+		};
+		$scope.saveReceipt2 = function () {
 			$scope.form.amount = $scope.form.amount.toString().replace(",", ".");
 			var error = false;
 			if ($scope.form.date > $scope.form.endDate) {
@@ -311,8 +345,6 @@ angular.module('starter.controllers', ['ionic'])
 			if ($scope.personsValid() == false) {
 				error = true;
 			}
-			console.log($scope.form.receiptKind);
-			console.log($scope.form.currency);
 			if (error == false) {
 				theReceipt = {
 					text : $scope.form.text,
@@ -436,7 +468,6 @@ angular.module('starter.controllers', ['ionic'])
 
 		// Select a receiptKind
 		$scope.selectReceiptKind = function (receiptKind) {
-			console.log(receiptKind);
 			$scope.form.receiptKind = receiptKind;
 			$scope.closeReceiptKindsModal();
 		};
@@ -484,6 +515,11 @@ angular.module('starter.controllers', ['ionic'])
 				$scope.LoginModal.show();
 			}
 		});
+		if($localstorage.getObjects('language').language == 'de') {
+			$scope.dateFormat = 'dd.MM.yyyy';
+		} else {
+			$scope.dateFormat = 'MM/dd/yyyy';
+		}
 		$scope.user = {};
 		$scope.user.alternativeDatepicker = false;
 		$scope.login = function (user) {

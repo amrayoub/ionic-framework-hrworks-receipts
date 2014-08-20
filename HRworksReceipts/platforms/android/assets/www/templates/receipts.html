@@ -5,11 +5,9 @@
 	<ion-nav-buttons side="right">
 		<button class="button button-icon button-clear ion-plus" ng-click="go('/tab/receipt/new')"></button>
 	</ion-nav-buttons>
-	
 	<ion-content has-header="true">
 		<!-- TODO:
-		https://github.com/driftyco/ionic/issues/2029
-		The div around <ion-refresher> is required in beta 11
+		Div is required in beta 11. Fix for beta 12 is allreay done
 		-->
 		<div>
 		<ion-refresher
@@ -31,7 +29,7 @@
 						<span ng-bind="receipt.receiptKind.description"></span></p>
 					</div>
 					<div class="col col-33" style="text-align:right;">
-						<p>{{ receipt.date | date : shortDate}}</p>
+						<p>{{ receipt.date | date : dateFormat}}</p>
 						<p>{{ receipt.amount }} {{ receipt.currency.symbol }}</p>
 					</div>
 				</div>
