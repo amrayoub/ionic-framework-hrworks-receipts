@@ -7,33 +7,58 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate'])
 
-.run(function ($localstorage, KindsOfPayment, Currencies, ReceiptKinds, LastCurrency) {
-	$localstorage.setObject('receipts', new Array());
-	$localstorage.setObject('kindsOfPayment', KindsOfPayment.all());
-	$localstorage.setObject('currencies', Currencies.all());
-	$localstorage.setObject('receiptKinds', ReceiptKinds.all());
-	$localstorage.setObject('lastCurrency', LastCurrency.all());
-	$localstorage.setObject('hideAlert', new Array());
+.run(function ($localstorage, $translate, $cordovaSplashscreen, $ionicPlatform, GetCurrentUrl) {
+	// Initialize the localStorage if the app was open for the first time
+	if ($localstorage.getObjects('version').version != 1) {
+		$localstorage.setObject('receipts', new Array());
+		$localstorage.setObject('kindsOfPayment', new Array());
+		$localstorage.setObject('currencies', new Array());
+		$localstorage.setObject('receiptKinds', new Array());
+		$localstorage.setObject('lastCurrency', new Array());
+		$localstorage.setObject('hideAlert', new Array());
+		$localstorage.setObject('copyGUID', new Array());
+		$localstorage.setObject('user', new Array());
+
+		var userLanguage = window.navigator.userLanguage || window.navigator.language;
+		if (userLanguage == "de" || userLanguage == "de-DE" || userLanguage == "de_DE") {
+			userLanguage = "de";
+		} else {
+			userLanguage = "en";
+		}
+		$localstorage.setObject('language', {
+			language : userLanguage
+		});
+		$localstorage.setObject('version', {
+			version : 1
+		});
+	}
+	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform) {
+.run(function ($ionicPlatform, $cordovaDevice) {
 	$ionicPlatform.ready(function () {
+		document.addEventListener('focus', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			window.scrollTo(0, 0);
+		}, true);
+
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
+		/*
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-		}
+		} */
+		// Initialize the statusbar for iOS
 		if (window.StatusBar) {
-			// org.apache.cordova.statusbar required
-			StatusBar.styleDefault();
+			StatusBar.styleLightContent();
 		}
 	});
 })
 
-.config(function ($stateProvider, $urlRouterProvider) {
-
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 	// Ionic uses AngularUI Router which uses the concept of states
 	// Learn more here: https://github.com/angular-ui/ui-router
 	// Set up the various states which the app can be in.
@@ -44,16 +69,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	.state('tab', {
 		url : "/tab",
 		abstract : true,
-		templateUrl : "tabs.html"
+		templateUrl : "templates/tabs.html"
 	})
 
 	// Each tab has its own nav history stack:
-
 	.state('tab.receipts', {
 		url : '/receipts',
 		views : {
 			'receipts' : {
-				templateUrl : 'receipts.html',
+				templateUrl : 'templates/receipts.html',
 				controller : 'receiptsCtrl'
 			}
 		}
@@ -62,45 +86,49 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		url : '/receipt/:guid',
 		views : {
 			'receipts' : {
-				templateUrl : 'receipt.html',
+				templateUrl : 'templates/receipt.html',
 				controller : 'receiptCtrl'
 			}
 		}
 	})
-
 	.state('tab.feedback', {
 		url : '/feedback',
 		views : {
 			'feedback' : {
-				templateUrl : 'feedback.html',
+				templateUrl : 'templates/feedback.html',
 				controller : 'feedbackCtrl'
 			}
 		}
 	})
-
 	.state('tab.settings', {
 		url : '/settings',
 		views : {
 			'settings' : {
-				templateUrl : 'settings.html',
+				templateUrl : 'templates/settings.html',
 				controller : 'settingsCtrl'
 			}
 		}
 	})
-
 	.state('tab.infos', {
 		url : '/infos',
 		views : {
 			'infos' : {
-				templateUrl : 'infos.html',
+				templateUrl : 'templates/infos.html',
 				controller : 'infosCtrl'
 			}
 		}
-	});
+	})
+	.state('login', {
+		url : '/login',
+		templateUrl : 'templates/login.html',
+		controller : 'loginCtrl'
+	})
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/receipts');
-	// Translations
-	.config(function ($translateProvider) {
+})
+
+// Translations
+.config(function ($translateProvider) {
 	$translateProvider.translations('en', {
 		ADVANCEMENT : 'Advancement',
 		ALLCURRENCIES : 'All Currencies',

@@ -1,4 +1,7 @@
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes.dex : \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\com\ionic\keyboard\IonicKeyboard$1.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\com\ionic\keyboard\IonicKeyboard$2.class \
+C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\com\ionic\keyboard\IonicKeyboard.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\BuildConfig.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\HRworks.class \
 C:\Users\Hum\Documents\GitHub\ionic-framework-hrworks-receipts\HRworksReceipts\platforms\android\ant-build\classes\de\hrworks\ionicframework\mobileReceipts\R$attr.class \

@@ -27,6 +27,10 @@
                         {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Keyboard\"><param name=\"android-package\" value=\"com.ionic.keyboard.IonicKeyboard\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -60,6 +64,9 @@
             "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         },
         "org.apache.cordova.device": {
+            "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
+        },
+        "com.ionic.keyboard": {
             "PACKAGE_NAME": "de.hrworks.ionicframework.mobileReceipts"
         }
     },

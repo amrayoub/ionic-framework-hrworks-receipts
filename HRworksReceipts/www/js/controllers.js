@@ -8,13 +8,8 @@ angular.module('starter.controllers', ['ionic'])
 		$localstorage.setObject('copyGUID', new Array());
 
 		// HACK: removes the tabs in the view. Update if there is a better way
-		var tabs = document.querySelectorAll('div.tabs')[0];
-		tabs = angular.element(tabs);
-		angular.element(document).find('ion-content').addClass('remove-tabs');
-		tabs.css('display', 'none');
-		$scope.$on('$destroy', function () {
-			tabs.css('display', '');
-		});
+		angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
+		
 		// Put the data form the localStorage into the scope
 		$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 		$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
@@ -27,7 +22,7 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.form.amount = "0.00";
 			scope.dateFormat = 'MM/dd/yyyy';
 		}
-		$scope.form.date = $scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+		$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
 		$scope.form.persons = "";
 		$scope.form.persons = $localstorage.getObjects('user').person + ', ';
@@ -85,20 +80,24 @@ angular.module('starter.controllers', ['ionic'])
 		} else {
 			$scope.receiptTitle = translations.NEWRECEIPT;
 		}
-		
+		$scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.openDatePicker = function(inputName) {
 			$scope.tmp = {};
-			$scope.tmp.datePickerDate = $scope.form.date;
-			console.log(inputName);
+			$scope.tmp.datePickerDate = new Date();
+			$scope.tmp.datePickerDate.setFullYear($scope.form.date.slice(0,4));
+			$scope.tmp.datePickerDate.setMonth($scope.form.date.slice(5,7)-1);
+			$scope.tmp.datePickerDate.setDate($scope.form.date.slice(8,10));
 			if(inputName == "endDate") {
-				$scope.tmp.datePickerDate = $scope.form.endDate;
+				$scope.tmp.datePickerDate.setFullYear($scope.form.endDate.slice(0,4));
+				$scope.tmp.datePickerDate.setMonth($scope.form.endDate.slice(5,7)-1);
+				$scope.tmp.datePickerDate.setDate($scope.form.endDate.slice(8,10));
 			}
 			$ionicPopup.show({
 				template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
 				title : translations.CHOOSE_DATE,
 				scope: $scope,
 				buttons: [{ 
-						text: translations.CANCEL 
+						text: translations.CANCEL, 
 					},{
 						text: translations.SAVE,
 						type: 'button-positive',
@@ -209,15 +208,6 @@ angular.module('starter.controllers', ['ionic'])
 				}
 			});
 		}
-
-		// Check if the amout input is valid
-		$scope.amountValid = function () {
-			var regex = /^(\d+(?:[\.\,]\d{0,2})?)$/;
-			if (!regex.test($scope.form.amount) && typeof $scope.form.amount !== 'undefined') {
-				return false;
-			}
-			return true;
-		};
 		// Check if the person input is valid
 		$scope.personsValid = function () {
 			if ($scope.form.receiptKind.isBusinessEntertainment) {
@@ -238,7 +228,7 @@ angular.module('starter.controllers', ['ionic'])
 					return true;
 				}
 			}
-		};
+		}
 
 		// Save receipt
 		$scope.submitted = false;
