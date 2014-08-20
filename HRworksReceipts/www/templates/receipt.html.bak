@@ -40,7 +40,7 @@
 					<i class="validError" ng-show="receiptForm.endDate.$invalid && submitted" translate="ERRORMESSAGE_DATE"></i>
 					<i class="validError" ng-show="form.endDate < form.date && submitted" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
 				</label>
-				<label  ng-if="form.receiptKind.isHotel && showAlternativeDatepicker" class="item item-input item-stacked-label"  ng-click="openDatePicker(endDate)">
+				<label  ng-if="form.receiptKind.isHotel && showAlternativeDatepicker" class="item item-input item-stacked-label"  ng-click="openDatePicker('endDate')">
 					<span class="input-label" translate="ENDDATE"></span>
 					<p>{{ form.endDate | date: dateFormat }}</p>
 					<input id="date" required="required" type="hidden" name="endDate" ng-model="form.endDate" />

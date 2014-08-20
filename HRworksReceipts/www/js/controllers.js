@@ -70,9 +70,15 @@ angular.module('starter.controllers', ['ionic'])
 			}
 			$scope.form.amount = amount;
 		};
+		
+		// Return true if there is a GUID of a receipt
+		$scope.isEdit = function () {
+			return $stateParams.guid != "new";
+		}
 
 		// Set the title of the view
-		if ($scope.isEdit) {
+
+		if ($scope.isEdit()) {
 			$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
 			$scope.form.amount = $filter('number')($scope.form.amount, 2);
 			$scope.receiptTitle = translations.EDIT_RECEIPT;
@@ -121,43 +127,6 @@ angular.module('starter.controllers', ['ionic'])
 			return guid;
 		}
 
-		// Return true if there is a GUID of a receipt
-		$scope.isEdit = function () {
-			return $stateParams.guid != "new";
-		}
-
-		// Copying a receipt
-		$scope.saveCopyReceipt = function () {
-			theReceiptCopy = {
-				text : $scope.form.text,
-				amount : parseFloat($scope.form.amount),
-				date : $scope.form.date,
-				receiptKind : $scope.form.receiptKind,
-				kindOfPayment : $scope.form.kindOfPayment,
-				currency : $scope.form.currency,
-				timeStamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
-				guid : $scope.generateGUID()
-			};
-			if ($scope.form.receiptKind.isHotel == true) {
-				theReceiptCopy.endDate = $scope.form.endDate;
-			}
-			if ($scope.form.receiptKind.isBusinessEntertainment == true) {
-				theReceiptCopy.reason = $scope.form.reason;
-				theReceiptCopy.persons = $scope.form.persons;
-				theReceiptCopy.place = $scope.form.place;
-			}
-			theReceiptCopy.guid = $stateParams.guid;
-			$localstorage.updateObject('receipts', theReceiptCopy);
-			theReceiptCopy.guid = $scope.generateGUID();
-			theReceiptCopy.text = $scope.translationsArray["COPYOF"] + ' ' + $scope.form.text;
-			theReceiptCopy.timeStamp = $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ');
-			$localstorage.insertObject('receipts', theReceiptCopy);
-			$localstorage.setObject('copyGUID', {
-				guid : theReceiptCopy.guid
-			});
-			$scope.$viewHistory.backView.go();
-		}
-
 		// Write into the localeStorage that the user doesn't want to see the info altert again
 		$scope.hideData = {};
 		$scope.setHideAlert = function () {
@@ -179,37 +148,17 @@ angular.module('starter.controllers', ['ionic'])
 				scope : $scope,
 				buttonClicked : function (index) {
 					if (index == 0) {
-						if (!$scope.form.text || !$scope.form.date
-							 || !$scope.form.receiptKind || !$scope.form.kindOfPayment || !$scope.form.currency
-							 || !$scope.amountValid() || typeof $scope.form.amount === 'undefined') {
+						if(angular.element(document.querySelectorAll('form')).hasClass('ng-invalid')) {
 							$ionicPopup.alert({
 								title : "<b>" + translations.COPYRECEIPT + "</b>",
 								content : translations.COPYRECEIPT_ERROR
 							});
-							return true;
+							return;
 						}
-						if ($scope.form.receiptKind.isHotel) {
-						// TODO: translate
-							if (!$scope.form.endDate || $scope.form.date > $scope.form.endDate) {
-								$ionicPopup.alert({
-									title : "<b>" + translations.COPYRECEIPT + "</b>",
-									content : "Fehler Hotel"
-								});
-								return true;
-							}
-						}
-						if ($scope.form.receiptKind.isBusinessEntertainment) {
-							if (!$scope.personsValid() || !$scope.form.reason || !$scope.form.place) {
-								$ionicPopup.alert({
-									title : "<b>" + translations.COPYRECEIPT + "</b>",
-									content : "Fehler BusinessEntertainment"
-								});
-								return true;
-							}
-						}
-						if ($localstorage.getObjects('hideAlert').hideAlert == true) {
-							$scope.saveCopyReceipt();
-							return true;
+						
+						if ($localstorage.getObjects('hideAlert').hideAlert) {
+							$scope.saveReceipt(true, true);
+							return;
 						} else {
 							var confirmPopup = $ionicPopup.show({
 								title : "<b>" + translations.COPYRECEIPT + "</b>",
@@ -219,30 +168,21 @@ angular.module('starter.controllers', ['ionic'])
 									text : "<b>" + translations.OK + "</b>",
 									type : "button-positive",
 									onTap : function (e) {
-										if (typeof $scope.hideData.hideAlert === "undefined") {
-											return 2;
-										} else {
-											return 3;
+										console.log("!");
+										if (typeof $scope.hideData.hideAlert !== "undefined") {
+											$scope.setHideAlert();
 										}
+										$scope.saveReceipt(true, true);	
 									}
 								}, {
 									text : translations.CANCEL,
 									onTap : function (e) {
-										return 1;
+										return;
 									}
 								}
 							]
 						});
-						confirmPopup.then(function (res) {
-							if (res == 1) {
-								return true;
-							}
-							if (res == 3) {
-								$scope.setHideAlert();
-							}
-							$scope.saveCopyReceipt();
-						})
-						return true;
+						return;
 					}
 				}
 			},
@@ -302,7 +242,7 @@ angular.module('starter.controllers', ['ionic'])
 
 		// Save receipt
 		$scope.submitted = false;
-		$scope.saveReceipt = function(isValid) {
+		$scope.saveReceipt = function(isValid, isCopy) {
 			$scope.submitted = true;
 			if (isValid) {
 				$scope.form.amount = $scope.form.amount.toString().replace(",", ".");
@@ -323,12 +263,21 @@ angular.module('starter.controllers', ['ionic'])
 					theReceipt.persons = $scope.form.persons;
 					theReceipt.place = $scope.form.place;
 				}
-				if ($scope.isEdit) {
+				if(isCopy) {
 					theReceipt.guid = $scope.generateGUID();
+					theReceipt.text = translations.COPYOF + ' ' + $scope.form.text;
 					$localstorage.insertObject('receipts', theReceipt);
+					$localstorage.setObject('copyGUID', {
+						guid : theReceipt.guid
+					});
 				} else {
-					theReceipt.guid = $stateParams.guid;
-					$localstorage.updateObject('receipts', theReceipt);
+					if ($scope.isEdit()) {
+						theReceipt.guid = $stateParams.guid;
+						$localstorage.updateObject('receipts', theReceipt);
+					} else {
+						theReceipt.guid = $scope.generateGUID();
+						$localstorage.insertObject('receipts', theReceipt);
+					}
 				}
 				$localstorage.setObject('lastCurrency', $scope.form.currency);
 				if ($scope.$viewHistory.backView != null) {
@@ -572,7 +521,6 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.saveSettings = function (form) {
 			// Sync before changing the Settings
 			$ionicLoading.show({
-				// TODO: TEMPLATE, auch suchen, ob nochmla wo anders vorkommt
 				templateUrl : 'templates/synchronize.html',
 			});
 			if ($cordovaNetwork.isOffline()) {
