@@ -11,12 +11,12 @@
 					<input name="text" type="text" required="required" ng-model="form.text" />
 					<i class="validError" ng-show="receiptForm.text.$invalid && submitted" translate="ERRORMESSAGE_DESCRIPTION"></i>
 				</label>
-				<label class="item item-input item-stacked-label" ng-hide="showAlternativeAmountpicker">
+				<label class="item item-input item-stacked-label" ng-if="!showAlternativeAmountpicker">
 					<span class="input-label" translate="AMOUNT"></span>
 					<input type="number"  name="amount" id='amount' required="required" ng-model="form.amount" />
 					<i class="validError" ng-show="receiptForm.amount.$invalid && submitted" translate="ERRORMESSAGE_AMOUNT"></i>
 				</label>
-				<label class="item item-input item-stacked-label" ng-if="showAlternativeAmountpicker" ng-click="openAmountPicker()">
+				<label class="item item-input item-stacked-label" ng-show="showAlternativeAmountpicker" ng-click="openAmountPicker()">
 					<span class="input-label" translate="CURRENCY"></span>
 					<span class="input-span">{{ form.amount }}</span>
 					<i class="validError" ng-show="receiptForm.amount.$invalid && submitted" translate="ERRORMESSAGE_AMOUNT"></i>

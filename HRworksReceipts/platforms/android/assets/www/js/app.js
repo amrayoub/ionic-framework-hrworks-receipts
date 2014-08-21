@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate, $cordovaSplashscreen, $ionicPlatform, GetCurrentUrl) {
+.run(function ($localstorage, $translate, $cordovaSplashscreen, $ionicPlatform) {
 	// Initialize the localStorage if the app was open for the first time
 	if ($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
@@ -37,20 +37,26 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform, $cordovaDevice) {
+.run(function ($ionicPlatform, $cordovaDevice, $cordovaNetwork, $ionicLoading, getData) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 			window.scrollTo(0, 0);
 		}, true);
-
-		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-		// for form inputs)
-		/*
+		
+		if($cordovaNetwork.isOnline() && typeof $localstorage.getObjects('user').personId === 'string') {
+			$ionicLoading.show({
+				templateUrl : 'templates/synchronize.html',
+			});
+			var promise = getData.all();
+			promise.then(function () {
+				$ionicLoading.hide();
+			});
+		}
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-		} */
+		} 
 		// Initialize the statusbar for iOS
 		if (window.StatusBar) {
 			StatusBar.styleLightContent();

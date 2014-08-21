@@ -103,7 +103,6 @@ angular.module('starter.services', [])
 })
 // API: Call "all" to get a complete synchronization
 .factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
-	console.log($http.defaults.headers.post);
 	var translationsArray = [];
 	$translate(['NOANSWERFROMTHESERVER_TITLE', 'NOANSWERFROMTHESERVER_TEMPLATE']).then(function (translations) {
 		translationsArray["NOANSWERFROMTHESERVER_TITLE"] = translations.NOANSWERFROMTHESERVER_TITLE;

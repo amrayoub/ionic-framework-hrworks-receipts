@@ -42,35 +42,6 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		}
 		$scope.form.receiptKind = "";
-		$scope.amountTransformer = function (amount) {
-			amount = amount.toString();
-			dotOrComma = ".";
-			if($translate.use() == "de") {
-				var dotOrComma = ",";
-			}
-			var period = amount.indexOf(dotOrComma);
-			if (period > -1) {
-				amount = amount.substring(0, period) + amount.substring(period + 1);
-			}
-			var amountLength = amount.length;
-			while (amountLength < 3) {
-				amount = "0" + amount;
-				amountLength = amount.length;
-			}
-			amount = amount.substring(0, amountLength - 2) + dotOrComma + amount.substring(amountLength - 2, amountLength);
-			while (amount.length > 4 && (amount[0] == 0 || isNaN(amount[0]))) {
-				amount = amount.substring(1);
-			}
-			if (amount[0] == dotOrComma) {
-				amount = "0" + amount;
-			}
-			if(amount.charAt(amount.length-1) == "," || amount.charAt(amount.length-1) == ".") {
-				amount = amount.replace(".", "");
-				amount = amount.replace(",", "");
-			}
-			$scope.form.amount = amount;
-		};
-		
 		// Return true if there is a GUID of a receipt
 		$scope.isEdit = function () {
 			return $stateParams.guid != "new";
@@ -80,10 +51,11 @@ angular.module('starter.controllers', ['ionic'])
 
 		if ($scope.isEdit()) {
 			$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
-			if(!$scope.showAlternativeAmountpicker) {
-				$scope.form.amount = parseFloat($scope.form.amount);
-			} else {
-				$scope.form.amount = $filter('number')($scope.form.amount, 2);
+			if($scope.showAlternativeAmountpicker) {
+				$scope.form.amount = $scope.form.amount.toString();
+				if($scope.form.amount.indexOf(".") == -1) {
+					$scope.form.amount = $scope.form.amount + ".00";
+				}
 				if($translate.use() == "de") {
 					$scope.form.amount = $scope.form.amount.replace(".", ",");
 				}
@@ -309,11 +281,12 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.saveReceipt = function(isValid, isCopy) {
 			$scope.submitted = true;
 			if (isValid) {
-			console.log($scope.form.amount);
-				$scope.form.amount = $scope.form.amount.toString().replace(",", ".");
-				console.log($scope.form.amount);
-				$scope.form.amount = parseFloat($scope.form.amount);
-				console.log($scope.form.amount);
+				if($scope.showAlternativeAmountpicker) {
+					if($translate.use() == "de") {
+						$scope.form.amount = $scope.form.amount.replace(",", ".");
+					}
+					$scope.form.amount = parseFloat($scope.form.amount);
+				}
 				theReceipt = {
 					text : $scope.form.text,
 					amount : parseFloat($scope.form.amount),
@@ -479,16 +452,18 @@ angular.module('starter.controllers', ['ionic'])
 .controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
 
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
-		
+
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
+			animation : 'slide-in-up',
 			hardwareBackButtonClose : false
 		}).then(function (modal) {
 			$scope.LoginModal = modal;
 			if (typeof $localstorage.getObjects('user').personId === 'undefined') {
-				$scope.LoginModal.show();
+			$scope.LoginModal.show();
 			}
 		});
+		
 		if($localstorage.getObjects('language').language == 'de') {
 			$scope.dateFormat = 'dd.MM.yyyy';
 		} else {
