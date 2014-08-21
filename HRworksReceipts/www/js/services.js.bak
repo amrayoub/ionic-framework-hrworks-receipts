@@ -274,10 +274,15 @@ angular.module('starter.services', [])
 						title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
 						template : translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
 					});
-				return deferred.promise;
+					return deferred.promise;
 				})
 			}).error(function (data, status, headers, config) {
-				return false;
+				deferred.resolve(data);
+				$ionicPopup.alert({
+					title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
+					template : translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
+				});
+				return deferred.promise;
 			});
 			return deferred.promise;
 		}

@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col" style="text-align:right;">
+		<button  class="button button-clear button-positive">{{ form.amount }} {{ form.currency.symbol }}</button>
+		<button ng-click="addToAmount('del')"  class="button button-clear button-positive"><i class="ion-close-circled"></i></button>
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		<button ng-click="addToAmount('1')" class="button button-clear button-positive">1</button>
+	</div>
+	<div class="col">
+		<button ng-click="addToAmount('2')" class="button button-clear button-positive">2</button>
+	</div>
+	<div class="col">
+		<button ng-click="addToAmount('3')"  class="button button-clear button-positive">3</button>
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		<button ng-click="addToAmount('4')"  class="button button-clear button-positive">4</button>
+	</div>
+	<div class="col">
+		<button ng-click="addToAmount('5')"  class="button button-clear button-positive">5</button>
+	</div>
+	<div class="col">
+		<button ng-click="addToAmount('6')"  class="button button-clear button-positive">6</button>
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		<button ng-click="addToAmount('7')"  class="button button-clear button-positive">7</button>
+	</div>
+	<div class="col">
+		<button ng-click="addToAmount('8')"  class="button button-clear button-positive">8</button>
+	</div>
+	<div class="col">
+		<button ng-click="addToAmount('9')"  class="button button-clear button-positive">9</button>
+	</div>
+</div>
+<div class="row">
+	<div class="col">
+		<button ng-hide="isAfterDecimalPoint" ng-click="addToAmount(',')"  class="button button-clear button-positive">,</button>
+	</div>
+	<div class="col">
+		<button ng-click="addToAmount('0')"  class="button button-clear button-positive">0</button>
+	</div>
+	<div class="col"><button ng-show="isAfterDecimalPoint" ng-click="goBeforeDecimalPoint()"  class="button button-clear button-positive"><i class="ion-chevron-left"></i></button></div>
+</div>

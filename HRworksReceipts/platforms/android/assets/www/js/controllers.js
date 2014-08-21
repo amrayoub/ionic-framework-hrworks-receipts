@@ -15,14 +15,19 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 		$scope.currencies = $localstorage.getObjects('currencies');
 		$scope.form = {};
-		if($translate.use() == "de") {
+		$scope.showAlternativeAmountpicker = $localstorage.getObjects('user').alternativeAmountpicker;
+		if($translate.use() == "de" && $scope.showAlternativeAmountpicker) {
 			$scope.form.amount = "0,00";
 			$scope.dateFormat = 'dd.MM.yyyy';
-		} else {
+		}
+		if($translate.use() == "en" && $scope.showAlternativeAmountpicker) {
 			$scope.form.amount = "0.00";
 			scope.dateFormat = 'MM/dd/yyyy';
 		}
-		$scope.form.date = $scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+		if(!$scope.showAlternativeAmountpicker) {
+			$scope.form.amount = 0.00;
+		}
+		$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
 		$scope.form.persons = "";
 		$scope.form.persons = $localstorage.getObjects('user').person + ', ';
@@ -75,12 +80,19 @@ angular.module('starter.controllers', ['ionic'])
 
 		if ($scope.isEdit()) {
 			$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
-			$scope.form.amount = $filter('number')($scope.form.amount, 2);
+			if(!$scope.showAlternativeAmountpicker) {
+				$scope.form.amount = parseFloat($scope.form.amount);
+			} else {
+				$scope.form.amount = $filter('number')($scope.form.amount, 2);
+				if($translate.use() == "de") {
+					$scope.form.amount = $scope.form.amount.replace(".", ",");
+				}
+			}
 			$scope.receiptTitle = translations.EDIT_RECEIPT;
 		} else {
 			$scope.receiptTitle = translations.NEWRECEIPT;
 		}
-		
+		$scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.openDatePicker = function(inputName) {
 			$scope.tmp = {};
 			$scope.tmp.datePickerDate = new Date();
@@ -113,6 +125,69 @@ angular.module('starter.controllers', ['ionic'])
 						}
 					}
 				]
+			});
+		}
+		$scope.isAfterDecimalPoint = false;
+		$scope.isFirstAfterDecimalPointPosition = true;
+		$scope.positionIcon = "ion-chevron-right";
+		$scope.goBeforeDecimalPoint = function () {
+			$scope.isAfterDecimalPoint = false;
+		}
+
+		$scope.addToAmount = function(addingNumber) {
+			var theAmount = $scope.form.amount;
+			dotOrComma = ".";
+			if($translate.use() == "de") {
+				var dotOrComma = ",";
+			}
+			var period = theAmount.indexOf(dotOrComma);
+			if (period > -1) {
+				var beforeDecimalPoint = theAmount.substring(0, period);
+				var afterDecimalPoint = theAmount.substring(period + 1);
+			}
+			if(addingNumber == "," || addingNumber == ".") {
+				$scope.isAfterDecimalPoint = true;
+				return;
+			}
+			if(!$scope.isAfterDecimalPoint) {
+				if(addingNumber == "del") {
+				beforeDecimalPoint = beforeDecimalPoint.substring(0,beforeDecimalPoint.length-1);
+					if(beforeDecimalPoint == "") {
+						beforeDecimalPoint = "0";
+					}
+				$scope.form.amount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
+				return;
+				}
+				if(beforeDecimalPoint == "0") {
+					beforeDecimalPoint = "";
+				}
+				beforeDecimalPoint = beforeDecimalPoint + addingNumber;
+			} else {
+				if(addingNumber == "del") {
+					addingNumber = "0";
+				}
+				if($scope.isFirstAfterDecimalPointPosition) {
+					afterDecimalPoint = addingNumber + afterDecimalPoint.substring(1,2);
+					$scope.isFirstAfterDecimalPointPosition = false;
+				} else {
+					afterDecimalPoint = afterDecimalPoint.substring(0,1) + addingNumber;
+					$scope.isFirstAfterDecimalPointPosition = true;
+				}
+			}
+			$scope.form.amount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
+		}
+		
+		$scope.openAmountPicker = function() {
+			$ionicPopup.confirm({
+				title: 'Betrag wählen',
+				scope: $scope,
+				templateUrl: 'templates/amountPicker.html',
+				buttons : [{
+					text : translations.CANCEL,
+				},{
+					text : "<b>" + translations.OK + "</b>",
+					type : "button-positive",	
+				}]
 			});
 		}
 
@@ -163,7 +238,12 @@ angular.module('starter.controllers', ['ionic'])
 								title : "<b>" + translations.COPYRECEIPT + "</b>",
 								template : translations.COPYRECEIPT_INFO,
 								scope : $scope,
-								buttons : [{
+								buttons : [ {
+									text : translations.CANCEL,
+									onTap : function (e) {
+										return;
+									}
+								},{
 									text : "<b>" + translations.OK + "</b>",
 									type : "button-positive",
 									onTap : function (e) {
@@ -173,13 +253,7 @@ angular.module('starter.controllers', ['ionic'])
 										}
 										$scope.saveReceipt(true, true);	
 									}
-								}, {
-									text : translations.CANCEL,
-									onTap : function (e) {
-										return;
-									}
-								}
-							]
+								}]
 						});
 						return;
 					}
@@ -235,7 +309,11 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.saveReceipt = function(isValid, isCopy) {
 			$scope.submitted = true;
 			if (isValid) {
+			console.log($scope.form.amount);
 				$scope.form.amount = $scope.form.amount.toString().replace(",", ".");
+				console.log($scope.form.amount);
+				$scope.form.amount = parseFloat($scope.form.amount);
+				console.log($scope.form.amount);
 				theReceipt = {
 					text : $scope.form.text,
 					amount : parseFloat($scope.form.amount),
@@ -418,6 +496,9 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		$scope.user = {};
 		$scope.user.alternativeDatepicker = false;
+		$scope.user.alternativeAmountpicker = false;
+		// TODO: Produktiv ändern in "0"
+		$scope.user.targetServer = "area51-0";
 		$scope.login = function (user) {
 			var promise = getData.userLogin(user);
 			if (promise == false) {

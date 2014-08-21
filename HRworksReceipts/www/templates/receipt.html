@@ -11,9 +11,14 @@
 					<input name="text" type="text" required="required" ng-model="form.text" />
 					<i class="validError" ng-show="receiptForm.text.$invalid && submitted" translate="ERRORMESSAGE_DESCRIPTION"></i>
 				</label>
-				<label class="item item-input item-stacked-label">
+				<label class="item item-input item-stacked-label" ng-if="!showAlternativeAmountpicker">
 					<span class="input-label" translate="AMOUNT"></span>
-					<input type="tel" pattern="[0-9]*" name="amount" id='amount' required="required" ng-model="form.amount" ng-keyup="amountTransformer(form.amount)" />
+					<input type="number"  name="amount" id='amount' required="required" ng-model="form.amount" />
+					<i class="validError" ng-show="receiptForm.amount.$invalid && submitted" translate="ERRORMESSAGE_AMOUNT"></i>
+				</label>
+				<label class="item item-input item-stacked-label" ng-show="showAlternativeAmountpicker" ng-click="openAmountPicker()">
+					<span class="input-label" translate="CURRENCY"></span>
+					<span class="input-span">{{ form.amount }}</span>
 					<i class="validError" ng-show="receiptForm.amount.$invalid && submitted" translate="ERRORMESSAGE_AMOUNT"></i>
 				</label>
 				<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
@@ -74,8 +79,11 @@
 					<i class="validError" ng-show="receiptForm.kindOfPayment.$invalid && submitted" translate="ERRORMESSAGE_KINDOFPYMENT"></i>
 					<i class="icon ion-chevron-right icon-gray"></i>
 				</label>
+				<!-- To prevent conflicts with focusing input fields, hidden input fields should not stand in their actually correct label.
+				So Ionic doesn't think that a keyboard is open when a label is clicked. -->
 				<input id="endDate" required="required" type="hidden" name="endDate" ng-model="form.endDate" />
 				<input id="date" required="required" type="hidden" name="date" ng-model="form.date" />
+				<input id="amount" required="required" type="hidden" name="amount"  ng-model="form.amount" />
 			</div>
 		</form>
 	</ion-content>

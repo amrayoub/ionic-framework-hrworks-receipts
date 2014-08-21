@@ -244,6 +244,7 @@ angular.module('starter.services', [])
 			})
 		},
 		userLogin : function (user) {
+			console.log(user);
 			var deferred = $q.defer();
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
 			var request = "HrwRegisterDeviceApi class";

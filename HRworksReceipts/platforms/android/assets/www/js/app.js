@@ -132,6 +132,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translateProvider.translations('en', {
 		ADVANCEMENT : 'Advancement',
 		ALLCURRENCIES : 'All Currencies',
+		ALTERNATIVE_AMOUNTPICKER : 'alternative Amountpicker',
 		ALTERNATIVE_DATEPICKER : 'alternative Datepicker',
 		AMOUNT : 'Amount',
 		BUG : 'Bug',
@@ -218,6 +219,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
 		ALLCURRENCIES : 'Alle W&auml;hrungen',
+		ALTERNATIVE_AMOUNTPICKER : 'alternative Betragseingabe',
 		ALTERNATIVE_DATEPICKER : 'alternative Datumsauswahl',
 		AMOUNT : 'Betrag',
 		BUG : 'Fehler',

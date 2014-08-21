@@ -34,10 +34,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			version : 1
 		});
 	}
-	// set the language to the language value of the localStorage
 	$translate.use($localstorage.getObjects('language').language);
-	// Hide the Splashscreen after 3 sec
-	// Doesn't work at the moment for android
 })
 
 .run(function ($ionicPlatform, $cordovaDevice) {
@@ -217,7 +214,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		WRONGCREDENTIALS_TITLE : 'Authentication error:',
 		YES : 'Yes'
 	});
-	// TODO: Sotieren
+
 	$translateProvider.translations('de', {
 		ADVANCEMENT : 'Verbesserung',
 		ALLCURRENCIES : 'Alle W&auml;hrungen',
