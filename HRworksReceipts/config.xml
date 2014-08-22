@@ -21,6 +21,8 @@
 	<feature name="Keyboard">
 		<param name="ios-package" value="IonicKeyboard" onload="true" />
 	</feature>
+	<preference name="SplashScreen" value="splash" />
+	<preference name="SplashScreenDelay" value="4000" />
 	<feature name="NetworkStatus">
 		<param name="ios-package" value="CDVConnection" />
 	</feature>

@@ -80,11 +80,6 @@ angular.module('starter.services', [])
 
 // API: Get the current url form the server
 .factory('GetCurrentUrl', function ($localstorage, $http, $translate, $cordovaNetwork, $ionicPopup) {
-	var translationsArray = [];
-	$translate(['NOINTERNETACCESS_TITLE', 'NOINTERNETACCESS_TEMPLATE']).then(function (translations) {
-		translationsArray["NOINTERNETACCESS_TITLE"] = translations.NOINTERNETACCESS_TITLE;
-		translationsArray["NOINTERNETACCESS_TEMPLATE"] = translations.NOINTERNETACCESS_TEMPLATE;
-	})
 	return {
 		get : function (targetServer, companyId) {
 			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
@@ -101,6 +96,7 @@ angular.module('starter.services', [])
 		}
 	}
 })
+
 // API: Call "all" to get a complete synchronization
 .factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
 	var translationsArray = [];
@@ -153,7 +149,9 @@ angular.module('starter.services', [])
 			url : api,
 			method : "POST",
 			data : angular.toJson(jsonObject),
-			headers: { 'Accept-Charset': undefined }
+			headers : {
+				'Accept-Charset' : undefined
+			}
 		});
 	};
 	changeReceiptObject = function (receipts) {
@@ -179,7 +177,7 @@ angular.module('starter.services', [])
 	}
 	return {
 		all : function () {
-			noConnectionToTheServer = function(data) {
+			noConnectionToTheServer = function (data) {
 				deferred.resolve(data);
 				$ionicPopup.alert({
 					title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
@@ -193,29 +191,29 @@ angular.module('starter.services', [])
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
 					$localstorage.setObject('kindsOfPayment', data.result);
+				}).error(function (data, status, headers, config) {
+					noConnectionToTheServer(data);
+				}).then(function () {
+					get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
+						$localstorage.setObject('receiptKinds', data.result);
 					}).error(function (data, status, headers, config) {
 						noConnectionToTheServer(data);
 					}).then(function () {
-						get('ReceiptKinds', data.url).success(function (data, status, headers, config) {
-							$localstorage.setObject('receiptKinds', data.result);
+						get('Currencies', data.url).success(function (data, status, headers, config) {
+							$localstorage.setObject('currencies', data.result);
 						}).error(function (data, status, headers, config) {
 							noConnectionToTheServer(data);
 						}).then(function () {
-							get('Currencies', data.url).success(function (data, status, headers, config) {
-								$localstorage.setObject('currencies', data.result);
-						}).error(function (data, status, headers, config) {
-							noConnectionToTheServer(data);
-							}).then(function () {
-								get('Receipts', data.url).success(function (data, status, headers, config) {
-									updatedReceipts = changeReceiptObject(data.result);
-									$localstorage.setObject('receipts', updatedReceipts);
-									deferred.resolve(data);
-								}).error(function (data, status, headers, config) {
-									noConnectionToTheServer(data);
-								})
+							get('Receipts', data.url).success(function (data, status, headers, config) {
+								updatedReceipts = changeReceiptObject(data.result);
+								$localstorage.setObject('receipts', updatedReceipts);
+								deferred.resolve(data);
+							}).error(function (data, status, headers, config) {
+								noConnectionToTheServer(data);
 							})
 						})
 					})
+				})
 			}).error(function (data, status, headers, config) {
 				return;
 			});
@@ -243,7 +241,6 @@ angular.module('starter.services', [])
 			})
 		},
 		userLogin : function (user) {
-			console.log(user);
 			var deferred = $q.defer();
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
 			var request = "HrwRegisterDeviceApi class";
@@ -270,18 +267,14 @@ angular.module('starter.services', [])
 					deferred.resolve(data);
 				}).error(function () {
 					deferred.resolve(data);
-					$ionicPopup.alert({
-						title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
-						template : translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
-					});
 					return deferred.promise;
 				})
 			}).error(function (data, status, headers, config) {
-				deferred.resolve(data);
 				$ionicPopup.alert({
 					title : translationsArray["NOANSWERFROMTHESERVER_TITLE"],
 					template : translationsArray["NOANSWERFROMTHESERVER_TEMPLATE"]
 				});
+				deferred.resolve(data);
 				return deferred.promise;
 			});
 			return deferred.promise;

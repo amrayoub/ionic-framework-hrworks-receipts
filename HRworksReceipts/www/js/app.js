@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'validation', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate'])
 
 .run(function ($localstorage, $translate, $cordovaSplashscreen, $ionicPlatform) {
 	// Initialize the localStorage if the app was open for the first time
@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform, $cordovaDevice, $cordovaNetwork, $ionicLoading, getData) {
+.run(function ($ionicPlatform, $localstorage, $cordovaDevice, $cordovaNetwork, $ionicLoading, getData) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus', function (e) {
 			e.preventDefault();

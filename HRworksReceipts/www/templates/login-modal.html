@@ -8,19 +8,19 @@
 		start-y="55" 
 		padding="false"
 		has-header="true">
-		<form novalidate="novalidate" on-valid-submit="login(user)" id="loginForm">
+		<form novalidate="novalidate" ng-submit="login(loginForm.$valid)" name="loginForm" id="loginForm">
 			<div class="list">
 				<label class="item item-input item-stacked-label">
-					<span class="input-label" translate="COMPANYID"></span>
-					<input type="text" ng-model="user.companyId" />
+					<span class="input-label {{ (loginForm.companyId.$invalid && submitted) && 'validErrorText' || ''}}" translate="COMPANYID"></span>
+					<input type="text" name="companyId" id="companyId" ng-model="user.companyId" required="required" />
 				</label>
 				<label class="item item-input item-stacked-label">
-					<span class="input-label" translate="PERSONID"></span>
-					<input type="text" ng-model="user.personId">
+					<span class="input-label {{ (loginForm.personId.$invalid && submitted) && 'validErrorText' || ''}}" translate="PERSONID"></span>
+					<input type="text" name="personId" id="personId" ng-model="user.personId" required="required">
 				</label>
 				<label class="item item-input item-stacked-label">
-					<span class="input-label" translate="MOBILEPASSWORD"></span>
-					<input type="text" ng-model="user.mobilePassword">
+					<span class="input-label {{ (loginForm.mobilePassword.$invalid && submitted) && 'validErrorText' || ''}}" translate="MOBILEPASSWORD"></span>
+					<input type="text" name="mobilePassword" id="mobilePassword" ng-model="user.mobilePassword" required="required">
 				</label>
 			</div>
 		</form>

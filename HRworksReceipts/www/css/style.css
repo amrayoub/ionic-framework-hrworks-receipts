@@ -43,6 +43,9 @@ form i.error {
 	color: #cc2511;
 	margin-left: 8px;
 }
+.validErrorText {
+	color: #cc2511;
+}
 form.ng-submitted input.ng-invalid + i.error {
 	display: block;
 }
@@ -194,4 +197,8 @@ form.ng-submitted input.ng-valid + i.error {
 }
 .glyphicon-arrow-left:before{
   content: "\f107";
+}
+.amountPickerResultPosition {
+	text-align:right; 
+	padding-top: 13px;
 }

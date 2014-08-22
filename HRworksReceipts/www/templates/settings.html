@@ -5,23 +5,24 @@
 	<ion-content class="has-header" padding="true">
 		<div class="list">
 			<div class="button-bar">
+			<!-- DOTO: type -->
 				<a class="button de {{(type == true) && 'active' || ''}}" ng-click="changeLang('de', $event)" translate="GERMAN"></a>
 				<a class="button en {{(type == '') && 'active' || ''}}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
 			</div>
 		</div>
-		<form novalidate="novalidate" id="settingsForm" on-valid-submit="saveSettings(form)">
+		<form name="settingsForm" id="settingsForm" ng-submit="saveSettings(settingsForm.$valid)" novalidate="novalidate">
 			<div class="list">
 				<label class="item item-input item-stacked-label">
-					<span class="input-label" translate="COMPANYID"></span>
-					<input type="text" ng-model="form.companyId">
+					<span class="input-label {{ (settingsForm.companyId.$invalid && submitted) && 'validErrorText' || ''}}" translate="COMPANYID"></span>
+					<input type="text" name="companyId" id="companyId" ng-model="form.companyId" required="required" />
 				</label>
 				<label class="item item-input item-stacked-label">
-					<span class="input-label" translate="PERSONID"></span>
-					<input type="text" ng-model="form.personId">
+					<span class="input-label {{ (settingsForm.personId.$invalid && submitted) && 'validErrorText' || ''}}" translate="PERSONID"></span>
+					<input type="text" name="personId" id="personId" ng-model="form.personId" required="required">
 				</label>
 				<label class="item item-input item-stacked-label">
-					<span class="input-label" translate="MOBILEPASSWORD"></span>
-					<input type="text" ng-model="form.mobilePassword">
+					<span class="input-label {{ (settingsForm.mobilePassword.$invalid && submitted) && 'validErrorText' || ''}}" translate="MOBILEPASSWORD"></span>
+					<input type="text" name="mobilePassword" id="mobilePassword" ng-model="form.mobilePassword" required="required">
 				</label>
 				<label class="item item-input item-select">
 					<div class="input-label" translate="TARGETSERVER"></div>

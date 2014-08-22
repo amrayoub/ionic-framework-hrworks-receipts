@@ -30,7 +30,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
 		$scope.form.persons = "";
-		$scope.form.persons = $localstorage.getObjects('user').person + ', ';
+		$scope.form.persons = $localstorage.getObjects('user').person + ',';
 		$scope.showAlternativeDatepicker = $localstorage.getObjects('user').alternativeDatepicker;
 		$scope.form.kindOfPayment = "";
 		var kindsOfPaymentCollection = $localstorage.getObjects('kindsOfPayment');
@@ -48,7 +48,6 @@ angular.module('starter.controllers', ['ionic'])
 		}
 
 		// Set the title of the view
-
 		if ($scope.isEdit()) {
 			$scope.form = $localstorage.getObject('receipts', $stateParams.guid);
 			if($scope.showAlternativeAmountpicker) {
@@ -105,9 +104,9 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.goBeforeDecimalPoint = function () {
 			$scope.isAfterDecimalPoint = false;
 		}
-
+		$scope.temporaryAmount = $scope.form.amount;
 		$scope.addToAmount = function(addingNumber) {
-			var theAmount = $scope.form.amount;
+			var theAmount = $scope.temporaryAmount;
 			dotOrComma = ".";
 			if($translate.use() == "de") {
 				var dotOrComma = ",";
@@ -127,7 +126,7 @@ angular.module('starter.controllers', ['ionic'])
 					if(beforeDecimalPoint == "") {
 						beforeDecimalPoint = "0";
 					}
-				$scope.form.amount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
+				$scope.temporaryAmount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
 				return;
 				}
 				if(beforeDecimalPoint == "0") {
@@ -146,19 +145,26 @@ angular.module('starter.controllers', ['ionic'])
 					$scope.isFirstAfterDecimalPointPosition = true;
 				}
 			}
-			$scope.form.amount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
+			$scope.temporaryAmount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
 		}
 		
 		$scope.openAmountPicker = function() {
+			$scope.isAfterDecimalPoint = false;
 			$ionicPopup.confirm({
 				title: 'Betrag wählen',
 				scope: $scope,
 				templateUrl: 'templates/amountPicker.html',
 				buttons : [{
 					text : translations.CANCEL,
+					onTap: function(e) {
+						$scope.temporaryAmount = $scope.form.amount;
+					}
 				},{
 					text : "<b>" + translations.OK + "</b>",
-					type : "button-positive",	
+					type : "button-positive",
+					onTap: function(e) {
+						$scope.form.amount = $scope.temporaryAmount;
+					}
 				}]
 			});
 		}
@@ -237,16 +243,16 @@ angular.module('starter.controllers', ['ionic'])
 						template : translations.DELETERECEIPT_TEMPLATE,
 						scope : $scope,
 						buttons : [{
+								text : translations.NO,
+								onTap : function (e) {
+									return true;
+								}
+							},{
 								text : "<b>" + translations.YES + "</b>",
 								type : "button-positive",
 								onTap : function (e) {
 									$localstorage.removeObject('receipts', $scope.form.guid);
 									$scope.$viewHistory.backView.go();
-								}
-							}, {
-								text : translations.NO,
-								onTap : function (e) {
-									return true;
 								}
 							}
 						]
@@ -280,7 +286,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.submitted = false;
 		$scope.saveReceipt = function(isValid, isCopy) {
 			$scope.submitted = true;
-			if (isValid) {
+			if (isValid && $scope.form.endDate >= $scope.form.date ) {
 				if($scope.showAlternativeAmountpicker) {
 					if($translate.use() == "de") {
 						$scope.form.amount = $scope.form.amount.replace(",", ".");
@@ -450,9 +456,7 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 .controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
-
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
-
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
 			animation : 'slide-in-up',
@@ -460,7 +464,7 @@ angular.module('starter.controllers', ['ionic'])
 		}).then(function (modal) {
 			$scope.LoginModal = modal;
 			if (typeof $localstorage.getObjects('user').personId === 'undefined') {
-			$scope.LoginModal.show();
+				$scope.LoginModal.show();
 			}
 		});
 		
@@ -474,41 +478,45 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.user.alternativeAmountpicker = false;
 		// TODO: Produktiv ändern in "0"
 		$scope.user.targetServer = "area51-0";
-		$scope.login = function (user) {
-			var promise = getData.userLogin(user);
-			if (promise == false) {
-				return false;
-			}
-			$ionicLoading.show({
-				template : "<i class='icon ion-loading-c'></i><br> {{ 'PLEASEWAIT' | translate }}",
-			});
-			promise.then(function (success) {
-				if (success.errors.length == 0) {
-					$scope.user.person = success.result.person;
-					$localstorage.setObject("user", user);
-					var dataPromise = getData.all();
-					dataPromise.then(function (success) {
-						$scope.receipts = $localstorage.getObjects('receipts');
-						$ionicLoading.hide();
-						$scope.LoginModal.hide();
-					})
-				} else {
-					if (success.errors[0].errorId == "8") {
-						$ionicLoading.hide();
-						$ionicPopup.alert({
-							scope: $scope,
-							title : translations.WRONGCREDENTIALS_TITLE,
-							template : translations.WRONGCREDENTIALS_TEMPLATE
-						});
-					} else {
-						$ionicPopup.alert({
-							title : translations.WRONGCREDENTIALS_TITLE,
-							template : success.errors[0]
-						});
-						$ionicLoading.hide();
-					}
+		$scope.submitted = false;
+		$scope.login = function (isValid) {
+			$scope.submitted = true;
+			if (isValid) {
+				var promise = getData.userLogin($scope.user);
+				if (promise == false) {
+					return false;
 				}
-			});
+				$ionicLoading.show({
+					template : "<i class='icon ion-loading-c'></i><br> {{ 'PLEASEWAIT' | translate }}",
+				});
+				promise.then(function (success) {
+					if (success.errors.length == 0) {
+						$scope.user.person = success.result.person;
+						$localstorage.setObject("user", $scope.user);
+						var dataPromise = getData.all();
+						dataPromise.then(function (success) {
+							$scope.receipts = $localstorage.getObjects('receipts');
+							$ionicLoading.hide();
+							$scope.LoginModal.hide();
+						})
+					} else {
+						if (success.errors[0].errorId == "8") {
+							$ionicLoading.hide();
+							$ionicPopup.alert({
+								scope: $scope,
+								title : translations.WRONGCREDENTIALS_TITLE,
+								template : translations.WRONGCREDENTIALS_TEMPLATE
+							});
+						} else {
+							$ionicPopup.alert({
+								title : translations.WRONGCREDENTIALS_TITLE,
+								template : success.errors[0].errorText
+							});
+							$ionicLoading.hide();
+						}
+					}
+				});
+			}
 		};
 		if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
 			$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
@@ -517,6 +525,13 @@ angular.module('starter.controllers', ['ionic'])
 			$location.path(hash);
 		}
 		$scope.receipts = $localstorage.getObjects('receipts');
+		if($translate.use() == "de") {
+			for(i = 0; i < $scope.receipts.length; i++) {
+				console.log($scope.receipts[i].amount);
+				$scope.receipts[i].amount = $scope.receipts[i].amount.toString().replace('.',',');
+				console.log($scope.receipts[i].amount);
+			}
+		}
 		$scope.doSync = function () {
 			$ionicLoading.show({
 				templateUrl : 'templates/synchronize.html',
@@ -558,61 +573,70 @@ angular.module('starter.controllers', ['ionic'])
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 
 	// Load the translations for the controller
-	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
+	$translate(['SUCCESS_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TEMPLATE', 'ERROR_SETTINGS_TITLE', 'SUCCESS_SETTINGS_TITLE', 'ERROR_SETTINGS_TEMPLATE']).then(function (translations) {
 
 		// Get the user datas from the localStorage
 		$scope.form = $localstorage.getObjects('user');
 
 		// Save the Settings
-		$scope.saveSettings = function (form) {
-			// Sync before changing the Settings
-			$ionicLoading.show({
-				templateUrl : 'templates/synchronize.html',
-			});
-			if ($cordovaNetwork.isOffline()) {
-				$ionicLoading.hide();
-				$ionicPopup.alert({
-					template : "{{ 'NOINTERNETACCESS_TEMPLATE' | translate }}"
+		$scope.submitted = false;
+		$scope.saveSettings = function (isValid) {
+			$scope.submitted = true;
+			if(isValid) {
+				// Sync before changing the Settings
+				$ionicLoading.show({
+					templateUrl : 'templates/synchronize.html',
 				});
-				return;
-			}
-			var savePromise = getData.all();
-			savePromise.then(function (success) {
-			var promise = getData.userLogin(form);
-				promise.then(function (success) {
-					if (success.errors.length == 0) {
-					getData.userLogout($localstorage.getObjects("user"));
-						$scope.form.person = success.result.person;
-						$localstorage.setObject('receipts', new Array());
-						$localstorage.setObject("user", form);
-						var promise = getData.all();
-						promise.then(function () {
-							$ionicLoading.hide();
-							$ionicPopup.alert({
-								title : translations.SUCCESS_SETTINGS_TITLE,
-								template : translations.SUCCESS_SETTINGS_TEMPLATE
-							});
-						})
-					} else {
-						if (success.errors[0].errorId == "8") {
-							$ionicPopup.alert({
-								title : translations.ERROR_SETTINGS_TITLE,
-								template : translations.ERROR_SETTINGS_TEMPLATE
-							});
-						} else {
-							$ionicPopup.alert({
-								title : translations.ERROR_SETTINGS_TITLE,
-								template : success.errors[0]
-							});
-							$ionicLoading.hide();
-						}
-					}
-				}, function (failed) {
+				if ($cordovaNetwork.isOffline()) {
 					$ionicLoading.hide();
+					$ionicPopup.alert({
+						template : "{{ 'NOINTERNETACCESS_TEMPLATE' | translate }}"
+					});
+					return;
+				}
+				var savePromise = getData.all();
+				savePromise.then(function (success) {
+				var promise = getData.userLogin($scope.form);
+					promise.then(function (success) {
+						if (success.errors.length == 0) {
+						getData.userLogout($localstorage.getObjects("user"));
+							$scope.form.person = success.result.person;
+							$localstorage.setObject('receipts', new Array());
+							$localstorage.setObject("user", $scope.form);
+							var promise = getData.all();
+							promise.then(function () {
+								$ionicLoading.hide();
+								$ionicPopup.alert({
+									title : translations.SUCCESS_SETTINGS_TITLE,
+									template : translations.SUCCESS_SETTINGS_TEMPLATE
+								});
+							})
+						} else {
+							if (success.errors[0].errorId == "8") {
+								$ionicPopup.alert({
+									title : translations.ERROR_SETTINGS_TITLE,
+									template : translations.ERROR_SETTINGS_TEMPLATE
+								});
+								$ionicLoading.hide();
+								$scope.form = $localstorage.getObjects("user");
+								console.log("Maker 1");
+							} else {
+								$ionicPopup.alert({
+									title : translations.ERROR_SETTINGS_TITLE,
+									template : success.errors[0].errorText
+								});
+								console.log("Maker 2");
+								$scope.form = $localstorage.getObjects("user");
+								$ionicLoading.hide();
+							}
+						}
+					}, function (failed) {
+						$ionicLoading.hide();
+					});
+				}, function (failed) {
+						return false;
 				});
-			}, function (failed) {
-					return false;
-			});
+			}
 		};
 
 		// Set type to true if the language is "de"
