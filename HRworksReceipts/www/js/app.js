@@ -21,8 +21,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('copyGUID', new Array());
 		$localstorage.setObject('user', new Array());
 
-		var userLanguage = window.navigator.userLanguage || window.navigator.language;
-		if (userLanguage == "de" || userLanguage == "de-DE" || userLanguage == "de_DE") {
+		var userLanguage = window.navigator.userLanguage;
+		if(typeof userLanguage === 'undefined') {
+			userLanguage = window.navigator.language;
+		}
+		if (userLanguage == "de" || userLanguage == "de-DE" || userLanguage == "de-de" || userLanguage == "de_DE") {
 			userLanguage = "de";
 		} else {
 			userLanguage = "en";
