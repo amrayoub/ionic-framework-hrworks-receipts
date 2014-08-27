@@ -202,3 +202,7 @@ form.ng-submitted input.ng-valid + i.error {
 	text-align:right; 
 	padding-top: 13px;
 }
+.button.amountPickerButtonSize {
+	line-height:12px;
+	min-height: 0px;
+}

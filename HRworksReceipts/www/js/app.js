@@ -9,7 +9,7 @@
 
 angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate'])
 
-.run(function ($localstorage, $translate, $cordovaSplashscreen, $ionicPlatform) {
+.run(function ($localstorage, $translate, $ionicPlatform) {
 	// Initialize the localStorage if the app was open for the first time
 	if ($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform, $localstorage, $cordovaDevice, $cordovaNetwork, $ionicLoading, getData) {
+.run(function ($ionicPlatform, $localstorage, $cordovaDevice, $cordovaNetwork, $ionicLoading, $cordovaSplashscreen, getData) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus', function (e) {
 			e.preventDefault();
@@ -51,6 +51,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			});
 			var promise = getData.all();
 			promise.then(function () {
+				$cordovaSplashscreen.hide();
 				$ionicLoading.hide();
 			});
 		}
