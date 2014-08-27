@@ -24,7 +24,6 @@
 				<label class="item item-input item-stacked-label item-icon-right" ng-click="openCurrenciesModal()">
 					<span class="input-label" translate="CURRENCY"></span>
 					<span class="input-span">{{ form.currency.description }}</span>
-					<input type="hidden" name="currency" ng-model="form.currency.description" required="required">
 					<i class="validError" ng-show="receiptForm.currency.$invalid && submitted" translate="ERRORMESSAGE_CURRENCY"></i>
 					<i class="icon ion-chevron-right icon-gray"></i>
 				</label>
@@ -53,7 +52,6 @@
 				<label class="item item-input item-stacked-label item-icon-right" ng-click="openReceiptKindsModal()">
 					<span class="input-label" translate="RECEIPTKIND"></span>
 					<span class="input-span">{{ form.receiptKind.description }}</span>
-					<input type="hidden" name="receiptKind" ng-model="form.receiptKind.description" required="required">
 					<i class="validError" ng-show="receiptForm.receiptKind.$invalid && submitted" translate="ERRORMESSAGE_RECEIPTKIND"></i>
 					<i class="icon ion-chevron-right icon-gray"></i>
 				</label>
@@ -75,15 +73,17 @@
 				<label class="item item-input item-stacked-label item-icon-right" ng-click="openKindsOfPaymentModal()">
 					<span class="input-label" translate="KINDOFPYMENT"></span>
 					<span class="input-span">{{ form.kindOfPayment.description }}</span>
-					<input type="hidden" name="kindOfPayment" ng-model="form.kindOfPayment.description" required="required">
 					<i class="validError" ng-show="receiptForm.kindOfPayment.$invalid && submitted" translate="ERRORMESSAGE_KINDOFPYMENT"></i>
 					<i class="icon ion-chevron-right icon-gray"></i>
 				</label>
 				<!-- To prevent conflicts with focusing input fields, hidden input fields should not stand in their actually correct label.
 				So Ionic doesn't think that a keyboard is open when a label is clicked. -->
+				<input type="hidden" name="currency" ng-model="form.currency.description" required="required">
 				<input id="endDate" required="required" type="hidden" name="endDate" ng-model="form.endDate" />
 				<input id="date" required="required" type="hidden" name="date" ng-model="form.date" />
 				<input id="amount" required="required" type="hidden" name="amount"  ng-model="form.amount" />
+				<input type="hidden" name="receiptKind" ng-model="form.receiptKind.description" required="required">
+				<input type="hidden" name="kindOfPayment" ng-model="form.kindOfPayment.description" required="required">
 			</div>
 		</form>
 	</ion-content>

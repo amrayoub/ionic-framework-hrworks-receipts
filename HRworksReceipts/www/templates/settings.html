@@ -5,9 +5,8 @@
 	<ion-content class="has-header" padding="true">
 		<div class="list">
 			<div class="button-bar">
-			<!-- DOTO: type -->
-				<a class="button de {{(type == true) && 'active' || ''}}" ng-click="changeLang('de', $event)" translate="GERMAN"></a>
-				<a class="button en {{(type == '') && 'active' || ''}}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
+				<a class="button de {{(isGerman == true) && 'active' || ''}}" ng-click="changeLang('de', $event)" translate="GERMAN"></a>
+				<a class="button en {{(isGerman == '') && 'active' || ''}}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
 			</div>
 		</div>
 		<form name="settingsForm" id="settingsForm" ng-submit="saveSettings(settingsForm.$valid)" novalidate="novalidate">

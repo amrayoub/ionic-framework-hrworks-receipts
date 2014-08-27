@@ -7,8 +7,15 @@ angular.module('starter.controllers', ['ionic'])
 		// Clears the copyGUID of the localStorage
 		$localstorage.setObject('copyGUID', new Array());
 
+
 		// HACK: removes the tabs in the view. Update if there is a better way
-		angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
+		var tabs = document.querySelectorAll('div.tabs')[0];
+		tabs = angular.element(tabs);
+		angular.element(document).find('ion-content').addClass('remove-tabs');
+		tabs.css('display', 'none');
+		$scope.$on('$destroy', function () {
+			tabs.css('display', '');
+		});
 		
 		// Put the data form the localStorage into the scope
 		$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
@@ -22,7 +29,7 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		if($translate.use() == "en" && $scope.showAlternativeAmountpicker) {
 			$scope.form.amount = "0.00";
-			scope.dateFormat = 'MM/dd/yyyy';
+			$scope.dateFormat = 'MM/dd/yyyy';
 		}
 		if(!$scope.showAlternativeAmountpicker) {
 			$scope.form.amount = 0.00;
@@ -75,29 +82,32 @@ angular.module('starter.controllers', ['ionic'])
 				$scope.tmp.datePickerDate.setMonth($scope.form.endDate.slice(5,7)-1);
 				$scope.tmp.datePickerDate.setDate($scope.form.endDate.slice(8,10));
 			}
-			$ionicPopup.show({
-				template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
-				title : translations.CHOOSE_DATE,
-				scope: $scope,
-				buttons: [{ 
-						text: translations.CANCEL, 
-					},{
-						text: translations.SAVE,
-						type: 'button-positive',
-						onTap: function(e) {
-							var theDate = $scope.tmp.datePickerDate;
-							theDate = theDate.getFullYear() + '-' + ('0' + (theDate.getMonth()+1)).slice(-2) + '-' + ('0' + theDate.getDate()).slice(-2);
-							if(inputName == "date") {
-								$scope.form.date = theDate;
-							}
-							if(inputName == "endDate") {
-								$scope.form.endDate = theDate;
+			$timeout(function() {
+				$ionicPopup.show({
+					template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
+					title : translations.CHOOSE_DATE,
+					scope: $scope,
+					buttons: [{ 
+							text: translations.CANCEL, 
+						},{
+							text: translations.SAVE,
+							type: 'button-positive',
+							onTap: function(e) {
+								var theDate = $scope.tmp.datePickerDate;
+								theDate = theDate.getFullYear() + '-' + ('0' + (theDate.getMonth()+1)).slice(-2) + '-' + ('0' + theDate.getDate()).slice(-2);
+								if(inputName == "date") {
+									$scope.form.date = theDate;
+								}
+								if(inputName == "endDate") {
+									$scope.form.endDate = theDate;
+								}
 							}
 						}
-					}
-				]
-			});
+					]
+				});
+			}, 200);
 		}
+		$scope.isFirstButtonClick = true;
 		$scope.isAfterDecimalPoint = false;
 		$scope.isFirstAfterDecimalPointPosition = true;
 		$scope.positionIcon = "ion-chevron-right";
@@ -132,7 +142,12 @@ angular.module('starter.controllers', ['ionic'])
 				if(beforeDecimalPoint == "0") {
 					beforeDecimalPoint = "";
 				}
-				beforeDecimalPoint = beforeDecimalPoint + addingNumber;
+				if($scope.isFirstButtonClick) {
+					beforeDecimalPoint = addingNumber;
+					$scope.isFirstButtonClick = false;
+				} else {
+					beforeDecimalPoint = beforeDecimalPoint + addingNumber;
+				}
 			} else {
 				if(addingNumber == "del") {
 					addingNumber = "0";
@@ -150,23 +165,27 @@ angular.module('starter.controllers', ['ionic'])
 		
 		$scope.openAmountPicker = function() {
 			$scope.isAfterDecimalPoint = false;
-			$ionicPopup.confirm({
-				title: 'Betrag wählen',
-				scope: $scope,
-				templateUrl: 'templates/amountPicker.html',
-				buttons : [{
-					text : translations.CANCEL,
-					onTap: function(e) {
-						$scope.temporaryAmount = $scope.form.amount;
-					}
-				},{
-					text : "<b>" + translations.OK + "</b>",
-					type : "button-positive",
-					onTap: function(e) {
-						$scope.form.amount = $scope.temporaryAmount;
-					}
-				}]
-			});
+			$scope.isFirstAfterDecimalPointPosition = true;
+			$scope.isFirstButtonClick = true;
+			$timeout(function() {
+				$ionicPopup.confirm({
+					title: 'Betrag wählen',
+					scope: $scope,
+					templateUrl: 'templates/amountPicker.html',
+					buttons : [{
+						text : translations.CANCEL,
+						onTap: function(e) {
+							$scope.temporaryAmount = $scope.form.amount;
+						}
+					},{
+						text : "<b>" + translations.OK + "</b>",
+						type : "button-positive",
+						onTap: function(e) {
+							$scope.form.amount = $scope.temporaryAmount;
+						}
+					}]
+				});
+			}, 200);
 		}
 
 		// Create a GUID
@@ -607,25 +626,20 @@ angular.module('starter.controllers', ['ionic'])
 							promise.then(function () {
 								$ionicLoading.hide();
 								$ionicPopup.alert({
-									title : translations.SUCCESS_SETTINGS_TITLE,
-									template : translations.SUCCESS_SETTINGS_TEMPLATE
+									template : "{{ 'SUCCESS_SETTINGS_TEMPLATE' | translate }}"
 								});
 							})
 						} else {
 							if (success.errors[0].errorId == "8") {
 								$ionicPopup.alert({
-									title : translations.ERROR_SETTINGS_TITLE,
-									template : translations.ERROR_SETTINGS_TEMPLATE
+									template : "{{ 'ERROR_SETTINGS_TEMPLATE' | translate }}"
 								});
 								$ionicLoading.hide();
 								$scope.form = $localstorage.getObjects("user");
-								console.log("Maker 1");
 							} else {
 								$ionicPopup.alert({
-									title : translations.ERROR_SETTINGS_TITLE,
 									template : success.errors[0].errorText
 								});
-								console.log("Maker 2");
 								$scope.form = $localstorage.getObjects("user");
 								$ionicLoading.hide();
 							}
@@ -639,19 +653,19 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		};
 
-		// Set type to true if the language is "de"
+		// Set isGerman to true if the language is "de"
 		if ($translate.use() == "de") {
-			$scope.type = true;
+			$scope.isGerman = true;
 		} else {
-			$scope.type = "";
+			$scope.isGerman = "";
 		};
 
 		// Change language
 		$scope.changeLang = function (key, event) {
 			if (angular.element(event.target).hasClass('de')) {
-				$scope.type = true;
+				$scope.isGerman = true;
 			} else {
-				$scope.type = '';
+				$scope.isGerman = '';
 			}
 			$translate.use(key).then(function (key) {
 				$localstorage.setObject('language', {
