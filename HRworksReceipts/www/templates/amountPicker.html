@@ -41,7 +41,7 @@
 </div>
 <div class="row">
 	<div class="col">
-		<button ng-hide="isAfterDecimalPoint" ng-click="addToAmount(',')"  class="button button-clear button-positive button-large amountPickerButtonSize">,</button>
+		<button ng-hide="isAfterDecimalPoint" ng-click="addToAmount(',')"  class="button button-clear button-positive button-large amountPickerButtonSize">{{ dotOrComma }}</button>
 	</div>
 	<div class="col">
 		<button ng-click="addToAmount('0')"  class="button button-clear button-positive button-large amountPickerButtonSize">0</button>

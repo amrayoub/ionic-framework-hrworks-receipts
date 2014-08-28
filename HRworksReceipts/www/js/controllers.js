@@ -115,13 +115,13 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.isAfterDecimalPoint = false;
 		}
 		$scope.temporaryAmount = $scope.form.amount;
+		$scope.dotOrComma = ".";
+		if($translate.use() == "de") {
+				$scope.dotOrComma = ",";
+			}
 		$scope.addToAmount = function(addingNumber) {
 			var theAmount = $scope.temporaryAmount;
-			dotOrComma = ".";
-			if($translate.use() == "de") {
-				var dotOrComma = ",";
-			}
-			var period = theAmount.indexOf(dotOrComma);
+			var period = theAmount.indexOf($scope.dotOrComma);
 			if (period > -1) {
 				var beforeDecimalPoint = theAmount.substring(0, period);
 				var afterDecimalPoint = theAmount.substring(period + 1);
@@ -136,7 +136,7 @@ angular.module('starter.controllers', ['ionic'])
 					if(beforeDecimalPoint == "") {
 						beforeDecimalPoint = "0";
 					}
-				$scope.temporaryAmount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
+				$scope.temporaryAmount = beforeDecimalPoint + $scope.dotOrComma + afterDecimalPoint;
 				return;
 				}
 				if(beforeDecimalPoint == "0") {
@@ -160,7 +160,7 @@ angular.module('starter.controllers', ['ionic'])
 					$scope.isFirstAfterDecimalPointPosition = true;
 				}
 			}
-			$scope.temporaryAmount = beforeDecimalPoint + dotOrComma + afterDecimalPoint;
+			$scope.temporaryAmount = beforeDecimalPoint + $scope.dotOrComma + afterDecimalPoint;
 		}
 		
 		$scope.openAmountPicker = function() {
@@ -690,6 +690,7 @@ angular.module('starter.controllers', ['ionic'])
 .controller('infosCtrl', function ($scope, $window) {
 	// TODO: note HACK 
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
+	$scope.isAndroid = ionic.Platform.isAndroid();
 	$scope.mail = {};
 	$scope.mail.subject = "";
 	$scope.mail.text = "";
