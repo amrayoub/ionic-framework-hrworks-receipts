@@ -546,9 +546,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.receipts = $localstorage.getObjects('receipts');
 		if($translate.use() == "de") {
 			for(i = 0; i < $scope.receipts.length; i++) {
-				console.log($scope.receipts[i].amount);
 				$scope.receipts[i].amount = $scope.receipts[i].amount.toString().replace('.',',');
-				console.log($scope.receipts[i].amount);
 			}
 		}
 		$scope.doSync = function () {
@@ -652,6 +650,8 @@ angular.module('starter.controllers', ['ionic'])
 				});
 			}
 		};
+		
+		$scope.isAndroid = ionic.Platform.isAndroid();
 
 		// Set isGerman to true if the language is "de"
 		if ($translate.use() == "de") {

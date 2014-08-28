@@ -12,15 +12,15 @@
 		<form name="settingsForm" id="settingsForm" ng-submit="saveSettings(settingsForm.$valid)" novalidate="novalidate">
 			<div class="list">
 				<label class="item item-input item-stacked-label">
-					<span class="input-label {{ (settingsForm.companyId.$invalid && submitted) && 'validErrorText' || ''}}" translate="COMPANYID"></span>
+					<span class="input-label {{ (settingsForm.companyId.$invalid && submitted) && 'validErrorText' || '' }}" translate="COMPANYID"></span>
 					<input type="text" name="companyId" id="companyId" ng-model="form.companyId" required="required" />
 				</label>
 				<label class="item item-input item-stacked-label">
-					<span class="input-label {{ (settingsForm.personId.$invalid && submitted) && 'validErrorText' || ''}}" translate="PERSONID"></span>
+					<span class="input-label {{ (settingsForm.personId.$invalid && submitted) && 'validErrorText' || '' }}" translate="PERSONID"></span>
 					<input type="text" name="personId" id="personId" ng-model="form.personId" required="required">
 				</label>
 				<label class="item item-input item-stacked-label">
-					<span class="input-label {{ (settingsForm.mobilePassword.$invalid && submitted) && 'validErrorText' || ''}}" translate="MOBILEPASSWORD"></span>
+					<span class="input-label {{ (settingsForm.mobilePassword.$invalid && submitted) && 'validErrorText' || '' }}" translate="MOBILEPASSWORD"></span>
 					<input type="text" name="mobilePassword" id="mobilePassword" ng-model="form.mobilePassword" required="required">
 				</label>
 				<label class="item item-input item-select">
@@ -31,8 +31,8 @@
 						<option value="area51-0">Testserver Area51</option>
 					</select>
 				</label>
-				<li class="item item-toggle {{ (ionic.Platform.isIOS() == true) && 'ng-hide' || '' }}">
-					<h2 translate="ALTERNATIVE_DATEPICKER"></h2>
+				<li ng-if="isAndroid" class="item item-toggle">
+					<div translate="ALTERNATIVE_DATEPICKER"></div>
 					<label class="toggle toggle-positive">
 						<input type="checkbox" ng-model="form.alternativeDatepicker">
 						<div class="track">
@@ -40,8 +40,8 @@
 						</div>
 					</label>
 				</li>
-				<li class="item item-toggle {{ (ionic.Platform.isIOS() == true) && 'ng-hide' || '' }}">
-					<h2 translate="ALTERNATIVE_AMOUNTPICKER"></h2>
+				<li ng-if="isAndroid" class="item item-toggle">
+					<div translate="ALTERNATIVE_AMOUNTPICKER"></div>
 					<label class="toggle toggle-positive">
 						<input type="checkbox" ng-model="form.alternativeAmountpicker">
 						<div class="track">
