@@ -65,6 +65,9 @@ input::-webkit-inner-spin-button {
   left: 0 !important;
   right: 0 !important;
 }
+.item-complex .item-content {
+	padding: 0;
+}
 /* list items in collection repeat are fullscreen end */
 /* gray icon */
 .icon-gray {
