@@ -2,84 +2,82 @@ angular.module('ionic.utils', [])
 
 // Setter and Getter methodes for the $localstorage
 .factory('$localstorage', ['$window', function ($window) {
-			return {
-				set : function (key, value) {
-					$window.localStorage[key] = value;
-				},
-				get : function (key, defaultValue) {
-					return $window.localStorage[key] || defaultValue;
-				},
-				setObject : function (key, value) {
-					$window.localStorage[key] = angular.toJson(value);
-				},
-				insertObject : function (key, value) {
-					var objects = angular.fromJson($window.localStorage[key] || '{}');
-					objects.push(value);
+	return {
+		set : function (key, value) {
+			$window.localStorage[key] = value;
+		},
+		get : function (key, defaultValue) {
+			return $window.localStorage[key] || defaultValue;
+		},
+		setObject : function (key, value) {
+			$window.localStorage[key] = angular.toJson(value);
+		},
+		insertObject : function (key, value) {
+			var objects = angular.fromJson($window.localStorage[key] || '{}');
+			objects.push(value);		
+			$window.localStorage[key] = angular.toJson(objects);
+		},
+		getObjects : function (key) {
+			return angular.fromJson($window.localStorage[key] || '{}');
+		},
+		getIndex : function (key, guid) {
+			var objects = angular.fromJson($window.localStorage[key] || '{}');
+			for (var i = 0; i < objects.length; i++) {
+				if (objects[i].guid == guid) {
+					return i;
+				}
+			}
+		},
+		getObject : function (key, guid) {
+			var objects = angular.fromJson($window.localStorage[key] || '{}');
+			for (var i = 0; i < objects.length; i++) {
+				if (objects[i].guid == guid) {
+					return objects[i];
+				}
+			}
+		},
+		getCurrencyObject : function (symbol) {
+			var objects = angular.fromJson($window.localStorage['currencies'] || '{}');
+			for (var i = 0; i < objects.length; i++) {
+				if (objects[i].symbol == symbol) {
+					return objects[i];
+				}
+			}
+		},
+		getObjectById : function (key, id) {
+			var objects = angular.fromJson($window.localStorage[key] || '{}');
+			for (var i = 0; i < objects.length; i++) {
+				if (objects[i].id == id) {
+					return objects[i];
+				}
+			}
+		},
+		removeObject : function (key, guid) {
+			var objects = angular.fromJson($window.localStorage[key] || '{}');
+			for (var i = 0; i < objects.length; i++) {
+				if (objects[i].guid == guid) {
+					objects.splice(i, 1);
 					$window.localStorage[key] = angular.toJson(objects);
-				},
-				getObjects : function (key) {
-					return angular.fromJson($window.localStorage[key] || '{}');
-				},
-				getIndex : function (key, guid) {
-					var objects = angular.fromJson($window.localStorage[key] || '{}');
-					for (var i = 0; i < objects.length; i++) {
-						if (objects[i].guid == guid) {
-							return i;
-						}
-					}
-				},
-				getObject : function (key, guid) {
-					var objects = angular.fromJson($window.localStorage[key] || '{}');
-					for (var i = 0; i < objects.length; i++) {
-						if (objects[i].guid == guid) {
-							return objects[i];
-						}
-					}
-				},
-				getCurrencyObject : function (symbol) {
-					var objects = angular.fromJson($window.localStorage['currencies'] || '{}');
-					for (var i = 0; i < objects.length; i++) {
-						if (objects[i].symbol == symbol) {
-							return objects[i];
-						}
-					}
-				},
-				getObjectById : function (key, id) {
-					var objects = angular.fromJson($window.localStorage[key] || '{}');
-					for (var i = 0; i < objects.length; i++) {
-						if (objects[i].id == id) {
-
-							return objects[i];
-						}
-					}
-				},
-				removeObject : function (key, guid) {
-					var objects = angular.fromJson($window.localStorage[key] || '{}');
-					for (var i = 0; i < objects.length; i++) {
-						if (objects[i].guid == guid) {
-							objects.splice(i, 1);
-							$window.localStorage[key] = angular.toJson(objects);
-							return;
-						}
-					}
-				},
-				updateObject : function (key, value) {
-					var objects = angular.fromJson($window.localStorage[key] || '{}');
-					for (var i = 0; i < objects.length; i++) {
-						if (objects[i].guid == value.guid) {
-							objects[i] = value;
-							$window.localStorage[key] = angular.toJson(objects);
-							return;
-						}
-					}
+					return;
+				}
+			}
+		},
+		updateObject : function (key, value) {
+			var objects = angular.fromJson($window.localStorage[key] || '{}');
+			for (var i = 0; i < objects.length; i++) {
+				if (objects[i].guid == value.guid) {	
+					objects[i] = value;
+					$window.localStorage[key] = angular.toJson(objects);
+					return;
 				}
 			}
 		}
-	]);
+	}
+}]);
 angular.module('starter.services', [])
 
 // API: Get the current url form the server
-.factory('GetCurrentUrl', function ($localstorage, $http, $translate, $cordovaNetwork, $ionicPopup) {
+.factory('GetCurrentUrl', function ($http, ) {
 	return {
 		get : function (targetServer, companyId) {
 			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
@@ -98,7 +96,7 @@ angular.module('starter.services', [])
 })
 
 // API: Call "all" to get a complete synchronization
-.factory('getData', function ($q, $localstorage, $http, $timeout, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
+.factory('getData', function ($q, $localstorage, $http, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
 	var translationsArray = [];
 	$translate(['NOANSWERFROMTHESERVER_TITLE', 'NOANSWERFROMTHESERVER_TEMPLATE']).then(function (translations) {
 		translationsArray["NOANSWERFROMTHESERVER_TITLE"] = translations.NOANSWERFROMTHESERVER_TITLE;

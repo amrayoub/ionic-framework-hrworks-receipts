@@ -7,7 +7,6 @@ angular.module('starter.controllers', ['ionic'])
 		// Clears the copyGUID of the localStorage
 		$localstorage.setObject('copyGUID', new Array());
 
-
 		// HACK: removes the tabs in the view. Update if there is a better way
 		var tabs = document.querySelectorAll('div.tabs')[0];
 		tabs = angular.element(tabs);
@@ -474,7 +473,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $timeout, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
+.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
@@ -584,7 +583,7 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 // Controller of the View Settings
-.controller('settingsCtrl', function ($ionicPopup, $ionicLoading, $state, $scope, $http, $localstorage, $cordovaNetwork, $filter, $translate, getData) {
+.controller('settingsCtrl', function ($scope, $ionicPopup, $ionicLoading, $localstorage, $cordovaNetwork, $translate, getData) {
 
 	// HACK: Hides the tabs if the keyboard is open
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');

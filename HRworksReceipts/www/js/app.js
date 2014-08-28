@@ -40,7 +40,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform, $localstorage, $cordovaDevice, $cordovaNetwork, $ionicLoading, $cordovaSplashscreen, getData) {
+.run(function ($ionicPlatform, $localstorage, $cordovaNetwork, $ionicLoading, $cordovaSplashscreen, getData) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus', function (e) {
 			e.preventDefault();
