@@ -22,7 +22,7 @@
 				<a class="button all {{(isFavorite == '') && 'active' || ''}}" ng-click="setFavorite($event)" translate="ALLCURRENCIES"></a>
 			</div>
 			<ion-radio
-				class="item myItem"
+				class="item fullScreenList"
 				collection-repeat="currency in currencies | filter: data.searchQueryCurrencies | filter: {isPreferred: isFavorite}"
 				collection-item-height="50"
 				collection-item-width="'100%'"

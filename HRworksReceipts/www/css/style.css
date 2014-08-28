@@ -1,106 +1,4 @@
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	margin: 0;
-	moz-appearance: none;
-	webkit-appearance: none;
-}
-.item-complex .item-content {
-	padding: 0;
-}
-/* TODO: myItem umbennenen */
-.list .myItem.item {
-	left: 0;
-	padding-bottom: 0;
-	padding-top: 0;
-	right: 0;
-}
-.myItem{
-  left: 0 !important;
-  right: 0 !important;
-}
-.icon-gray {
-	color: #959595;
-	margin-top: 15px;
-}
-.input-span {
-	color: #000;
-	display: block;
-	font-size: 14px;
-	height: 25px;
-	line-height: 16px;
-	margin-left: 7px;
-	padding-top: 2px;
-	vertical-align: middle;
-}
-form i.icon.error {
-	color: #ef4e3a;
-}
-form i.error {
-	display: none;
-	margin-left: 8px;
-}
-.validError {
-	color: #cc2511;
-	margin-left: 8px;
-}
-.validErrorText {
-	color: #cc2511;
-}
-form.ng-submitted input.ng-invalid + i.error {
-	display: block;
-}
-form .has-error input, form .has-error {
-	color: #cc2511;
-}
-.bar.item-input-inset .item-input-wrapper input {
-	width: 81%;
-}
-.headerSearch {
-	background: none repeat scroll 0 0 #145fd7;
-}
-.headerSearch input {
-	background-color: #145fd7;
-	color: #ffffff;
-}
-form.ng-submitted input.ng-valid + i.error {
-	display: none;
-}
-.hide-footer .bar-footer, .hide-footer .tabs {
-	display: flex;
-}
-.hide-footer .has-footer, .hide-footer .has-tabs {
-	bottom: 44px;
-}
-.remove-tabs {
-	bottom: 0px;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
-	height: 45px !important;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
-	margin-top: 1px !important;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
-	margin-top: 1px !important;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios6.platform-cordova:not(.fullscreen) .tabs.tabs-top {
-	top: 45px !important;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .has-header, .platform-ios6.platform-cordova:not(.fullscreen) .bar-subheader {
-	top: 45px !important;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .has-subheader {
-	top: 89px !important;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .has-tabs-top {
-	top: 94px !important;
-}
-.platform-ios6.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
-	top: 138px !important;
-}
-.platform-ios6.platform-cordova.status-bar-hide {
-	margin-bottom: 1px !important;
-}
+/* HRworks Color Layout */
 .tabs-hrworks > .tabs, .tabs.tabs-hrworks {
 	background-color: #f8f8f8;
 	border-top: 1px solid #b2b2b2;
@@ -147,6 +45,122 @@ form.ng-submitted input.ng-valid + i.error {
 	background: none;
 	border-color: transparent;
 }
+/* HRworks Color Layout end */
+/* remove the spinner of number-input fields */ 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	margin: 0;
+	moz-appearance: none;
+	webkit-appearance: none;
+}
+/* remove the spinner of number-input fields end */ 
+/* list items in collection repeat are fullscreen */
+.list .fullScreenList.item {
+	left: 0;
+	padding-bottom: 0;
+	padding-top: 0;
+	right: 0;
+}
+.fullScreenList{
+  left: 0 !important;
+  right: 0 !important;
+}
+/* list items in collection repeat are fullscreen end */
+/* gray icon */
+.icon-gray {
+	color: #959595;
+	margin-top: 15px;
+}
+/* gray icon end */
+.input-span {
+	color: #000;
+	display: block;
+	font-size: 14px;
+	height: 25px;
+	line-height: 16px;
+	margin-left: 7px;
+	padding-top: 2px;
+	vertical-align: middle;
+}
+/* form validation style */
+form i.icon.error {
+	color: #ef4e3a;
+}
+form i.error {
+	display: none;
+	margin-left: 8px;
+}
+.validError {
+	color: #cc2511;
+	margin-left: 8px;
+}
+.validErrorText {
+	color: #cc2511;
+}
+form.ng-submitted input.ng-invalid + i.error {
+	display: block;
+}
+form.ng-submitted input.ng-valid + i.error {
+	display: none;
+}
+form .has-error input, form .has-error {
+	color: #cc2511;
+}
+/* form validation style */
+/* Modal search input field */
+.bar.item-input-inset .item-input-wrapper input {
+	width: 81%;
+}
+
+.headerSearch {
+	background: none repeat scroll 0 0 #145fd7;
+}
+.headerSearch input {
+	background-color: #145fd7;
+	color: #ffffff;
+}
+/* Modal search input field end */
+/* Remove tabs */
+.hide-footer .bar-footer, .hide-footer .tabs {
+	display: flex;
+}
+.hide-footer .has-footer, .hide-footer .has-tabs {
+	bottom: 44px;
+}
+.remove-tabs {
+	bottom: 0px;
+}
+/* Remove tabs */
+/* iOS 6 Support */
+.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+	height: 45px !important;
+}
+.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+	margin-top: 1px !important;
+}
+.platform-ios6.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+	margin-top: 1px !important;
+}
+.platform-ios6.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios6.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+	top: 45px !important;
+}
+.platform-ios6.platform-cordova:not(.fullscreen) .has-header, .platform-ios6.platform-cordova:not(.fullscreen) .bar-subheader {
+	top: 45px !important;
+}
+.platform-ios6.platform-cordova:not(.fullscreen) .has-subheader {
+	top: 89px !important;
+}
+.platform-ios6.platform-cordova:not(.fullscreen) .has-tabs-top {
+	top: 94px !important;
+}
+.platform-ios6.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
+	top: 138px !important;
+}
+.platform-ios6.platform-cordova.status-bar-hide {
+	margin-bottom: 1px !important;
+}
+/* iOS Support end */
+
 .button.button-icon.input-button {
 	position: absolute;
 	right: 0;

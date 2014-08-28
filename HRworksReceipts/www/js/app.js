@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('user', new Array());
 
 		var userLanguage = window.navigator.userLanguage;
-		if(typeof userLanguage === 'undefined') {
+		if (typeof userLanguage === 'undefined') {
 			userLanguage = window.navigator.language;
 		}
 		if (userLanguage == "de" || userLanguage == "de-DE" || userLanguage == "de-de" || userLanguage == "de_DE") {
@@ -47,8 +47,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			e.stopPropagation();
 			window.scrollTo(0, 0);
 		}, true);
-		
-		if($cordovaNetwork.isOnline() && typeof $localstorage.getObjects('user').personId === 'string') {
+
+		if ($cordovaNetwork.isOnline() && typeof $localstorage.getObjects('user').personId === 'string') {
 			$ionicLoading.show({
 				templateUrl : 'templates/synchronize.html',
 			});
@@ -60,7 +60,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		}
 		if (window.cordova && window.cordova.plugins.Keyboard) {
 			cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-		} 
+		}
 		// Initialize the statusbar for iOS
 		if (window.StatusBar) {
 			StatusBar.styleLightContent();
@@ -128,11 +128,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			}
 		}
 	})
-	.state('login', {
-		url : '/login',
-		templateUrl : 'templates/login.html',
-		controller : 'loginCtrl'
-	})
+
 	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/tab/receipts');
 })
@@ -148,7 +144,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		BUG : 'Bug',
 		CANCEL : 'Cancel',
 		CHOOSE_CURRENCY : 'Choose Currency',
-		CHOOSE_DATE: 'Choose date',
+		CHOOSE_DATE : 'Choose date',
 		CHOOSE_KINDOFPAYMENT : 'Choose Kind of Payment',
 		CHOOSE_RECEIPTKIND : 'Choose Receipt Kind',
 		COMPANYID : 'Company-Id',
