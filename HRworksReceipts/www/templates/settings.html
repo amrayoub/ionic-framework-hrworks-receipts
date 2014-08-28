@@ -6,7 +6,7 @@
 		<div class="list">
 			<div class="button-bar">
 				<a class="button de {{ (isGerman == true) && 'active' || '' }}" ng-click="changeLang('de', $event)" translate="GERMAN"></a>
-				<a class="button en {{ (isGerman == '') && 'active' || '' }}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
+				<a class="button en {{ (isGerman == false) && 'active' || '' }}" ng-click="changeLang('en', $event)" translate="ENGLISH"></a>
 			</div>
 		</div>
 		<form name="settingsForm" id="settingsForm" ng-submit="saveSettings(settingsForm.$valid)" novalidate="novalidate">

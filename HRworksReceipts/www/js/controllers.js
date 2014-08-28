@@ -203,7 +203,7 @@ angular.module('starter.controllers', ['ionic'])
 			$localstorage.setObject('hideAlert', {
 				hideAlert : true
 			});
-		};
+		}
 
 		// Show the ActionSheet with the options
 		$scope.showActionsheet = function () {
@@ -319,7 +319,7 @@ angular.module('starter.controllers', ['ionic'])
 					kindOfPayment : $scope.form.kindOfPayment,
 					currency : $scope.form.currency,
 					timeStamp : $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ'),
-				};
+				}
 				if ($scope.form.receiptKind.isHotel) {
 					theReceipt.endDate = $scope.form.endDate;
 				}
@@ -349,7 +349,7 @@ angular.module('starter.controllers', ['ionic'])
 					$scope.$viewHistory.backView.go();
 				}
 			}
-		};
+		}
 		// blur InputItem
 		$scope.blurInputItems = function() {
 			$timeout(function() {
@@ -366,7 +366,7 @@ angular.module('starter.controllers', ['ionic'])
 			searchQueryCurrencies : "",
 			searchQueryReceiptKinds : "",
 			searchQueryKindsOfPayment : ""
-		};
+		}
 
 		// Currencies Modal
 		$ionicModal.fromTemplateUrl('templates/currencies-modal.html', {
@@ -383,12 +383,12 @@ angular.module('starter.controllers', ['ionic'])
 			$timeout(function () {
 				$scope.showListCurrencies = true;
 			}, 400);
-		};
+		}
 
 		// Close Currencies Modal
 		$scope.closeCurrenciesModal = function () {
 			$scope.CurrenciesModal.hide();
-		};
+		}
 
 		$scope.isFavorite = true;
 		$scope.setFavorite = function (event) {
@@ -397,18 +397,18 @@ angular.module('starter.controllers', ['ionic'])
 			} else {
 				$scope.isFavorite = '';
 			}
-		};
+		}
 
 		// Clear the currencies searchbox
 		$scope.clearSearchCurrencies = function () {
 			$scope.data.searchQueryCurrencies = '';
-		};
+		}
 
 		// Select a currency
 		$scope.selectCurrency = function (currency) {
 			$scope.form.currency = currency;
 			$scope.closeCurrenciesModal();
-		};
+		}
 
 		// receiptKinds Modal
 		$ionicModal.fromTemplateUrl('templates/receiptKinds-modal.html', {
@@ -425,23 +425,23 @@ angular.module('starter.controllers', ['ionic'])
 			$timeout(function () {
 				$scope.showListReceiptKinds = true;
 			}, 300)
-		};
+		}
 
 		// Close the receiptKinds Modal
 		$scope.closeReceiptKindsModal = function () {
 			$scope.receiptKindsModal.hide();
-		};
+		}
 
 		// Clear the receiptKind searchbox
 		$scope.clearSearchReceiptKinds = function () {
 			$scope.data.searchQueryReceiptKinds = '';
-		};
+		}
 
 		// Select a receiptKind
 		$scope.selectReceiptKind = function (receiptKind) {
 			$scope.form.receiptKind = receiptKind;
 			$scope.closeReceiptKindsModal();
-		};
+		}
 
 		// KindsOfPayment Modal
 		$ionicModal.fromTemplateUrl('templates/kindsOfPayment-modal.html', {
@@ -449,7 +449,7 @@ angular.module('starter.controllers', ['ionic'])
 			animation : 'slide-in-up',
 		}).then(function (modal) {
 			$scope.kindsOfPaymentModal = modal;
-		});
+		})
 
 		// Open KindsOfPayment Modal
 		$scope.data = {};
@@ -458,23 +458,23 @@ angular.module('starter.controllers', ['ionic'])
 			$timeout(function () {
 				$scope.showListKindsOfPayment = true;
 			}, 100);
-		};
+		}
 
 		// Close KindsOfPayment Modal
 		$scope.closeKindsOfPaymentModal = function () {
 			$scope.kindsOfPaymentModal.hide();
-		};
+		}
 
 		// Select KindsOfPayment
 		$scope.selectKindOfPayment = function (kindOfPayment) {
 			$scope.form.kindOfPayment = kindOfPayment;
 			$scope.closeKindsOfPaymentModal();
-		};
+		}
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $localstorage, $ionicLoading, $translate, $location, $ionicModal, getData) {
-	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE']).then(function (translations) {
+.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $localstorage, $ionicLoading, $translate, $location, $ionicModal, $filter, getData) {
+	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE', 'COPYOF']).then(function (translations) {
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
 			animation : 'slide-in-up',
@@ -501,7 +501,7 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.submitted = true;
 			if (isValid) {
 				var promise = getData.userLogin($scope.user);
-				if (promise == false) {
+				if (!promise) {
 					return false;
 				}
 				$ionicLoading.show({
@@ -535,7 +535,7 @@ angular.module('starter.controllers', ['ionic'])
 					}
 				});
 			}
-		};
+		}
 		if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
 			$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
 		}
@@ -568,16 +568,32 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.$broadcast('scroll.refreshComplete');
 			$scope.doSync();
 			$scope.receipts = $localstorage.getObjects('receipts');
-		};
-		$scope.removeReceipt = function (guid) {
-			var x = $localstorage.getIndex('receipts', guid);
-			$scope.receipts.splice(x, 1);
+		}
+		// DOTO: Delete function rdy for beta 12
+		$scope.deleteReceipt = function (guid) {
+			$scope.receipts.splice($localstorage.getIndex('receipts', guid), 1);
 			$localstorage.removeObject('receipts', guid);
-		};
-
+		}
+		$scope.generateGUID = function () {
+			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+				var r = Math.random() * 16 | 0,
+				v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+			return guid;
+		}
+		// DOTO: Copy function rdy for beta 12
+		$scope.copyReceipt = function (guid) {
+			var theNewReceipt = $localstorage.getObject('receipts', guid);
+			theNewReceipt.text = translations.COPYOF + ' ' + theNewReceipt.text;
+			theNewReceipt.guid = $scope.generateGUID();
+			theNewReceipt.timeStamp = $filter('date')(new Date(), 'yyyy-MM-ddTHH:mm:ss.sssZ');
+			$localstorage.insertObject('receipts', theNewReceipt);
+			$location.path('/tab/receipt/' + theNewReceipt.guid);
+		}
 		$scope.openLoginModal = function () {
 			$scope.LoginModal.show();
-		};
+		}
 	})
 
 })
@@ -648,7 +664,7 @@ angular.module('starter.controllers', ['ionic'])
 						return false;
 				});
 			}
-		};
+		}
 		
 		$scope.isAndroid = ionic.Platform.isAndroid();
 
@@ -656,8 +672,8 @@ angular.module('starter.controllers', ['ionic'])
 		if ($translate.use() == "de") {
 			$scope.isGerman = true;
 		} else {
-			$scope.isGerman = "";
-		};
+			$scope.isGerman = false;
+		}
 
 		// Change language
 		$scope.changeLang = function (key, event) {
@@ -681,7 +697,7 @@ angular.module('starter.controllers', ['ionic'])
 					$ionicLoading.hide();
 				})
 			});
-		};
+		}
 	});
 })
 

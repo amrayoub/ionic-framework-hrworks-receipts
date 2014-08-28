@@ -77,7 +77,7 @@ angular.module('ionic.utils', [])
 angular.module('starter.services', [])
 
 // API: Get the current url form the server
-.factory('GetCurrentUrl', function ($http, ) {
+.factory('GetCurrentUrl', function ($http) {
 	return {
 		get : function (targetServer, companyId) {
 			var url = "https://ssl.hrworks.de/cgi-bin/hrw.dll/" + targetServer + "/HrwGetCurrentUrl";
