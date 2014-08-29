@@ -113,13 +113,18 @@ angular.module('starter.services', [])
 			for (var i = 0; i < receipts.length; i++) {
 				var theNewReceipt = receipts[i];
 				theNewReceipt.date = theNewReceipt.date.replace(/-/g, "");
-				theNewReceipt.currency = theNewReceipt.currency.symbol;
-				theNewReceipt.kindOfPayment = theNewReceipt.kindOfPayment.id;
-				if (theNewReceipt.receiptKind.isHotel) {
-					theNewReceipt.endDate = theNewReceipt.endDate.replace(/-/g, "");
+				if(typeof theNewReceipt.currency !== 'undefined') {
+					theNewReceipt.currency = theNewReceipt.currency.symbol;
 				}
-				theNewReceipt.receiptKind = theNewReceipt.receiptKind.id;
-
+				if(typeof theNewReceipt.kindOfPayment !== 'undefined') {
+					theNewReceipt.kindOfPayment = theNewReceipt.kindOfPayment.id;
+				}
+				if(typeof theNewReceipt.receiptKind !== 'undefined') {
+					theNewReceipt.receiptKind = theNewReceipt.receiptKind.id;
+					if (theNewReceipt.receiptKind.isHotel) {
+						theNewReceipt.endDate = theNewReceipt.endDate.replace(/-/g, "");
+					}
+				}
 				newReceipts.push(theNewReceipt);
 			}
 			return newReceipts;
@@ -166,8 +171,10 @@ angular.module('starter.services', [])
 			receipt.currency = $localstorage.getCurrencyObject(receipt.currency);
 			receipt.kindOfPayment = $localstorage.getObjectById('kindsOfPayment', receipt.kindOfPayment);
 			receipt.date = changeDate(receipt.date);
-			if (receipt.receiptKind.isHotel) {
-				receipt.endDate = changeDate(receipt.endDate);
+			if(typeof receipt.receiptKind !== 'undefined') {
+				if (receipt.receiptKind.isHotel) {
+					receipt.endDate = changeDate(receipt.endDate);
+				}
 			}
 			updatedReceiptsCollection.push(receipt);
 		}

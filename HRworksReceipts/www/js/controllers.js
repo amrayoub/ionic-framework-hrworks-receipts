@@ -184,7 +184,7 @@ angular.module('starter.controllers', ['ionic'])
 						}
 					}]
 				});
-			}, 200);
+			}, 300);
 		}
 
 		// Create a GUID
@@ -304,16 +304,17 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.submitted = false;
 		$scope.saveReceipt = function(isValid, isCopy) {
 			$scope.submitted = true;
-			if (isValid && $scope.form.endDate >= $scope.form.date ) {
+			if (isValid && $scope.form.endDate >= $scope.form.date) {
 				if($scope.showAlternativeAmountpicker) {
 					if($translate.use() == "de") {
 						$scope.form.amount = $scope.form.amount.replace(",", ".");
 					}
 					$scope.form.amount = parseFloat($scope.form.amount);
 				}
+				console.log($scope.form.amount.toFixed(2));
 				theReceipt = {
 					text : $scope.form.text,
-					amount : parseFloat($scope.form.amount),
+					amount : parseFloat($scope.form.amount.toFixed(2)),
 					date : $scope.form.date,
 					receiptKind : $scope.form.receiptKind,
 					kindOfPayment : $scope.form.kindOfPayment,
