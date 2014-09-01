@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['ionic'])
 
 // Controller of the Receipt View
-.controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate) {
+.controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate, generateGUID) {
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'SAVE', 'CHOOSE_DATE', 'DELETE', 'COPYOF', 'DELETERECEIPT', 'DELETERECEIPT_TEMPLATE', 'YES', 'NO']).then(function (translations) {
 
 		// Clears the copyGUID of the localStorage
@@ -188,14 +188,7 @@ angular.module('starter.controllers', ['ionic'])
 		}
 
 		// Create a GUID
-		$scope.generateGUID = function () {
-			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-				var r = Math.random() * 16 | 0,
-				v = c == 'x' ? r : (r & 0x3 | 0x8);
-				return v.toString(16);
-			});
-			return guid;
-		}
+		$scope.generateGUID = generateGUID;
 
 		// Write into the localeStorage that the user doesn't want to see the info altert again
 		$scope.hideData = {};
@@ -474,7 +467,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $localstorage, $ionicLoading, $translate, $location, $ionicModal, $filter, getData) {
+.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $localstorage, $ionicLoading, $translate, $location, $ionicModal, $filter, getData, generateGUID) {
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE', 'COPYOF']).then(function (translations) {
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
@@ -575,14 +568,7 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.receipts.splice($localstorage.getIndex('receipts', guid), 1);
 			$localstorage.removeObject('receipts', guid);
 		}
-		$scope.generateGUID = function () {
-			var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-				var r = Math.random() * 16 | 0,
-				v = c == 'x' ? r : (r & 0x3 | 0x8);
-				return v.toString(16);
-			});
-			return guid;
-		}
+		$scope.generateGUID = generateGUID;
 		// DOTO: Copy function rdy for beta 12
 		$scope.copyReceipt = function (guid) {
 			var theNewReceipt = $localstorage.getObject('receipts', guid);

@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'ionic.utils', 'ui.bootstrap.datetimepicker', 'pascalprecht.translate', 'hrworks.globalMethods'])
 
 .run(function ($localstorage, $translate, $ionicPlatform) {
 	// Initialize the localStorage if the app was open for the first time

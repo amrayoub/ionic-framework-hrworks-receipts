@@ -166,7 +166,6 @@ form .has-error input, form .has-error {
 
 .button.button-icon.input-button {
 	position: absolute;
-	right: 0;
 	top: 5px;
 	color: #bbb;
 }
