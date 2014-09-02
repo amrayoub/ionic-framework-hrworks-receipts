@@ -72,14 +72,9 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.openDatePicker = function(inputName) {
 			$scope.tmp = {};
-			$scope.tmp.datePickerDate = new Date();
-			$scope.tmp.datePickerDate.setFullYear($scope.form.date.slice(0,4));
-			$scope.tmp.datePickerDate.setMonth($scope.form.date.slice(5,7)-1);
-			$scope.tmp.datePickerDate.setDate($scope.form.date.slice(8,10));
+			$scope.tmp.datePickerDate = new Date($scope.form.date.slice(0,4), $scope.form.date.slice(5,7)-1, $scope.form.date.slice(8,10));
 			if(inputName == "endDate") {
-				$scope.tmp.datePickerDate.setFullYear($scope.form.endDate.slice(0,4));
-				$scope.tmp.datePickerDate.setMonth($scope.form.endDate.slice(5,7)-1);
-				$scope.tmp.datePickerDate.setDate($scope.form.endDate.slice(8,10));
+				$scope.tmp.datePickerDate = new Date($scope.form.endDate.slice(0,4), $scope.form.endDate.slice(5,7)-1, $scope.form.endDate.slice(8,10));
 			}
 			$timeout(function() {
 				$ionicPopup.show({
@@ -236,7 +231,6 @@ angular.module('starter.controllers', ['ionic'])
 									text : "<b>" + translations.OK + "</b>",
 									type : "button-positive",
 									onTap : function (e) {
-										console.log("!");
 										if (typeof $scope.hideData.hideAlert !== "undefined") {
 											$scope.setHideAlert();
 										}
@@ -297,6 +291,9 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.submitted = false;
 		$scope.saveReceipt = function(isValid, isCopy) {
 			$scope.submitted = true;
+			if (!$scope.form.receiptKind.isHotel) {
+				$scope.form.endDate = $scope.form.date;
+			}
 			if (isValid && $scope.form.endDate >= $scope.form.date) {
 				if($scope.showAlternativeAmountpicker) {
 					if($translate.use() == "de") {
@@ -304,7 +301,6 @@ angular.module('starter.controllers', ['ionic'])
 					}
 					$scope.form.amount = parseFloat($scope.form.amount);
 				}
-				console.log($scope.form.amount.toFixed(2));
 				theReceipt = {
 					text : $scope.form.text,
 					amount : parseFloat($scope.form.amount.toFixed(2)),
