@@ -183,7 +183,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		FEEDBACK_QUESTION : 'Do you have questions regarding the application or would you like to tell us something? ',
 		GERMAN : 'German',
 		INFOS : 'Infos',
-		INFOS_ANDROID_TEXT : 'In case you click on the "Date" field and no Datepicker opens, please activate "alternative Datepicker" in the settings. If the keyboard of the "Amount" field does not prevent an dot please activate "alternative Amoutpicker" in the settings.',
+		INFOS_ANDROID_TEXT : 'If the "Date" field does not inhabit a datepicker or the keyboard does not provide a comma, please set a tick into the box "alternative datepicker" or "alternative amountpicker" in the settings.',
 		INFOS_INFO_TEXT : 'Creating, Editing and Deleting of costs online or offline. Synchronising with accumulative receipts (Menu Employee/Travel Costs/Accumulative Receipts) with click in Sync. Login with company-ID, User-ID and the Mobile Password (Menu Employee/Master Data/Mobile). Support/Feedback: By E-Mail to <a href="mailto:mobile.support@hrworks.de?subject=HRworks-App">mobile.support@hrworks.de</a>',
 		KINDOFPYMENT : 'Kind of Payment',
 		KINDSOFPYMENT : 'Kinds of Payment',
