@@ -34,6 +34,7 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.form.amount = 0.00;
 		}
 		$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
+		$scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
 		$scope.form.persons = "";
 		$scope.form.persons = $localstorage.getObjects('user').person + ',';
@@ -69,7 +70,6 @@ angular.module('starter.controllers', ['ionic'])
 		} else {
 			$scope.receiptTitle = translations.NEWRECEIPT;
 		}
-		$scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 		$scope.openDatePicker = function(inputName) {
 			$scope.tmp = {};
 			$scope.tmp.datePickerDate = new Date($scope.form.date.slice(0,4), $scope.form.date.slice(5,7)-1, $scope.form.date.slice(8,10));

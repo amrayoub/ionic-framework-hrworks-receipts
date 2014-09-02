@@ -120,10 +120,10 @@ angular.module('starter.services', [])
 					theNewReceipt.kindOfPayment = theNewReceipt.kindOfPayment.id;
 				}
 				if(typeof theNewReceipt.receiptKind !== 'undefined') {
-					theNewReceipt.receiptKind = theNewReceipt.receiptKind.id;
 					if (theNewReceipt.receiptKind.isHotel) {
 						theNewReceipt.endDate = theNewReceipt.endDate.replace(/-/g, "");
 					}
+					theNewReceipt.receiptKind = theNewReceipt.receiptKind.id;
 				}
 				newReceipts.push(theNewReceipt);
 			}
