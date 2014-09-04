@@ -46,14 +46,6 @@
 	border-color: transparent;
 }
 /* HRworks Color Layout end */
-/* remove the spinner of number-input fields */ 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	margin: 0;
-	moz-appearance: none;
-	webkit-appearance: none;
-}
-/* remove the spinner of number-input fields end */ 
 /* list items in collection repeat are fullscreen */
 .list .fullScreenList.item {
 	left: 0;
@@ -86,13 +78,6 @@ input::-webkit-inner-spin-button {
 	vertical-align: middle;
 }
 /* form validation style */
-form i.icon.error {
-	color: #ef4e3a;
-}
-form i.error {
-	display: none;
-	margin-left: 8px;
-}
 .validError {
 	color: #cc2511;
 	margin-left: 8px;
@@ -100,17 +85,6 @@ form i.error {
 .validErrorText {
 	color: #cc2511;
 }
-/* TODO: Kommentar zum der Zeile */
-form.ng-submitted input.ng-invalid + i.error {
-	display: block;
-}
-form.ng-submitted input.ng-valid + i.error {
-	display: none;
-}
-form .has-error input, form .has-error {
-	color: #cc2511;
-}
-/* form validation style */
 /* Modal search input field */
 .bar.item-input-inset .item-input-wrapper input {
 	width: 81%;

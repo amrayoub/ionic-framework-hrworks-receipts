@@ -582,6 +582,7 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.receipts.splice($localstorage.getIndex('receipts', guid), 1);
 			$localstorage.removeObject('receipts', guid);
 		}
+		console.log($localstorage.getIndex('receipts', '12343'));
 		$scope.generateGUID = generateGUID;
 		// DOTO: Copy function rdy for beta 12
 		$scope.copyReceipt = function (guid) {

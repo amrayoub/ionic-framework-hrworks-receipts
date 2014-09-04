@@ -11,17 +11,15 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
 .run(function ($localstorage, $translate, $ionicPlatform) {
 	// Initialize the localStorage if the app was open for the first time
-	// TODO: version = isInitalisied = true/false
-	// TODO: new Array nur dort wo arrays verwendet werden, sonst string/boolean/int
-	if ($localstorage.getObjects('version').version != 1) {
+	if (!$localstorage.getObjects('isInitalisied').isInitalisied) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
 		$localstorage.setObject('currencies', new Array());
 		$localstorage.setObject('receiptKinds', new Array());
-		$localstorage.setObject('lastCurrency', new Array());
-		$localstorage.setObject('hideAlert', new Array());
-		$localstorage.setObject('copyGUID', new Array());
-		$localstorage.setObject('user', new Array());
+		$localstorage.setObject('lastCurrency', '');
+		$localstorage.setObject('hideAlert', '');
+		$localstorage.setObject('copyGUID', '');
+		$localstorage.setObject('user', '');
 
 		var userLanguage = window.navigator.userLanguage;
 		if (typeof userLanguage === 'undefined') {
@@ -35,8 +33,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		$localstorage.setObject('language', {
 			language : userLanguage
 		});
-		$localstorage.setObject('version', {
-			version : 1
+		$localstorage.setObject('isInitalisied', {
+			isInitalisied : true
 		});
 	}
 	$translate.use($localstorage.getObjects('language').language);
@@ -100,16 +98,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			'receipts' : {
 				templateUrl : 'templates/receipt.html',
 				controller : 'receiptCtrl'
-			}
-		}
-	})
-	// TODO: löschen //
-	.state('tab.feedback', {
-		url : '/feedback',
-		views : {
-			'feedback' : {
-				templateUrl : 'templates/feedback.html',
-				controller : 'feedbackCtrl'
 			}
 		}
 	})

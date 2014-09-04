@@ -34,10 +34,12 @@ angular.module('ui.bootstrap.datetimepicker', [])
           }
         }
       }
+	  // added code
 	  // If the language of the app is german, set datepicker language to german
-	if($localstorage.getObjects('language').language == 'de') {
-		moment.lang('de');
-	}
+	  if($localstorage.getObjects('language').language == 'de') {
+		  moment.lang('de');
+	  }
+	  // added code end
       // Order of the elements in the validViews array is significant.
       var validViews = ['minute', 'hour', 'day', 'month', 'year'];
 

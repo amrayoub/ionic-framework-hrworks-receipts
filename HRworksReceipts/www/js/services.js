@@ -38,7 +38,6 @@ angular.module('ionic.utils', [])
 			}
 			return -1;
 		},
-		// TODO kein return Wert
 		getCurrencyObject : function (symbol) {
 			var objects = angular.fromJson($window.localStorage['currencies'] || '{}');
 			for (var i = 0; i < objects.length; i++) {
@@ -111,6 +110,21 @@ angular.module('starter.services', [])
 		var generatedString = companyId + "\r\n" + personId + "\r\n" + timeStamp + "\r\n" + request + "\r\n";
 		return rstr2b64(rstr_hmac_sha1(str2rstr_utf8(password), rstr_sha1(str2rstr_utf8(generatedString))));
 	}
+	createApiRequestObject = function(user, request) {
+		var apiVersion = "1";
+		requestObject = {};
+		requestObject.companyId = user.companyId;
+		requestObject.personId = user.personId;
+		requestObject.dateAndTime = (new Date()).toISO8601();
+		requestObject.mobileApplicationAuthorization = "HRworksMobileApp";
+		requestObject.deviceId = $cordovaDevice.getUUID();
+		requestObject.deviceName = $cordovaDevice.getModel();
+		requestObject.languageKey = $translate.use();
+		requestObject.version = apiVersion;
+		requestObject.isCharsetUtf8 = true;
+		requestObject.signature = generateSignature(requestObject.companyId, requestObject.personId, request, requestObject.dateAndTime, user.mobilePassword);
+		return requestObject;
+	}
 	get = function (type, url) {
 		var userData = $localstorage.getObjects('user');
 		correctReceipts = function (receipts) {
@@ -134,34 +148,22 @@ angular.module('starter.services', [])
 			}
 			return newReceipts;
 		}
-		// TODO: funktioniert dieser Teil?
 		var apiName = "HrwGet" + type + "Api";
-		var jsonObject = {};
 		if (type == "Receipts") {
-			apiName = "HrwSynchronizeImportReceiptsApi"
-			jsonObject.importReceipts = correctReceipts($localstorage.getObjects('receipts'));
+			apiName = "HrwSynchronizeImportReceiptsApi";
 		}
-		// TODO: var api ==> apiUrl
-		var api = url + apiName;
+		var apiUrl = url + apiName;
 		var request = apiName + " class";
-		//  TODO: var apiVersion = 1;
-		// ende
-		jsonObject.companyId = userData.companyId;
-		jsonObject.personId = userData.personId;
-		jsonObject.dateAndTime = (new Date()).toISO8601();
-		jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-		jsonObject.deviceId = $cordovaDevice.getUUID();
-		jsonObject.languageKey = $translate.use();
-		jsonObject.version = "1";
-		jsonObject.isCharsetUtf8 = true;
-		jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, userData.mobilePassword);
+		var requestObject = createApiRequestObject(userData, request);
+		if (type == "Receipts") {
+			requestObject.importReceipts = correctReceipts($localstorage.getObjects('receipts'));;
+		}
 		return $http({
-			url : api,
+			url : apiUrl,
 			method : "POST",
-			data : angular.toJson(jsonObject),
-				// TODO: 'Accept-Charset' : undefined ändern
-			headers : {
-				'Accept-Charset' : undefined
+			data : angular.toJson(requestObject),
+			headers: {
+				'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
 			}
 		});
 	};
@@ -201,8 +203,9 @@ angular.module('starter.services', [])
 			}
 			var deferred = $q.defer();
 			var userData = $localstorage.getObjects('user');
-			// TODO: was ist der Wert von URL
+			// URL is the GetCurrentUrl.get request
 			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
+			console.log(url);
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
 					$localstorage.setObject('kindsOfPayment', data.result);
@@ -237,23 +240,15 @@ angular.module('starter.services', [])
 		userLogout : function (user) {
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
 			var request = "HrwCheckOutDeviceApi class";
-			jsonObject = {};
-			jsonObject.companyId = user.companyId;
-			jsonObject.personId = user.personId;
-			jsonObject.dateAndTime = (new Date()).toISO8601();
-			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-			jsonObject.deviceId = $cordovaDevice.getUUID();
-			jsonObject.deviceName = $cordovaDevice.getModel();
-			jsonObject.languageKey = $translate.use();
-			jsonObject.version = "1";
-			jsonObject.isCharsetUtf8 = true;
-			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
+			requestObject = createApiRequestObject(user, request);
 			url.success(function (data, status, headers, config) {
 				$http({
-					//TODO: einheidliche headers einfügen für alle requsts
 					url : data.url + "HrwCheckOutDeviceApi",
 					method : "POST",
-					data : angular.toJson(jsonObject)
+					data : angular.toJson(requestObject),
+					headers : {
+						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+					}
 				})
 			})
 		},
@@ -261,26 +256,14 @@ angular.module('starter.services', [])
 			var deferred = $q.defer();
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
 			var request = "HrwRegisterDeviceApi class";
-			jsonObject = {};
-			// TODO: methode erstellen, welches die benutzerdaten selbst in jsonobject speichert und diese in jedem requestbenutzen
-			jsonObject.companyId = user.companyId;
-			jsonObject.personId = user.personId;
-			jsonObject.dateAndTime = (new Date()).toISO8601();
-			jsonObject.mobileApplicationAuthorization = "HRworksMobileApp";
-			jsonObject.deviceId = $cordovaDevice.getUUID();
-			jsonObject.deviceName = $cordovaDevice.getModel();
-			jsonObject.languageKey = $translate.use();
-			jsonObject.version = "1";
-			jsonObject.isCharsetUtf8 = true;
-			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
+			requestObject = createApiRequestObject(user, request);
 			url.success(function (data, status, headers, config) {
 				$http({
 					url : data.url + "HrwRegisterDeviceApi",
 					method : "POST",
-					data : angular.toJson(jsonObject),
+					data : angular.toJson(requestObject),
 					headers : {
-					//TODO: einheidliche headers einfügen für alle requsts
-						'Content-Type' : 'application/x-www-form-urlencoded;'
+						'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
 					}
 				}).success(function (data, status, headers, config) {
 					deferred.resolve(data);
