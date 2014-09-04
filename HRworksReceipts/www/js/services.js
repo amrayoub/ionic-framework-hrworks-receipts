@@ -27,6 +27,7 @@ angular.module('ionic.utils', [])
 					return i;
 				}
 			}
+			return -1;
 		},
 		getObject : function (key, guid) {
 			var objects = angular.fromJson($window.localStorage[key] || '{}');
@@ -35,7 +36,9 @@ angular.module('ionic.utils', [])
 					return objects[i];
 				}
 			}
+			return -1;
 		},
+		// TODO kein return Wert
 		getCurrencyObject : function (symbol) {
 			var objects = angular.fromJson($window.localStorage['currencies'] || '{}');
 			for (var i = 0; i < objects.length; i++) {
@@ -43,6 +46,7 @@ angular.module('ionic.utils', [])
 					return objects[i];
 				}
 			}
+			return -1;
 		},
 		getObjectById : function (key, id) {
 			var objects = angular.fromJson($window.localStorage[key] || '{}');
@@ -51,6 +55,7 @@ angular.module('ionic.utils', [])
 					return objects[i];
 				}
 			}
+			return -1;
 		},
 		removeObject : function (key, guid) {
 			var objects = angular.fromJson($window.localStorage[key] || '{}');
@@ -88,15 +93,15 @@ angular.module('starter.services', [])
 				method : "POST",
 				data : angular.toJson(jsonObject),
 				headers : {
-					'Content-Type' : 'application/x-www-form-urlencoded; charset=ISO-8859-1'
+					'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
 				}
 			})
 		}
 	}
 })
 
-// API: Call "all" to get a complete synchronization
-.factory('getData', function ($q, $localstorage, $http, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
+// API
+.factory('ApiRequester', function ($q, $localstorage, $http, $cordovaDevice, $translate, $ionicPopup, GetCurrentUrl) {
 	var translationsArray = [];
 	$translate(['NOANSWERFROMTHESERVER_TITLE', 'NOANSWERFROMTHESERVER_TEMPLATE']).then(function (translations) {
 		translationsArray["NOANSWERFROMTHESERVER_TITLE"] = translations.NOANSWERFROMTHESERVER_TITLE;
@@ -129,16 +134,18 @@ angular.module('starter.services', [])
 			}
 			return newReceipts;
 		}
-
+		// TODO: funktioniert dieser Teil?
 		var apiName = "HrwGet" + type + "Api";
-		var api = url + "HrwGet" + type + "Api";
-		var request = apiName + " class";
 		var jsonObject = {};
 		if (type == "Receipts") {
-			api = url + "HrwSynchronizeImportReceiptsApi";
-			var request = "HrwSynchronizeImportReceiptsApi class";
+			apiName = "HrwSynchronizeImportReceiptsApi"
 			jsonObject.importReceipts = correctReceipts($localstorage.getObjects('receipts'));
 		}
+		// TODO: var api ==> apiUrl
+		var api = url + apiName;
+		var request = apiName + " class";
+		//  TODO: var apiVersion = 1;
+		// ende
 		jsonObject.companyId = userData.companyId;
 		jsonObject.personId = userData.personId;
 		jsonObject.dateAndTime = (new Date()).toISO8601();
@@ -152,6 +159,7 @@ angular.module('starter.services', [])
 			url : api,
 			method : "POST",
 			data : angular.toJson(jsonObject),
+				// TODO: 'Accept-Charset' : undefined ändern
 			headers : {
 				'Accept-Charset' : undefined
 			}
@@ -159,6 +167,7 @@ angular.module('starter.services', [])
 	};
 	changeReceiptObject = function (receipts) {
 		updatedReceiptsCollection = new Array();
+		// TODO was passier bei hotelbeleg mit leerem endDatum
 		changeDate = function (theDate) {
 			year = theDate.substr(0, 4);
 			month = theDate.substr(4, 2);
@@ -181,7 +190,7 @@ angular.module('starter.services', [])
 		return updatedReceiptsCollection;
 	}
 	return {
-		all : function () {
+		synchroniseAll : function () {
 			noConnectionToTheServer = function (data) {
 				deferred.resolve(data);
 				$ionicPopup.alert({
@@ -192,6 +201,7 @@ angular.module('starter.services', [])
 			}
 			var deferred = $q.defer();
 			var userData = $localstorage.getObjects('user');
+			// TODO: was ist der Wert von URL
 			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
@@ -236,9 +246,11 @@ angular.module('starter.services', [])
 			jsonObject.deviceName = $cordovaDevice.getModel();
 			jsonObject.languageKey = $translate.use();
 			jsonObject.version = "1";
+			jsonObject.isCharsetUtf8 = true;
 			jsonObject.signature = generateSignature(jsonObject.companyId, jsonObject.personId, request, jsonObject.dateAndTime, user.mobilePassword);
 			url.success(function (data, status, headers, config) {
 				$http({
+					//TODO: einheidliche headers einfügen für alle requsts
 					url : data.url + "HrwCheckOutDeviceApi",
 					method : "POST",
 					data : angular.toJson(jsonObject)
@@ -250,6 +262,7 @@ angular.module('starter.services', [])
 			var url = GetCurrentUrl.get(user.targetServer, user.companyId);
 			var request = "HrwRegisterDeviceApi class";
 			jsonObject = {};
+			// TODO: methode erstellen, welches die benutzerdaten selbst in jsonobject speichert und diese in jedem requestbenutzen
 			jsonObject.companyId = user.companyId;
 			jsonObject.personId = user.personId;
 			jsonObject.dateAndTime = (new Date()).toISO8601();
@@ -266,6 +279,7 @@ angular.module('starter.services', [])
 					method : "POST",
 					data : angular.toJson(jsonObject),
 					headers : {
+					//TODO: einheidliche headers einfügen für alle requsts
 						'Content-Type' : 'application/x-www-form-urlencoded;'
 					}
 				}).success(function (data, status, headers, config) {

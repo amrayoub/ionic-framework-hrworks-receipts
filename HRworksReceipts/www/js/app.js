@@ -11,6 +11,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
 .run(function ($localstorage, $translate, $ionicPlatform) {
 	// Initialize the localStorage if the app was open for the first time
+	// TODO: version = isInitalisied = true/false
+	// TODO: new Array nur dort wo arrays verwendet werden, sonst string/boolean/int
 	if ($localstorage.getObjects('version').version != 1) {
 		$localstorage.setObject('receipts', new Array());
 		$localstorage.setObject('kindsOfPayment', new Array());
@@ -40,7 +42,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 	$translate.use($localstorage.getObjects('language').language);
 })
 
-.run(function ($ionicPlatform, $localstorage, $cordovaNetwork, $ionicLoading, $cordovaSplashscreen, getData) {
+.run(function ($ionicPlatform, $localstorage, $cordovaNetwork, $ionicLoading, $cordovaSplashscreen, ApiRequester) {
 	$ionicPlatform.ready(function () {
 		document.addEventListener('focus', function (e) {
 			e.preventDefault();
@@ -52,7 +54,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			$ionicLoading.show({
 				templateUrl : 'templates/synchronize.html',
 			});
-			var promise = getData.all();
+			var promise = ApiRequester.synchroniseAll();
 			promise.then(function () {
 				$cordovaSplashscreen.hide();
 				$ionicLoading.hide();
@@ -101,6 +103,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 			}
 		}
 	})
+	// TODO: löschen //
 	.state('tab.feedback', {
 		url : '/feedback',
 		views : {
@@ -143,6 +146,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		AMOUNT : 'Amount',
 		BUG : 'Bug',
 		CANCEL : 'Cancel',
+		CHOOSE_AMOUNT : 'Choose Amount',
 		CHOOSE_CURRENCY : 'Choose Currency',
 		CHOOSE_DATE : 'Choose date',
 		CHOOSE_KINDOFPAYMENT : 'Choose Kind of Payment',
@@ -203,6 +207,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		PERSONS : 'Persons',
 		PLACE : 'Place',
 		PLEASEWAIT : 'Please wait...',
+		PULLTOSYNCHRONIZE : 'Pull to synchronize',
 		REASON : 'Reason',
 		RECEIPT : 'Receipt',
 		RECEIPTKIND : 'Receipt Kind',
@@ -231,6 +236,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		AMOUNT : 'Betrag',
 		BUG : 'Fehler',
 		CANCEL : 'Abbrechen',
+		CHOOSE_AMOUNT : 'Betrag w&auml;hlen',
 		CHOOSE_CURRENCY : 'W&auml;hrung w&auml;hlen',
 		CHOOSE_DATE : 'Datum ausw&auml;hlen',
 		CHOOSE_KINDOFPAYMENT : 'Zahlungsart w&auml;hlen',
@@ -291,6 +297,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 		PERSONS : 'Bewirtete Personen',
 		PLACE : 'Ort der Bewirtung',
 		PLEASEWAIT : 'Bitte warten...',
+		PULLTOSYNCHRONIZE : 'Zum Synchronisieren herunterziehen',
 		REASON : 'Grund der Bewirtung',
 		RECEIPT : 'Beleg',
 		RECEIPTKIND : 'Belegart',

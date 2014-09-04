@@ -21,7 +21,7 @@ angular.module('ui.bootstrap.datetimepicker', [])
     startView: 'day',
     weekStart: 0
   })
-  .directive('datetimepicker', ['dateTimePickerConfig', function (defaultConfig) {
+  .directive('datetimepicker', ['dateTimePickerConfig', '$localstorage', function (defaultConfig, $localstorage) {
     "use strict";
 	
     var validateConfiguration = function (configuration) {
@@ -34,8 +34,8 @@ angular.module('ui.bootstrap.datetimepicker', [])
           }
         }
       }
-	var languageCode = window.localStorage.getItem('language').slice(13, 15);
-	if(languageCode == 'de') {
+	  // If the language of the app is german, set datepicker language to german
+	if($localstorage.getObjects('language').language == 'de') {
 		moment.lang('de');
 	}
       // Order of the elements in the validViews array is significant.

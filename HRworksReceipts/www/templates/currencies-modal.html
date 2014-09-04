@@ -15,8 +15,9 @@
 		has-header="true">
 		<div class="list" ng-if="showListCurrencies">
 			<div class="button-bar currencybuttons">
+				<!-- TODO: Prüfen ob das geht! -->
 				<a class="button favorite {{ isFavorite && 'active' || ''}}" ng-click="setFavorite($event)" translate="FAVORITES"></a>
-				<a class="button all {{(isFavorite == '') && 'active' || ''}}" ng-click="setFavorite($event)" translate="ALLCURRENCIES"></a>
+				<a class="button all {{ (isFavorite == '') && 'active' || ''}}" ng-click="setFavorite($event)" translate="ALLCURRENCIES"></a>
 			</div>
 			<ion-radio
 				class="item fullScreenList"

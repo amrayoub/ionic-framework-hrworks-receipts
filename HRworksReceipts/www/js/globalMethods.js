@@ -9,4 +9,14 @@ angular.module('hrworks.globalMethods', ['ionic'])
 		});
 		return guid;
     };
+})
+
+.factory('getDateFormat', function($localstorage) {
+    return function() {
+		if($localstorage.getObjects('language').language == 'de') {
+			return 'dd.MM.yyyy';
+		} else {
+			return 'MM/dd/yyyy';
+		}
+    };
 });

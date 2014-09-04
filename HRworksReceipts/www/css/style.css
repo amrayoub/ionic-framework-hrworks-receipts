@@ -23,10 +23,10 @@
 .bar-hrworks .button {
 	background-color: #004da0;
 	border-color: #145fd7;
-	color: #fff;
+	color: #ffffff;
 }
 .bar-hrworks .button:hover {
-	color: #fff;
+	color: #ffffff;
 	text-decoration: none;
 }
 .bar-hrworks .button.active, .bar-hrworks .button.activated {
@@ -38,7 +38,7 @@
 	background: none;
 	border-color: transparent;
 	box-shadow: none;
-	color: #fff;
+	color: #ffffff;
 	font-size: 17px;
 }
 .bar-hrworks .button.button-icon {
@@ -61,7 +61,7 @@ input::-webkit-inner-spin-button {
 	padding-top: 0;
 	right: 0;
 }
-.fullScreenList{
+.fullScreenList {
   left: 0 !important;
   right: 0 !important;
 }
@@ -76,7 +76,7 @@ input::-webkit-inner-spin-button {
 }
 /* gray icon end */
 .input-span {
-	color: #000;
+	color: #000000;
 	display: block;
 	font-size: 14px;
 	height: 25px;
@@ -100,6 +100,7 @@ form i.error {
 .validErrorText {
 	color: #cc2511;
 }
+/* TODO: Kommentar zum der Zeile */
 form.ng-submitted input.ng-invalid + i.error {
 	display: block;
 }
@@ -114,7 +115,6 @@ form .has-error input, form .has-error {
 .bar.item-input-inset .item-input-wrapper input {
 	width: 81%;
 }
-
 .headerSearch {
 	background: none repeat scroll 0 0 #145fd7;
 }
@@ -167,7 +167,7 @@ form .has-error input, form .has-error {
 .button.button-icon.input-button {
 	position: absolute;
 	top: 5px;
-	color: #bbb;
+	color: #bbbbbb;
 }
 .currencybuttons {
 	margin-left:2%;
@@ -176,43 +176,43 @@ form .has-error input, form .has-error {
 	width: 96%
 }
 .popup-body .datetimepicker {
-  min-height: 221px;
+	min-height: 221px;
 }
 .popup-body .datetimepicker table {
-  width: 100%;
+	width: 100%;
 }
 /*
  * Use ionic icons instead of bootstrap's glyphicons 
  * for arrows in the datetimepicker.
  */
 .glyphicon {
-  vertical-align: top;
-  display: inline-block;
-  font-family: "Ionicons";
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  text-rendering: auto;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	vertical-align: top;
+	display: inline-block;
+	font-family: "Ionicons";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	text-rendering: auto;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 .glyphicon:before {
-  vertical-align: top;
-  font-size: 32px;
-  line-height: 32px;
-  padding-right: 2px;
-  padding-left: 2px;
-  display: inline-block;
-  padding: 0 0 1px 0;
+	vertical-align: top;
+	font-size: 32px;
+	line-height: 32px;
+	padding-right: 2px;
+	padding-left: 2px;
+	display: inline-block;
+	padding: 0 0 1px 0;
 }
 .glyphicon-arrow-right:before {
-  content: "\f10a";
+	content: "\f10a";
 }
 .glyphicon-arrow-left:before{
-  content: "\f107";
+	content: "\f107";
 }
 .amountPickerResultPosition {
 	text-align:right; 

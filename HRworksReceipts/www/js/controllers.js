@@ -1,10 +1,11 @@
 angular.module('starter.controllers', ['ionic'])
 
 // Controller of the Receipt View
-.controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate, generateGUID) {
-	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'SAVE', 'CHOOSE_DATE', 'DELETE', 'COPYOF', 'DELETERECEIPT', 'DELETERECEIPT_TEMPLATE', 'YES', 'NO']).then(function (translations) {
+.controller('receiptCtrl', function ($scope, $localstorage, $filter, $ionicActionSheet, $ionicPopup, $ionicModal, $timeout, $stateParams, $translate, generateGUID, getDateFormat) {
+	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'SAVE', 'CHOOSE_DATE', 'CHOOSE_AMOUNT', 'DELETE', 'COPYOF', 'DELETERECEIPT', 'DELETERECEIPT_TEMPLATE', 'YES', 'NO']).then(function (translations) {
 
 		// Clears the copyGUID of the localStorage
+		// TODO: new Array ==> zu String
 		$localstorage.setObject('copyGUID', new Array());
 
 		// HACK: removes the tabs in the view. Update if there is a better way
@@ -15,28 +16,31 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.$on('$destroy', function () {
 			tabs.css('display', '');
 		});
-		
+		// HACK: end
+
 		// Put the data form the localStorage into the scope
 		$scope.receiptKinds = $localstorage.getObjects('receiptKinds');
 		$scope.kindsOfPayment = $localstorage.getObjects('kindsOfPayment');
 		$scope.currencies = $localstorage.getObjects('currencies');
 		$scope.form = {};
 		$scope.showAlternativeAmountpicker = $localstorage.getObjects('user').alternativeAmountpicker;
-		if($translate.use() == "de" && $scope.showAlternativeAmountpicker) {
-			$scope.form.amount = "0,00";
-			$scope.dateFormat = 'dd.MM.yyyy';
-		}
-		if($translate.use() == "en" && $scope.showAlternativeAmountpicker) {
-			$scope.form.amount = "0.00";
-			$scope.dateFormat = 'MM/dd/yyyy';
-		}
-		if(!$scope.showAlternativeAmountpicker) {
+		
+		$scope.getDateFormat = getDateFormat;
+		if($scope.showAlternativeAmountpicker) {
+			$scope.dateFormat = $scope.getDateFormat();
+			console.log($scope.dateFormat);
+			if($translate.use() == "de") {
+				$scope.form.amount = "0,00";
+			} else {
+				$scope.form.amount = "0.00";
+			}
+		} else {
 			$scope.form.amount = 0.00;
 		}
 		$scope.form.date = $filter('date')(new Date(), 'yyyy-MM-dd');
-		$scope.form.endDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+		var newDate = new Date();
+		$scope.form.endDate = $filter('date')(newDate.setDate(newDate.getDate() + 1), 'yyyy-MM-dd');
 		$scope.form.currency = $localstorage.getObjects('lastCurrency');
-		$scope.form.persons = "";
 		$scope.form.persons = $localstorage.getObjects('user').person + ',';
 		$scope.showAlternativeDatepicker = $localstorage.getObjects('user').alternativeDatepicker;
 		$scope.form.kindOfPayment = "";
@@ -72,10 +76,11 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		$scope.openDatePicker = function(inputName) {
 			$scope.tmp = {};
-			$scope.tmp.datePickerDate = new Date($scope.form.date.slice(0,4), $scope.form.date.slice(5,7)-1, $scope.form.date.slice(8,10));
+			date = $scope.form.date;
 			if(inputName == "endDate") {
-				$scope.tmp.datePickerDate = new Date($scope.form.endDate.slice(0,4), $scope.form.endDate.slice(5,7)-1, $scope.form.endDate.slice(8,10));
+				date = $scope.form.endDate
 			}
+			$scope.tmp.datePickerDate = new Date(date.slice(0,4), date.slice(5,7)-1, date.slice(8,10));			
 			$timeout(function() {
 				$ionicPopup.show({
 					template: "<datetimepicker ng-model='tmp.datePickerDate'></datetimepicker>",
@@ -101,69 +106,73 @@ angular.module('starter.controllers', ['ionic'])
 				});
 			}, 200);
 		}
-		$scope.isFirstButtonClick = true;
-		$scope.isAfterDecimalPoint = false;
-		$scope.isFirstAfterDecimalPointPosition = true;
+		$scope.resetAmountPickerEntry = function() {
+			$scope.isFirstButtonClick = true;
+			$scope.isAfterDecimalPoint = false;
+			$scope.isFirstAfterDecimalPointPosition = true;
+		}
+		$scope.resetAmountPickerEntry();
 		$scope.positionIcon = "ion-chevron-right";
+		
 		$scope.goBeforeDecimalPoint = function () {
 			$scope.isAfterDecimalPoint = false;
 		}
 		$scope.temporaryAmount = $scope.form.amount;
 		$scope.dotOrComma = ".";
 		if($translate.use() == "de") {
-				$scope.dotOrComma = ",";
-			}
+			$scope.dotOrComma = ",";
+		}
 		$scope.addToAmount = function(addingNumber) {
 			var theAmount = $scope.temporaryAmount;
-			var period = theAmount.indexOf($scope.dotOrComma);
-			if (period > -1) {
-				var beforeDecimalPoint = theAmount.substring(0, period);
-				var afterDecimalPoint = theAmount.substring(period + 1);
+			var indexOfPeriod = theAmount.indexOf($scope.dotOrComma);
+			var beforeDecimalPointString;
+			var afterDecimalPointString;
+			if (indexOfPeriod > -1) {
+				beforeDecimalPointString = theAmount.substring(0, indexOfPeriod);
+				afterDecimalPointString = theAmount.substring(indexOfPeriod + 1);
 			}
 			if(addingNumber == "," || addingNumber == ".") {
 				$scope.isAfterDecimalPoint = true;
 				return;
 			}
-			if(!$scope.isAfterDecimalPoint) {
-				if(addingNumber == "del") {
-				beforeDecimalPoint = beforeDecimalPoint.substring(0,beforeDecimalPoint.length-1);
-					if(beforeDecimalPoint == "") {
-						beforeDecimalPoint = "0";
-					}
-				$scope.temporaryAmount = beforeDecimalPoint + $scope.dotOrComma + afterDecimalPoint;
-				return;
-				}
-				if(beforeDecimalPoint == "0") {
-					beforeDecimalPoint = "";
-				}
-				if($scope.isFirstButtonClick) {
-					beforeDecimalPoint = addingNumber;
-					$scope.isFirstButtonClick = false;
-				} else {
-					beforeDecimalPoint = beforeDecimalPoint + addingNumber;
-				}
-			} else {
+			if($scope.isAfterDecimalPoint) {
 				if(addingNumber == "del") {
 					addingNumber = "0";
 				}
 				if($scope.isFirstAfterDecimalPointPosition) {
-					afterDecimalPoint = addingNumber + afterDecimalPoint.substring(1,2);
-					$scope.isFirstAfterDecimalPointPosition = false;
+					afterDecimalPointString = addingNumber + afterDecimalPointString.substring(1, 2);
 				} else {
-					afterDecimalPoint = afterDecimalPoint.substring(0,1) + addingNumber;
-					$scope.isFirstAfterDecimalPointPosition = true;
+					afterDecimalPointString = afterDecimalPointString.substring(0, 1) + addingNumber;
+				}
+				$scope.isFirstAfterDecimalPointPosition = !$scope.isFirstAfterDecimalPointPosition;				
+			} else {
+				if(addingNumber == "del") {
+					beforeDecimalPointString = beforeDecimalPointString.substring(0, beforeDecimalPointString.length - 1);
+					if(beforeDecimalPointString == "") {
+						beforeDecimalPointString = "0";
+					}
+					$scope.temporaryAmount = beforeDecimalPointString + $scope.dotOrComma + afterDecimalPointString;
+					return;
+				}
+				if(beforeDecimalPointString == "0") {
+					beforeDecimalPointString = "";
+				}
+				if($scope.isFirstButtonClick) {
+					beforeDecimalPointString = addingNumber;
+					$scope.isFirstButtonClick = false;
+				} else {
+					beforeDecimalPointString = beforeDecimalPointString + addingNumber;
 				}
 			}
-			$scope.temporaryAmount = beforeDecimalPoint + $scope.dotOrComma + afterDecimalPoint;
+			$scope.temporaryAmount = beforeDecimalPointString + $scope.dotOrComma + afterDecimalPointString;
 		}
 		
 		$scope.openAmountPicker = function() {
-			$scope.isAfterDecimalPoint = false;
-			$scope.isFirstAfterDecimalPointPosition = true;
-			$scope.isFirstButtonClick = true;
+			$scope.resetAmountPickerEntry();
 			$timeout(function() {
 				$ionicPopup.confirm({
-					title: 'Betrag wählen',
+					// TODO: übersetzung
+					title: "<b>" + translations.CHOOSE_AMOUNT + "</b>",
 					scope: $scope,
 					templateUrl: 'templates/amountPicker.html',
 					buttons : [{
@@ -183,6 +192,7 @@ angular.module('starter.controllers', ['ionic'])
 		}
 
 		// Create a GUID
+		// Write the global methode generateGUID from globaleMethode.js into the $scope
 		$scope.generateGUID = generateGUID;
 
 		// Write into the localeStorage that the user doesn't want to see the info altert again
@@ -276,11 +286,7 @@ angular.module('starter.controllers', ['ionic'])
 							theNewPersonsArray.push(thePersonsArray[i]);
 						}
 					}
-					if (theNewPersonsArray.length >= 2) {
-						return false;
-					} else {
-						return true;
-					}
+					return !(theNewPersonsArray.length >= 2);
 				} else {
 					return true;
 				}
@@ -291,16 +297,23 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.submitted = false;
 		$scope.saveReceipt = function(isValid, isCopy) {
 			$scope.submitted = true;
+			var checkEndDate = $scope.form.date; 
+			checkEndDate = new Date(checkEndDate.slice(0,4), checkEndDate.slice(5,7)-1, checkEndDate.slice(8,10));	
 			if (!$scope.form.receiptKind.isHotel) {
-				$scope.form.endDate = $scope.form.date;
+				$scope.form.endDate = checkEndDate.setDate(checkEndDate.getDate() + 1);
+				$scope.form.endDate = $filter('date')($scope.form.endDate, 'yyyy-MM-dd');
 			}
-			if (isValid && $scope.form.endDate >= $scope.form.date) {
+				console.log($scope.form.endDate);
+				console.log($scope.form.date < $scope.form.endDate);
+			if (isValid && $scope.form.date < $scope.form.endDate) {
 				if($scope.showAlternativeAmountpicker) {
 					if($translate.use() == "de") {
+						// TODO: voesricht bei eingabe von "100.00,26", testen
 						$scope.form.amount = $scope.form.amount.replace(",", ".");
 					}
 					$scope.form.amount = parseFloat($scope.form.amount);
 				}
+				
 				theReceipt = {
 					text : $scope.form.text,
 					amount : parseFloat($scope.form.amount.toFixed(2)),
@@ -335,12 +348,14 @@ angular.module('starter.controllers', ['ionic'])
 					}
 				}
 				$localstorage.setObject('lastCurrency', $scope.form.currency);
+				// The if-statement is just for the browser to catch the error if there is no backview
 				if ($scope.$viewHistory.backView != null) {
 					$scope.$viewHistory.backView.go();
 				}
 			}
 		}
 		// blur InputItem
+		// TODO: HACK kommentieren, wieso wird gebraucht?
 		$scope.blurInputItems = function() {
 			$timeout(function() {
 				if(document.querySelectorAll('input:focus').length > 0) {
@@ -382,11 +397,7 @@ angular.module('starter.controllers', ['ionic'])
 
 		$scope.isFavorite = true;
 		$scope.setFavorite = function (event) {
-			if (angular.element(event.target).hasClass('favorite')) {
-				$scope.isFavorite = true;
-			} else {
-				$scope.isFavorite = '';
-			}
+			$scope.isFavorite = angular.element(event.target).hasClass('favorite'); 
 		}
 
 		// Clear the currencies searchbox
@@ -412,11 +423,18 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.openReceiptKindsModal = function () {
 			$scope.blurInputItems();
 			$scope.receiptKindsModal.show();
+			// TODO: hack notieren
 			$timeout(function () {
 				$scope.showListReceiptKinds = true;
 			}, 300)
 		}
 
+		/*
+		TODO: Methoden zusammenfassen ?
+		$scope.closeModal = function (modal) {
+			modal.hide();
+		}
+		*/
 		// Close the receiptKinds Modal
 		$scope.closeReceiptKindsModal = function () {
 			$scope.receiptKindsModal.hide();
@@ -445,6 +463,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.data = {};
 		$scope.openKindsOfPaymentModal = function () {
 			$scope.kindsOfPaymentModal.show();
+			// TODO: hack notieren
 			$timeout(function () {
 				$scope.showListKindsOfPayment = true;
 			}, 100);
@@ -463,7 +482,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $localstorage, $ionicLoading, $translate, $location, $ionicModal, $filter, getData, generateGUID) {
+.controller('receiptsCtrl', function ($scope, $ionicPopup, $cordovaNetwork, $localstorage, $ionicLoading, $translate, $location, $ionicModal, $filter, ApiRequester, generateGUID, getDateFormat ) {
 	$translate(['WRONGCREDENTIALS_TITLE', 'WRONGCREDENTIALS_TEMPLATE', 'COPYOF']).then(function (translations) {
 		$ionicModal.fromTemplateUrl('templates/login-modal.html', {
 			scope : $scope,
@@ -476,11 +495,7 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		});
 		
-		if($localstorage.getObjects('language').language == 'de') {
-			$scope.dateFormat = 'dd.MM.yyyy';
-		} else {
-			$scope.dateFormat = 'MM/dd/yyyy';
-		}
+		$scope.getDateFormat = getDateFormat;
 		$scope.user = {};
 		$scope.user.alternativeDatepicker = false;
 		$scope.user.alternativeAmountpicker = false;
@@ -490,7 +505,7 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.login = function (isValid) {
 			$scope.submitted = true;
 			if (isValid) {
-				var promise = getData.userLogin($scope.user);
+				var promise = ApiRequester.userLogin($scope.user);
 				if (!promise) {
 					return false;
 				}
@@ -501,7 +516,7 @@ angular.module('starter.controllers', ['ionic'])
 					if (success.errors.length == 0) {
 						$scope.user.person = success.result.person;
 						$localstorage.setObject("user", $scope.user);
-						var dataPromise = getData.all();
+						var dataPromise = ApiRequester.synchroniseAll();
 						dataPromise.then(function (success) {
 							$scope.receipts = $localstorage.getObjects('receipts');
 							$ionicLoading.hide();
@@ -527,15 +542,18 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		}
 		if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
+			// TODO: vorsicht mit rückgabewert
 			$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
 		}
 		$scope.go = function (hash) {
 			$location.path(hash);
 		}
 		$scope.receipts = $localstorage.getObjects('receipts');
-		if($translate.use() == "de") {
-			for(i = 0; i < $scope.receipts.length; i++) {
-				$scope.receipts[i].amount = $scope.receipts[i].amount.toString().replace('.',',');
+		$scope.transformateAmount = function(amount) {
+			if($translate.use() == "de") {
+				return accounting.formatNumber(amount, 2, ".", ",");
+			} else {
+				return accounting.formatNumber(amount, 2, ",", ".");
 			}
 		}
 		$scope.doSync = function () {
@@ -548,7 +566,7 @@ angular.module('starter.controllers', ['ionic'])
 					template : "{{ 'NOINTERNETACCESS_TEMPLATE' | translate }}"
 				});
 			} 
-			var promise = getData.all();
+			var promise = ApiRequester.synchroniseAll();
 			promise.then(function () {
 				$scope.receipts = $localstorage.getObjects('receipts');
 				$ionicLoading.hide();
@@ -582,7 +600,7 @@ angular.module('starter.controllers', ['ionic'])
 })
 
 // Controller of the View Settings
-.controller('settingsCtrl', function ($scope, $ionicPopup, $ionicLoading, $localstorage, $cordovaNetwork, $translate, getData) {
+.controller('settingsCtrl', function ($scope, $ionicPopup, $ionicLoading, $localstorage, $cordovaNetwork, $translate, ApiRequester) {
 
 	// HACK: Hides the tabs if the keyboard is open
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
@@ -609,17 +627,17 @@ angular.module('starter.controllers', ['ionic'])
 					});
 					return;
 				}
-				var savePromise = getData.all();
-				savePromise.then(function (success) {
-				var promise = getData.userLogin($scope.form);
-					promise.then(function (success) {
+				var synchronizePromise = ApiRequester.synchroniseAll();
+				synchronizePromise.then(function (success) {
+					var loginPromise = ApiRequester.userLogin($scope.form);
+					loginPromise.then(function (success) {
 						if (success.errors.length == 0) {
-						getData.userLogout($localstorage.getObjects("user"));
+							ApiRequester.userLogout($localstorage.getObjects("user"));
 							$scope.form.person = success.result.person;
 							$localstorage.setObject('receipts', new Array());
 							$localstorage.setObject("user", $scope.form);
-							var promise = getData.all();
-							promise.then(function () {
+							var newSynchronizePromise = ApiRequester.synchroniseAll();
+							newSynchronizePromise.then(function () {
 								$ionicLoading.hide();
 								$ionicPopup.alert({
 									template : "{{ 'SUCCESS_SETTINGS_TEMPLATE' | translate }}"
@@ -641,10 +659,11 @@ angular.module('starter.controllers', ['ionic'])
 							}
 						}
 					}, function (failed) {
+						// TODO: "kann sich glaub ich selber" werden fehler gesetzt ?
 						$ionicLoading.hide();
 					});
 				}, function (failed) {
-						return false;
+					return;
 				});
 			}
 		}
@@ -652,19 +671,11 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.isAndroid = ionic.Platform.isAndroid();
 
 		// Set isGerman to true if the language is "de"
-		if ($translate.use() == "de") {
-			$scope.isGerman = true;
-		} else {
-			$scope.isGerman = false;
-		}
+			$scope.isGerman = $translate.use() == "de";
 
 		// Change language
 		$scope.changeLang = function (key, event) {
-			if (angular.element(event.target).hasClass('de')) {
-				$scope.isGerman = true;
-			} else {
-				$scope.isGerman = '';
-			}
+			$scope.isGerman = angular.element(event.target).hasClass('de');
 			$translate.use(key).then(function (key) {
 				$localstorage.setObject('language', {
 					language : key
@@ -675,8 +686,9 @@ angular.module('starter.controllers', ['ionic'])
 				$ionicLoading.show({
 					templateUrl : 'templates/synchronize.html',
 				});
-				var promise = getData.all();
-				promise.then(function () {
+				// TODO: "getData.all()" sendet auch daten, also nciht nur getdata
+				var synchronizePromise = ApiRequester.synchroniseAll();
+				synchronizePromise.then(function () {
 					$ionicLoading.hide();
 				})
 			});
@@ -686,7 +698,7 @@ angular.module('starter.controllers', ['ionic'])
 
 // Controller of the Info View
 .controller('infosCtrl', function ($scope, $window) {
-	// TODO: note HACK 
+	// HACK: Add Hide on keyboard open class
 	angular.element(document.querySelectorAll('div.tabs')[0]).addClass('hide-on-keyboard-open');
 	$scope.isAndroid = ionic.Platform.isAndroid();
 	$scope.mail = {};
