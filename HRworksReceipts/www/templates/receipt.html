@@ -41,13 +41,13 @@
 					<span class="input-label" translate="ENDDATE"></span>
 					<input required="required" type="date" name="endDate" ng-model="form.endDate" />
 					<i class="validError" ng-show="receiptForm.endDate.$invalid && submitted" translate="ERRORMESSAGE_DATE"></i>
-					<i class="validError" ng-show="form.endDate < form.date && submitted" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
+					<i class="validError" ng-show="form.endDate <= form.date && submitted" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
 				</label>
 				<label  ng-if="form.receiptKind.isHotel && showAlternativeDatepicker" class="item item-input item-stacked-label"  ng-click="openDatePicker('endDate')">
 					<span class="input-label" translate="ENDDATE"></span>
 					<p>{{ form.endDate | date: dateFormat }}</p>
 					<i class="validError" ng-show="receiptForm.endDate.$invalid && submitted" translate="ERRORMESSAGE_DATE"></i>
-					<i class="validError" ng-show="form.endDate < form.date && submitted" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
+					<i class="validError" ng-show="form.endDate <= form.date && submitted" translate="ERRORMESSAGE_ENDDATETOLOW"></i>
 				</label>
 				<label class="item item-input item-stacked-label item-icon-right" ng-click="openReceiptKindsModal()">
 					<span class="input-label" translate="RECEIPTKIND"></span>
