@@ -204,7 +204,6 @@ angular.module('starter.services', [])
 			var userData = $localstorage.getObjects('user');
 			// URL is the GetCurrentUrl.get request
 			var url = GetCurrentUrl.get(userData.targetServer, userData.companyId);
-			console.log(url);
 			url.success(function (data, status, headers, config) {
 				get('KindsOfPayment', data.url).success(function (data, status, headers, config) {
 					$localstorage.setObject('kindsOfPayment', data.result);
