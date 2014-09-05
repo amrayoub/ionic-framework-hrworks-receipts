@@ -78,13 +78,12 @@
 				</label>
 				<!-- To prevent conflicts with focusing input fields, hidden input fields should not stand in their actually correct label.
 				So Ionic doesn't think that a keyboard is open when a label is clicked. -->
-				<!-- TODO: type / id in einheitlicher reihenfolge -->
-				<input type="hidden" name="currency" ng-model="form.currency.description" required="required">
-				<input id="endDate" required="required" type="hidden" name="endDate" ng-model="form.endDate" />
-				<input id="date" required="required" type="hidden" name="date" ng-model="form.date" />
-				<input id="amount" required="required" type="hidden" name="amount"  ng-model="form.amount" />
-				<input type="hidden" name="receiptKind" ng-model="form.receiptKind.description" required="required">
-				<input type="hidden" name="kindOfPayment" ng-model="form.kindOfPayment.description" required="required">
+				<input type="hidden" name="currency"id="currency" ng-model="form.currency.description" required="required">
+				<input type="hidden" name="endDate" id="endDate" ng-model="form.endDate" required="required" />
+				<input type="hidden" name="date"  id="date"ng-model="form.date"  required="required" />
+				<input type="hidden" name="amount"  id="amount" ng-model="form.amount"  required="required" />
+				<input type="hidden" name="receiptKind" id="receiptKind" ng-model="form.receiptKind.description" required="required">
+				<input type="hidden" name="kindOfPayment" id="kindOfPayment" ng-model="form.kindOfPayment.description" required="required">
 			</div>
 		</form>
 	</ion-content>

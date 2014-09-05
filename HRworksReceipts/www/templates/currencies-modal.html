@@ -1,7 +1,7 @@
 <div class="modal">
 	<ion-header-bar class="bar bar-header bar-hrworks">
 		<h1 class="title" translate="CHOOSE_CURRENCY"></h1>
-		<button class="button button-icon button-clear ion-chevron-down" ng-click="closeCurrenciesModal()"></button>
+		<button class="button button-icon button-clear ion-chevron-down" ng-click="closeModal(CurrenciesModal)"></button>
 	</ion-header-bar>
 	<ion-header-bar class="bar bar-subheader item-input-inset">
 		<div class="item-input-wrapper">
@@ -15,9 +15,8 @@
 		has-header="true">
 		<div class="list" ng-if="showListCurrencies">
 			<div class="button-bar currencybuttons">
-				<!-- TODO: Prüfen ob das geht! -->
 				<a class="button favorite {{ isFavorite && 'active' || ''}}" ng-click="setFavorite($event)" translate="FAVORITES"></a>
-				<a class="button all {{ (isFavorite == '') && 'active' || ''}}" ng-click="setFavorite($event)" translate="ALLCURRENCIES"></a>
+				<a class="button all {{ !isFavorite && 'active' || ''}}" ng-click="setFavorite($event)" translate="ALLCURRENCIES"></a>
 			</div>
 			<ion-radio
 				class="item fullScreenList"

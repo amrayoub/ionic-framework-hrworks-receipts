@@ -5,8 +5,7 @@ angular.module('starter.controllers', ['ionic'])
 	$translate(['EDIT_RECEIPT', 'NEWRECEIPT', 'OPTIONS', 'COPY', 'ERROR', 'COPYRECEIPT_ERROR', 'COPYRECEIPT', 'COPYRECEIPT_INFO', 'CANCEL', 'OK', 'SAVE', 'CHOOSE_DATE', 'CHOOSE_AMOUNT', 'DELETE', 'COPYOF', 'DELETERECEIPT', 'DELETERECEIPT_TEMPLATE', 'YES', 'NO']).then(function (translations) {
 
 		// Clears the copyGUID of the localStorage
-		// TODO: new Array ==> zu String
-		$localstorage.setObject('copyGUID', new Array());
+		$localstorage.setObject('copyGUID', "");
 
 		// HACK: removes the tabs in the view. Update if there is a better way
 		var tabs = document.querySelectorAll('div.tabs')[0];
@@ -28,7 +27,6 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.getDateFormat = getDateFormat;
 		if($scope.showAlternativeAmountpicker) {
 			$scope.dateFormat = $scope.getDateFormat();
-			console.log($scope.dateFormat);
 			if($translate.use() == "de") {
 				$scope.form.amount = "0,00";
 			} else {
@@ -171,7 +169,6 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.resetAmountPickerEntry();
 			$timeout(function() {
 				$ionicPopup.confirm({
-					// TODO: übersetzung
 					title: "<b>" + translations.CHOOSE_AMOUNT + "</b>",
 					scope: $scope,
 					templateUrl: 'templates/amountPicker.html',
@@ -278,17 +275,19 @@ angular.module('starter.controllers', ['ionic'])
 		// Check if the person input is valid
 		$scope.personsValid = function () {
 			if ($scope.form.receiptKind.isBusinessEntertainment) {
-				if ($scope.form.persons.length > 0) {
-					var thePersonsArray = $scope.form.persons.split(",");
-					theNewPersonsArray = [];
-					for (var i = 0; i < thePersonsArray.length; i++) {
-						if (thePersonsArray[i] !== "" && thePersonsArray[i] !== null) {
-							theNewPersonsArray.push(thePersonsArray[i]);
+				if(typeof $scope.form.persons !== "undefined") {
+					if ($scope.form.persons.length > 0) {
+						var thePersonsArray = $scope.form.persons.split(",");
+						theNewPersonsArray = [];
+						for (var i = 0; i < thePersonsArray.length; i++) {
+							if (thePersonsArray[i] !== "" && thePersonsArray[i] !== null) {
+								theNewPersonsArray.push(thePersonsArray[i]);
+							}
 						}
+						return !(theNewPersonsArray.length >= 2);
+					} else {
+						return true;
 					}
-					return !(theNewPersonsArray.length >= 2);
-				} else {
-					return true;
 				}
 			}
 		}
@@ -303,12 +302,9 @@ angular.module('starter.controllers', ['ionic'])
 				$scope.form.endDate = checkEndDate.setDate(checkEndDate.getDate() + 1);
 				$scope.form.endDate = $filter('date')($scope.form.endDate, 'yyyy-MM-dd');
 			}
-				console.log($scope.form.endDate);
-				console.log($scope.form.date < $scope.form.endDate);
 			if (isValid && $scope.form.date < $scope.form.endDate) {
 				if($scope.showAlternativeAmountpicker) {
 					if($translate.use() == "de") {
-						// TODO: voesricht bei eingabe von "100.00,26", testen
 						$scope.form.amount = $scope.form.amount.replace(",", ".");
 					}
 					$scope.form.amount = parseFloat($scope.form.amount);
@@ -355,7 +351,7 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		}
 		// blur InputItem
-		// TODO: HACK kommentieren, wieso wird gebraucht?
+		// HACK: blur event to unfocus all input field and close open keyboard
 		$scope.blurInputItems = function() {
 			$timeout(function() {
 				if(document.querySelectorAll('input:focus').length > 0) {
@@ -371,6 +367,10 @@ angular.module('starter.controllers', ['ionic'])
 			searchQueryCurrencies : "",
 			searchQueryReceiptKinds : "",
 			searchQueryKindsOfPayment : ""
+		}
+		
+		$scope.closeModal = function(modal) {
+			modal.hide();
 		}
 
 		// Currencies Modal
@@ -390,11 +390,6 @@ angular.module('starter.controllers', ['ionic'])
 			}, 400);
 		}
 
-		// Close Currencies Modal
-		$scope.closeCurrenciesModal = function () {
-			$scope.CurrenciesModal.hide();
-		}
-
 		$scope.isFavorite = true;
 		$scope.setFavorite = function (event) {
 			$scope.isFavorite = angular.element(event.target).hasClass('favorite'); 
@@ -408,7 +403,7 @@ angular.module('starter.controllers', ['ionic'])
 		// Select a currency
 		$scope.selectCurrency = function (currency) {
 			$scope.form.currency = currency;
-			$scope.closeCurrenciesModal();
+			$scope.closeModal($scope.CurrenciesModal);
 		}
 
 		// receiptKinds Modal
@@ -423,21 +418,9 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.openReceiptKindsModal = function () {
 			$scope.blurInputItems();
 			$scope.receiptKindsModal.show();
-			// TODO: hack notieren
 			$timeout(function () {
 				$scope.showListReceiptKinds = true;
 			}, 300)
-		}
-
-		/*
-		TODO: Methoden zusammenfassen ?
-		$scope.closeModal = function (modal) {
-			modal.hide();
-		}
-		*/
-		// Close the receiptKinds Modal
-		$scope.closeReceiptKindsModal = function () {
-			$scope.receiptKindsModal.hide();
 		}
 
 		// Clear the receiptKind searchbox
@@ -448,7 +431,7 @@ angular.module('starter.controllers', ['ionic'])
 		// Select a receiptKind
 		$scope.selectReceiptKind = function (receiptKind) {
 			$scope.form.receiptKind = receiptKind;
-			$scope.closeReceiptKindsModal();
+			$scope.closeModal($scope.receiptKindsModal);
 		}
 
 		// KindsOfPayment Modal
@@ -463,21 +446,15 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.data = {};
 		$scope.openKindsOfPaymentModal = function () {
 			$scope.kindsOfPaymentModal.show();
-			// TODO: hack notieren
 			$timeout(function () {
 				$scope.showListKindsOfPayment = true;
 			}, 100);
 		}
 
-		// Close KindsOfPayment Modal
-		$scope.closeKindsOfPaymentModal = function () {
-			$scope.kindsOfPaymentModal.hide();
-		}
-
 		// Select KindsOfPayment
 		$scope.selectKindOfPayment = function (kindOfPayment) {
 			$scope.form.kindOfPayment = kindOfPayment;
-			$scope.closeKindsOfPaymentModal();
+			$scope.closeModal($scope.kindsOfPaymentModal);
 		}
 	});
 })
@@ -542,7 +519,6 @@ angular.module('starter.controllers', ['ionic'])
 			}
 		}
 		if (typeof $localstorage.getObjects('copyGUID').guid !== 'undefined') {
-			// TODO: vorsicht mit rückgabewert
 			$location.path('/tab/receipt/' + $localstorage.getObjects('copyGUID').guid);
 		}
 		$scope.go = function (hash) {
@@ -582,7 +558,6 @@ angular.module('starter.controllers', ['ionic'])
 			$scope.receipts.splice($localstorage.getIndex('receipts', guid), 1);
 			$localstorage.removeObject('receipts', guid);
 		}
-		console.log($localstorage.getIndex('receipts', '12343'));
 		$scope.generateGUID = generateGUID;
 		// DOTO: Copy function rdy for beta 12
 		$scope.copyReceipt = function (guid) {
@@ -660,7 +635,6 @@ angular.module('starter.controllers', ['ionic'])
 							}
 						}
 					}, function (failed) {
-						// TODO: "kann sich glaub ich selber" werden fehler gesetzt ?
 						$ionicLoading.hide();
 					});
 				}, function (failed) {
@@ -687,7 +661,6 @@ angular.module('starter.controllers', ['ionic'])
 				$ionicLoading.show({
 					templateUrl : 'templates/synchronize.html',
 				});
-				// TODO: "getData.all()" sendet auch daten, also nciht nur getdata
 				var synchronizePromise = ApiRequester.synchroniseAll();
 				synchronizePromise.then(function () {
 					$ionicLoading.hide();

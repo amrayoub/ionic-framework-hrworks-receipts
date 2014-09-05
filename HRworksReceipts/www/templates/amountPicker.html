@@ -1,5 +1,4 @@
 <div class="row">
-<!-- TODO: fomat!!! -->
 	<div class="col col-67 amountPickerResultPosition">
 		<h4>{{ temporaryAmount }}</h4>
 	</div>
@@ -47,5 +46,9 @@
 	<div class="col">
 		<button ng-click="addToAmount('0')"  class="button button-clear button-positive button-large amountPickerButtonSize">0</button>
 	</div>
-	<div class="col"><button ng-show="isAfterDecimalPoint" ng-click="goBeforeDecimalPoint()" class="button button-clear button-positive button-large amountPickerButtonSize"><i class="ion-chevron-left"></i></button></div>
+	<div class="col">
+		<button ng-show="isAfterDecimalPoint" ng-click="goBeforeDecimalPoint()" class="button button-clear button-positive button-large amountPickerButtonSize">
+			<i class="ion-chevron-left"></i>
+		</button>
+	</div>
 </div>

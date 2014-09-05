@@ -169,7 +169,6 @@ angular.module('starter.services', [])
 	};
 	changeReceiptObject = function (receipts) {
 		updatedReceiptsCollection = new Array();
-		// TODO was passier bei hotelbeleg mit leerem endDatum
 		changeDate = function (theDate) {
 			year = theDate.substr(0, 4);
 			month = theDate.substr(4, 2);
